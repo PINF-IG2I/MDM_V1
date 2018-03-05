@@ -1,0 +1,10 @@
+déconnexion forcée (plus qu'à le faire dans le panneau d'administration)
+système de traduction trouvé (plus qu'à l'appliquer à toutes les pages)
+base de données écrites
+footer
+connexion
+déconnexion
+ajout de isConnected dans la BDD
+
+
+
