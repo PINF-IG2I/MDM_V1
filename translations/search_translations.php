@@ -2,7 +2,10 @@
 $languages= array(
 	"EN" => array(
 		'search' => "Search",
-		'language' => "Language"
+		'language' => "Language",
+		"titlePage" => "Search",
+		"export" => "Export",
+		"import" => "Import"
 
 
 	),
@@ -26,13 +29,28 @@ $languages= array(
 		"result" => "Résultats",
 		"titlePage" => "Recherche"
 	)
+
+	// $langs = array("FR" => 0, "EN" => 1);
+
+	// $langsContent = array
+	// (
+	// 	"search" => array("Rechercher","Search"),
+	// 	...
+	// )
 );
+
 
 $default="EN";
 $requested=$_SESSION["language"];
 $languageUsed = isset($languages[$requested]) ? $requested : $default;
 $translation = $languages[$languageUsed];
 
+
+// $langsContent["search"][$languageUsed]
+// function foo($word)
+// {
+// 	return($langsContent[$word][$languageUsed])
+// }
 
 
 

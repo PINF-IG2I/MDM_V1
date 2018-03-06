@@ -17,3 +17,5 @@ bordure logo alstom page login :>
 Pour la langue : les langues proposées sont celles présentes dans la table users --> créer une table langue spéciale pour cela, ou ça convient ?
 
 
+
+DEMANDER SI IL FAUT RESPECTER LES SPECIFICATIONS DE LA BDD SUR LE FICHIER ACCESS

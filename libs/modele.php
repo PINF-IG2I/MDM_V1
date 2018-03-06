@@ -79,7 +79,7 @@ function getIsConnected($id){
 
 function getLanguages(){
 	$SQL="SELECT DISTINCT language FROM users";
-	return parcoursRS(SQLSelect($SQL));
+	return parcoursRs(SQLSelect($SQL));
 }
 
 function updateLanguage($language,$id){
@@ -88,5 +88,20 @@ function updateLanguage($language,$id){
 	return SQLUpdate($SQL);
 }
 
+
+function getSearchDatas(){
+	$SQL="SELECT * FROM gatc_baseline";
+	$res["baseline"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT DISTINCT site FROM document_version";
+	$res["site"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT DISTINCT product FROM document_reference";
+	$res["product"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT DISTINCT component FROM document_reference";
+	$res["component"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT DISTINCT language FROM document_language";
+	$res["language"]=parcoursRs(SQLSelect($SQL));
+
+	return $res;
+}
 
 ?>

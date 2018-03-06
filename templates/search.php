@@ -10,6 +10,9 @@ redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 include "/../translations/search_translations.php";
 $languageList=getLanguages();
+
+$searchDatas=getSearchDatas();
+
 ?>
 
 <!-- <div class="lead">
@@ -20,7 +23,9 @@ $languageList=getLanguages();
 </div> -->
 <!DOCTYPE html>
 <!-- saved from url=(0064)http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/# -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -29,11 +34,14 @@ $languageList=getLanguages();
   <title>MDM - Alstom</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
   <!-- Custom styles for this template -->
-  <link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet">
+  <link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
+  <script src="./bootstrap/js/bootstrap.min.js"></script>
   <script src="./js/jquery.js"></script>
+  <script src="./bootstrap/js/popper.min.js."></script>
+
   <script type="text/javascript">
     $(document).ready(function(){
       $("#selectLanguage").change(function(){
@@ -45,7 +53,7 @@ $languageList=getLanguages();
         },
         success : location.reload()
       });
-    });
+      });
 
     });
 
@@ -87,14 +95,31 @@ $languageList=getLanguages();
     <div class="page-header">
       <h1><?php echo $translation["titlePage"]?></h1>
       <div id="headerSearch">
+        <?php
+        echo "<pre>"; 
+        print_r($searchDatas);
+        echo "</pre>";
+        ?>
         <form action="controleur.php">
-          <label for="doc_number"><input t
-        </form>
+          <label for="doc_number"><?php echo $translation["doc_number"] ?></label>
+          <input type="text" name="doc_number"/>
+          <label for="version"><?php echo $translation["version"] ?></label>
+          <input type="text" name="version"/>
+          <label for="previous_doc"><?php echo $translation["previous_doc"] ?></label>
+          <input type="text" name="previous_doc"/>
+          <label for="pic"><?php echo $translation["pic"] ?></label>
+          <input type="text" name="pic"/>
+          <label for="baseline"><?php echo $translation["baseline"] ?></label>
+          <select multiple>
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+          </select>
+        </form> 
       </div>
       <hr/> 
     </div>
-    <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-    <p>Back to <a href="http://getbootstrap.com/docs/4.0/examples/sticky-footer">the default sticky footer</a> minus the navbar.</p>
+    <p class="lead"></p>
   </main>
 
 
@@ -103,10 +128,7 @@ $languageList=getLanguages();
       <!-- Placed at the end of the document so the pages load faster -->
 
       <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-      <script src="./bootstrap/js/popper.min.js."></script>
-      <script src="./bootstrap/js/bootstrap.min.js"></script>
-      <script src="./bootstrap/js/bootstrap-select.min.js"></script>
-      <script src="./bootstrap/js/bootstrap.bundle.js"></script>
+
 
     </body>
     </html>
