@@ -1,13 +1,15 @@
-dÃ©connexion forcÃ©e (plus qu'Ã  le faire dans le panneau d'administration)
-systÃ¨me de traduction trouvÃ© (plus qu'Ã  l'appliquer Ã  toutes les pages)
-base de donnÃ©es Ã©crites
+déconnexion forcée (plus qu'à le faire dans le panneau d'administration)
+système de traduction trouvé (plus qu'à l'appliquer à toutes les pages)
+base de données écrites
 footer
 connexion
-dÃ©connexion
+déconnexion
 ajout de isConnected dans la BDD
 frontend LOGIN
-nouvelles branches
+abandon des users SQL (ok ou pas)
+changement de langue ok
 
 
+Pour la langue : les langues proposées sont celles présentes dans la table users --> créer une table langue spéciale pour cela, ou ça convient ?
 
 

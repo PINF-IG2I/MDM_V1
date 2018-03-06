@@ -1,6 +1,11 @@
 <?php
 $languages= array(
-	"EN" => array(),
+	"EN" => array(
+		'search' => "Search",
+		'language' => "Language"
+
+
+	),
 	"FR" => array(
 		'search' => "Rechercher",
 		'export' => "Exporter",
@@ -18,7 +23,8 @@ $languages= array(
 		"component" => "Composant",
 		"site" => "Site",
 		"subject" => "Objet",
-		"result" => "Résultats"
+		"result" => "Résultats",
+		"titlePage" => "Recherche"
 	)
 );
 

@@ -77,6 +77,16 @@ function getIsConnected($id){
 }
 
 
+function getLanguages(){
+	$SQL="SELECT DISTINCT language FROM users";
+	return parcoursRS(SQLSelect($SQL));
+}
+
+function updateLanguage($language,$id){
+	$SQL="UPDATE users SET language='$language' WHERE id_user=$id";
+
+	return SQLUpdate($SQL);
+}
 
 
 ?>

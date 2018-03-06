@@ -59,6 +59,13 @@ session_start();
 
 			break;
 
+			case 'changeLanguage':
+				if($language =secure("language")){
+					$_SESSION["language"]=$language;
+					updateLanguage($language,$_SESSION["id_user"]);
+				}
+			break;
+
 
 
 
