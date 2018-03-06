@@ -10,14 +10,14 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 */
 
 
-	include_once "libs/maLibUtils.php";
-	include_once "libs/maLibBootstrap.php";
-	include_once "libs/maLibSecurisation.php";
+include_once "libs/maLibUtils.php";
+include_once "libs/maLibBootstrap.php";
+include_once "libs/maLibSecurisation.php";
 
 
 
 	// on récupère le paramètre view éventuel 
-	$view = secure("view"); 
+$view = secure("view"); 
 	/* secure automatise le code suivant :
 	if (isset($_GET["view"]) && $_GET["view"]!="")
 	{
@@ -25,6 +25,8 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 	}*/
 
 	// S'il est vide, on charge la vue accueil par défaut
+	if($_SESSION==array())
+		$view="login";
 	if (!$view) $view = "accueil"; 
 
 	// NB : il faut que view soit défini avant d'appeler l'entête
@@ -33,39 +35,36 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
 	}	
-	// Dans tous les cas, on affiche l'entete, 
-	// qui contient les balises de structure de la page, le logo, etc. 
-	// Le formulaire de recherche ainsi que le lien de connexion 
-	// si l'utilisateur n'est pas connecté 
-	include("templates/header.php");
+
 
 	// En fonction de la vue à afficher, on appelle tel ou tel template
 	switch($view)
 	{		
 
 		case "login" : 
-			include("templates/login.php");
+		include("templates/login.php");
 		break;
 
 		case "search":
-				include("templates/search.php");
+		include("templates/search.php");
 		break;
 
 
 		default : // si le template correspondant à l'argument existe, on l'affiche
-			if (file_exists("templates/$view.php"))
-				include("templates/$view.php");
+		if (file_exists("templates/$view.php"))
+			include("templates/$view.php");
 
 	}
 
 
 	// Dans tous les cas, on affiche le pied de page
 	// Qui contient les coordonnées de la personne si elle est connectée
-	include("templates/footer.php");
+	if($view!="login")
+		include("templates/footer.php");
 
 
 	
-?>
+	?>
 
 
 
