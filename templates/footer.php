@@ -1,4 +1,11 @@
 <?php
+/**
+* \file footer.php
+* \brief This page is used to displayed a footer bar at the bottom of every page, except on the login page
+* \author
+* \version
+*/
+
 if (basename($_SERVER["PHP_SELF"]) != "index.php")
 {
 	header("Location:../index.php");
@@ -21,14 +28,13 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 					echo "<a href=\"controleur.php?action=Logout\">Logout</a>";
 				}
 				?>
-				
-			</span>
-			<span>
+				<span class="float-right">
 				©
 				TOPINF - IG2I - 
 				<script>
 					document.write(new Date().getFullYear())
-				</script>	
+				</script>
+				</span>	
 			</span>
 	</div>
 </footer>

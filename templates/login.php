@@ -7,8 +7,8 @@
 */
 if (basename($_SERVER["PHP_SELF"]) != "index.php")
 {
-	header("Location:../index.php?view=login");
-	die("");
+  header("Location:../index.php?view=login");
+  die("");
 }
 
 ?>
@@ -41,8 +41,8 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
     </div>';
   }
   ?>
-  <img class="mb-4" src="./ressources/logotype_alstom.jpg" alt="" width="250" height="auto">
-  <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
+  <img class="mb-4" src="./ressources/logotype_alstom.jpg" alt="" style="border:1px solid lightgrey" width="250" height="auto">
+  <h1 class="h3 mb-3 font-weight-normal">Welcome</h1>
   <label for="inputEmail" class="sr-only">Username</label>
   <input type="text" class="form-control" placeholder="Username" required="" autofocus="" name="username">
   <label for="inputPassword" class="sr-only">Password</label>
