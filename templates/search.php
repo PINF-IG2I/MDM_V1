@@ -1,4 +1,11 @@
 <?php
+/**
+* \file search.php
+* \brief This page is the main page of the website. It's the one that permits the users to search for documents.
+* \author
+* \version
+*/
+
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 include "/../translations/search_translations.php";

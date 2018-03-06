@@ -8,6 +8,10 @@ ajout de isConnected dans la BDD
 frontend LOGIN
 abandon des users SQL (ok ou pas)
 changement de langue ok
+nouvelles branches
+try frontend page details document
+petites traductions par ci par là
+bordure logo alstom page login :>
 
 
 Pour la langue : les langues proposées sont celles présentes dans la table users --> créer une table langue spéciale pour cela, ou ça convient ?
