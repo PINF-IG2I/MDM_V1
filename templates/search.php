@@ -2,9 +2,7 @@
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 include "/../translations/search_translations.php";
-
-
-
+$languageList=getLanguages();
 ?>
 
 <!-- <div class="lead">
@@ -16,63 +14,94 @@ include "/../translations/search_translations.php";
 <!DOCTYPE html>
 <!-- saved from url=(0064)http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/# -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>MDM - Alstom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- Bootstrap core CSS -->
-    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <title>MDM - Alstom</title>
 
-    <!-- Custom styles for this template -->
-    <link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet">
-  </head>
+  <!-- Bootstrap core CSS -->
+  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <body>
+  <!-- Custom styles for this template -->
+  <link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet">
+  <script src="./js/jquery.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#selectLanguage").change(function(){
+        $.ajax({
+         url : "controleur.php",
+         data : {
+          'action' : 'changeLanguage',
+          'language' : $("#selectLanguage option:selected").val()
+        },
+        success : location.reload()
+      });
+    });
 
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Disabled</a>
-            </li>
-          </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-    </header>
+    });
 
-    <!-- Begin page content -->
-    <main role="main" class="container">
-      <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-      <p>Back to <a href="http://getbootstrap.com/docs/4.0/examples/sticky-footer">the default sticky footer</a> minus the navbar.</p>
-    </main>
+
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <span class="navbar-nav mr-auto">
+        </span>
+        <form class="form-inline mt-2 mt-md-0">
+          <select id="selectLanguage">
+            <option value="" disabled selected><?php echo $translation["language"]?></option>
+            <?php 
+
+            foreach ($languageList as $key => $value) {
+              echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+            }
+
+
+            ?>
+          </select>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Begin page content -->
+  <main role="main" class="container">
+    <div class="page-header">
+      <h1><?php echo $translation["titlePage"]?></h1>
+      <div id="headerSearch">
+        <form action="controleur.php">
+          <label for="doc_number"><input t
+        </form>
+      </div>
+      <hr/> 
+    </div>
+    <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+    <p>Back to <a href="http://getbootstrap.com/docs/4.0/examples/sticky-footer">the default sticky footer</a> minus the navbar.</p>
+  </main>
 
 
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./bootstrap/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="./bootstrap/js/popper.min.js."></script>
-    <script src="./bootstrap/js/bootstrap.min.js"></script>
-  
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+
+      <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+      <script src="./bootstrap/js/popper.min.js."></script>
+      <script src="./bootstrap/js/bootstrap.min.js"></script>
+      <script src="./bootstrap/js/bootstrap-select.min.js"></script>
+      <script src="./bootstrap/js/bootstrap.bundle.js"></script>
+
+    </body>
+    </html>
+
 
