@@ -1,6 +1,11 @@
 <?php
 session_start();
-
+/**
+* \file controleur.php
+* \brief This page treats data and calls functions from modele.php if needed
+* \author
+* \version
+*/
 	include_once "libs/maLibUtils.php";
 	include_once "libs/maLibSQL.pdo.php";
 	include_once "libs/maLibSecurisation.php"; 
@@ -12,18 +17,7 @@ session_start();
 	{
 		ob_start ();
 		echo "Action = '$action' <br />";
-		// ATTENTION : le codage des caractères peut poser PB si on utilise des actions comportant des accents... 
-		// A EVITER si on ne maitrise pas ce type de problématiques
 
-		/* TODO: A REVOIR !!
-		// Dans tous les cas, il faut etre logue... 
-		// Sauf si on veut se connecter (action == Connexion)
-
-		if ($action != "Connexion") 
-			securiser("login");
-		*/
-
-		// Un paramètre action a été soumis, on fait le boulot...
 		if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 			$action='Logout';
 		}	
@@ -31,26 +25,26 @@ session_start();
 		{
 			
 			
-			// Connexion //////////////////////////////////////////////////
+			// Connection //////////////////////////////////////////////////
 			case 'Identification' :
-				// On verifie la presence des champs login et passe
+				// The username and the password are checked
 				if (($username = secure("username","REQUEST")) && ($password = secure("password")))
 				{
-					// On verifie l'utilisateur, 
-					// et on crée des variables de session si tout est OK
-					// Cf. maLibSecurisation
+					// On verifie l'utilisateur,
+					// The user is checked
+					// Then session variables are created (maLibSecurisation)
 					if (checkUser($username,$password)) {
-						// tout s'est bien passé, doit-on se souvenir de la personne ? 
 						$addArgs="?view=search";
 					}
 					else $addArgs= "?view=login&msg=".urlencode("Wrong password or username.");	
 				}
 				else $addArgs= "?view=login&msg=".urlencode("Please fill in all fields.");
 
-				// On redirigera vers la page index automatiquement
+				// Automatical redirection to the index page
 			break;
 
 			case 'Logout' :
+				// the session is destroyed and the user is logged out
 				session_destroy();
 				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 			break;

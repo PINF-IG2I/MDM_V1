@@ -1,11 +1,16 @@
-déconnexion forcée (plus qu'à le faire dans le panneau d'administration)
-système de traduction trouvé (plus qu'à l'appliquer à toutes les pages)
-base de données écrites
+ï»¿dÃ©connexion forcÃ©e (plus qu'Ã  le faire dans le panneau d'administration)
+systÃ¨me de traduction trouvÃ© (plus qu'Ã  l'appliquer Ã  toutes les pages)
+base de donnÃ©es Ã©crites
 footer
 connexion
-déconnexion
+dÃ©connexion
 ajout de isConnected dans la BDD
+frontend LOGIN
 nouvelles branches
+try frontend page details document
+petites traductions par ci par lÃ 
+bordure logo alstom page login :>
+
 
 
 
