@@ -11,7 +11,6 @@ redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 include "/../translations/search_translations.php";
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -49,20 +48,20 @@ include "/../translations/search_translations.php";
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Disabled</a>
-          </li>
-        </ul>
+        <span class="navbar-nav mr-auto">
+        </span>
         <form class="form-inline mt-2 mt-md-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <select id="selectLanguage">
+            <option value="" disabled selected><?php echo $translation["language"]?></option>
+            <?php 
+
+            foreach ($languageList as $key => $value) {
+              echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+            }
+
+
+            ?>
+          </select>
         </form>
       </div>
     </nav>
@@ -76,43 +75,43 @@ include "/../translations/search_translations.php";
        <form class="well form-horizontal">
         <fieldset>
          <div class="form-group">
-          <label class="col-md-4 control-label">Key</label>
+          <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
           <div class="col-md-8 inputGroupContainer">
            <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Key" name="Key" placeholder="Key" class="form-control" required="true" value="" type="text"></div>
          </div>
        </div>
        <div class="form-group">
-        <label class="col-md-4 control-label">File</label>
+        <label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
         <div class="col-md-8 inputGroupContainer">
          <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder="File" class="form-control" required="true" value="" type="text"></div>
        </div>
      </div>
      <div class="form-group">
-      <label class="col-md-4 control-label">Version</label>
+      <label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
       <div class="col-md-8 inputGroupContainer">
        <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder="Version" class="form-control" required="true" value="" type="text"></div>
      </div>
    </div>
    <div class="form-group">
-    <label class="col-md-4 control-label">Baseline</label>
+    <label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
     <div class="col-md-8 inputGroupContainer">
      <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="city" name="Baseline" placeholder="Baseline" class="form-control" required="true" value="" type="text"></div>
    </div>
  </div>
  <div class="form-group">
-  <label class="col-md-4 control-label">Object</label>
+  <label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="Object" placeholder="Object" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Site</label>
+  <label class="col-md-4 control-label"><?php echo $translation["site"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input id="Site" name="Site" placeholder="Site" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">PIC</label>
+  <label class="col-md-4 control-label"><?php echo $translation["pic"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group">
     <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span><input id="PIC" name="PIC" placeholder="PIC" class="form-control" required="true" value="" type="text">
@@ -120,13 +119,13 @@ include "/../translations/search_translations.php";
 </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Status</label>
+  <label class="col-md-4 control-label"><?php echo $translation["status"]?></label>
   <div class="col-md-8 inputGroupContainer">
     <div class="input-group">
      <input type="text" class="form-control" aria-label="Text input with dropdown button">
      <div class="input-group-btn">
       <button type="submit" class="btn btn-info btn-fill dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Choose
+        <?php echo $translation["choose"]?>
       </button>
       <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#">Inhibé</a>
@@ -140,7 +139,7 @@ include "/../translations/search_translations.php";
 </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Language</label>
+  <label class="col-md-4 control-label"><?php echo $translation["language"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span><input id="Language" name="Language" placeholder="Language" class="form-control" required="true" value="" type="text"></div>
  </div>
@@ -152,41 +151,41 @@ include "/../translations/search_translations.php";
  <form class="well form-horizontal">
   <fieldset>
    <div class="form-group" style="text-align:center">
-    <label class="radio-inline"><input type="radio" name="optradio"><b>Installation</b></label>
-    <label class="radio-inline"><input type="radio" name="optradio"><b>Maintenance</b></label>
+    <label class="radio-inline"><input type="radio" name="optradio"><b><?php echo $translation["installation"]?></b></label>
+    <label class="radio-inline"><input type="radio" name="optradio"><b><?php echo $translation["maintenance"]?></b></label>
   </div>
   <div class="form-group">
-    <label class="col-md-4 control-label">Product</label>
+    <label class="col-md-4 control-label"><?php echo $translation["product"]?></label>
     <div class="col-md-8 inputGroupContainer">
      <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span><input id="Product" name="Product" placeholder="Product" class="form-control" required="true" value="" type="text"></div>
    </div>
  </div>
  <div class="form-group">
-  <label class="col-md-4 control-label">Component</label>
+  <label class="col-md-4 control-label"><?php echo $translation["component"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span><input id="Component" name="Component" placeholder="Component" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Translation</label>
+  <label class="col-md-4 control-label"><?php echo $translation["translation"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="city" name="Translation" placeholder="Translation" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Project</label>
+  <label class="col-md-4 control-label"><?php echo $translation["project"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Project" name="Project" placeholder="Project" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Translator</label>
+  <label class="col-md-4 control-label"><?php echo $translation["translator"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translator" name="Translator" placeholder="Translator" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Previous reference</label>
+  <label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group">
     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="Previous reference" placeholder="Previous reference" class="form-control" required="true" value="" type="text">
@@ -194,13 +193,13 @@ include "/../translations/search_translations.php";
 </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">AEC</label>
+  <label class="col-md-4 control-label"><?php echo $translation["aec"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="AEC" name="AEC" placeholder="AEC" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Network</label>
+  <label class="col-md-4 control-label"><?php echo $translation["network"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="Network" name="Network" placeholder="Network" class="form-control" required="true" value="" type="text"></div>
  </div>
@@ -212,43 +211,43 @@ include "/../translations/search_translations.php";
  <form class="well form-horizontal">
   <fieldset>
    <div class="form-group">
-    <label class="col-md-4 control-label">VBN</label>
+    <label class="col-md-4 control-label"><?php echo $translation["vbn"]?></label>
     <div class="col-md-8 inputGroupContainer">
      <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="VBN" name="VBN" placeholder="VBN" class="form-control" required="true" value="" type="text"></div>
    </div>
  </div>
  <div class="form-group">
-  <label class="col-md-4 control-label">BLQ</label>
+  <label class="col-md-4 control-label"><?php echo $translation["blq"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="BLQ" name="BLQ" placeholder="BLQ" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group shadow-textarea">
-  <label class="col-md-4 control-label">Commentaires</label>
+  <label class="col-md-4 control-label"><?php echo $translation["commentaries"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><textarea class="form-control z-depth-1" rows="3"></textarea></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Work 1</label>
+  <label class="col-md-4 control-label"><?php echo $translation["work1"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work 1" name="Work 1" placeholder="Work 1" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Work 2</label>
+  <label class="col-md-4 control-label"><?php echo $translation["work2"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work 2" name="Work 2" placeholder="Work 2" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Work 3</label>
+  <label class="col-md-4 control-label"><?php echo $translation["work3"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work 3" name="Work 3" placeholder="Work 3" class="form-control" required="true" value="" type="text"></div>
  </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label">Work 4</label>
+  <label class="col-md-4 control-label"><?php echo $translation["work4"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group">
     <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work 4" name="Work 4" placeholder="Work 4" class="form-control" required="true" value="" type="text">
@@ -258,9 +257,9 @@ include "/../translations/search_translations.php";
 <div class="form-group">
  <div class="input-group text-center">
   <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="submit" class="btn btn-info btn-fill">Save</button>
-    <button type="submit" class="btn btn-info btn-fill">Delete</button>
-    <button type="submit" class="btn btn-info btn-fill">Leave</button>
+    <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
+    <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>
+    <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["leave"]?></button>
   </div>
 </div>
 </div>
