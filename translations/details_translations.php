@@ -20,7 +20,27 @@ $languages= array(
 		"result" => "Results",
 		"titlePage" => "Search",
 		"installation" => "Installation",
-		"maintenance" => "Maintenance"
+		"maintenance" => "Maintenance",
+		"product" => "Product",
+		"component" => "Component",
+		"translation" => "Translation",
+		"project" => "Project",
+		"translator" => "Translator",
+		"previous_ref" => "Previous reference",
+		"aec" => "AEC",
+		"up_to_date_aec" => "Up to date AEC",
+		"network" => "Network",
+		"vbn" => "VBN",
+		"blq" => "BLQ",
+		"commentaries" => "Comments",
+		"work1" => "Work 1",
+		"work2" => "Work 2",
+		"work3" => "Work 3",
+		"work4" => "Work 4",
+		"save" => "Save",
+		"delete" => "Delete",
+		"leave" => "Leave",
+		"choose" => "Choose"
 
 
 	),
