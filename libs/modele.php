@@ -125,9 +125,8 @@ function getResultsFromQuery($data){
 			}
 		}
 	}
-
-
 	return parcoursRs(SQLSelect($SQL));
+
 }
 
 

@@ -8,7 +8,9 @@
 
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
+
 $languageList=getLanguages();
+
 
 ?>
 
