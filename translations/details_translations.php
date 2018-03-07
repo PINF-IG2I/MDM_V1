@@ -1,6 +1,9 @@
 <?php
 $languages= array(
 	"EN" => array(
+		'key' => 'Key',
+		'file' => 'File',
+		'status' => 'Status',
 		'search' => "Search",
 		'export' => "Export",
 		'import' => "Import",
@@ -45,6 +48,11 @@ $languages= array(
 
 	),
 	"FR" => array(
+		'search' => "Rechercher",
+		'export' => "Exporter",
+		'import' => "Importer",
+		'administrate' => "Administration",
+		"help" => "Aide",
 		'key' => "Clé",
 		'file' => "Fichier",
 		'version' => "Version",
