@@ -124,8 +124,8 @@ $searchDatas=getSearchDatas();
 			<div id="headerSearch">
 
 				<div id="form"> <!-- see Jquery function -->
-					<label for="doc_number"><?php echo $translation["doc_number"] ?></label>
-					<input type="text" name="doc_number"/>
+					<label for="name"><?php echo $translation["doc_number"] ?></label>
+					<input type="text" name="name"/>
 					<label for="version"><?php echo $translation["version"] ?></label>
 					<input type="text" name="version"/>
 					<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
@@ -156,7 +156,7 @@ $searchDatas=getSearchDatas();
 						<option value="maintenance"><?php echo $translation["maintenance"]?></option>
 					</select>
 					<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
-					<select multiple name="etcs_subsystem">
+					<select multiple name="etcs_subsystem.id">
 						<?php
 						foreach ($searchDatas["product"] as $key => $value) {
 							echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
