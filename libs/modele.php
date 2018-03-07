@@ -104,4 +104,21 @@ function getSearchDatas(){
 	return $res;
 }
 
+function getResultsFromQuery($data){
+		$SQL="SELECT * FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
+
+		foreach ($data as $key => $value) {
+			if(!is_array($value)){
+						$SQL.=" AND ".$key." LIKE '".$value."'";
+						break;
+			} else {
+				
+			}
+			echo "<br/>".$SQL;
+		}
+
+		die("");
+}
+
+
 ?>

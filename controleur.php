@@ -55,8 +55,11 @@ session_start();
 				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 			break;
 
-			case 'Search':
-
+			case 'Search': //TODO : secure
+					$data=$_REQUEST["data"];
+					$results=getResultsFromQuery($data);
+					echo json_encode($results);
+					die(""); //no need to redirect, the code is stopped there, and the result is sent.
 			break;
 
 			case 'changeLanguage':

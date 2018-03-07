@@ -25,26 +25,38 @@ $languages= array(
 
 	),
 	"FR" => array(
-		'search' => "Rechercher",
-		'export' => "Exporter",
-		'import' => "Importer",
-		'administrate' => "Administration",
+		'key' => "Clé",
+		'file' => "Fichier",
+		'version' => "Version",
+		'baseline' => "Baseline",
+		"object" => "Objet",
+		"site" => "Site",
+		"pic" => "PIC",
+		"status" => "Statut",
+		"choose" => "Choisir",
 		"language" => "Langue",
-		"help" => "Aide",
-		"doc_number" => "Numéro document",
-		"previous_ref" => "Ancienne référence",
-		"version" => "Version",
-		"pic" => "Responsable",
-		"baseline" => "Baseline",
-		"type" => "Type",
+		"installation" => "Installation",
+		"maintenance" => "Maintenance",
 		"product" => "Produit",
 		"component" => "Composant",
-		"site" => "Site",
-		"object" => "Objet",
-		"result" => "Résultats",
-		"titlePage" => "Recherche",
-		"installation" => "Installation",
-		"maintenance" => "Maintenance"
+		"translation" => "Traduction",
+		"project" => "Projet",
+		"translator" => "Traducteur",
+		"previous_ref" => "Référence précédente",
+		"aec" => "AEC",
+		"up_to_date_aec" => "AEC à jour",
+		"network" => "Réseau",
+		"vbn" => "VBN",
+		"blq" => "BLQ",
+		"commentaries" => "Commentaires",
+		"work1" => "Work 1",
+		"work2" => "Work 2",
+		"work3" => "Work 3",
+		"work4" => "Work 4",
+		"save" => "Sauvegarder",
+		"delete" =>"Supprimer",
+		"leave" => "Quitter"
+
 	)
 
 );
@@ -54,7 +66,6 @@ $default="EN";
 $requested=$_SESSION["language"];
 $languageUsed = isset($languages[$requested]) ? $requested : $default;
 $translation = $languages[$languageUsed];
-
 
 
 ?>
