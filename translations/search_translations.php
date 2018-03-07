@@ -2,10 +2,25 @@
 $languages= array(
 	"EN" => array(
 		'search' => "Search",
-		'language' => "Language",
+		'export' => "Export",
+		'import' => "Import",
+		'administrate' => "Management",
+		"language" => "Language",
+		"help" => "Help",
+		"doc_number" => "Document number",
+		"previous_ref" => "Previous reference",
+		"version" => "Version",
+		"pic" => "Responsible",
+		"baseline" => "Baseline",
+		"type" => "Type",
+		"product" => "Product",
+		"component" => "Component",
+		"site" => "Site",
+		"object" => "Object",
+		"result" => "Results",
 		"titlePage" => "Search",
-		"export" => "Export",
-		"import" => "Import"
+		"installation" => "Installation",
+		"maintenance" => "Maintenance"
 
 
 	),
@@ -17,17 +32,19 @@ $languages= array(
 		"language" => "Langue",
 		"help" => "Aide",
 		"doc_number" => "Numéro document",
-		"previous_doc" => "Ancienne référence",
+		"previous_ref" => "Ancienne référence",
 		"version" => "Version",
-		"pic" => "PIC",
+		"pic" => "Responsable",
 		"baseline" => "Baseline",
 		"type" => "Type",
 		"product" => "Produit",
 		"component" => "Composant",
 		"site" => "Site",
-		"subject" => "Objet",
+		"object" => "Objet",
 		"result" => "Résultats",
-		"titlePage" => "Recherche"
+		"titlePage" => "Recherche",
+		"installation" => "Installation",
+		"maintenance" => "Maintenance"
 	)
 
 	// $langs = array("FR" => 0, "EN" => 1);
