@@ -15,14 +15,9 @@ $searchDatas=getSearchDatas();
 
 ?>
 
-<!-- <div class="lead">
-	<form role="form" action="controleur.php">
 
-		<input type="submit" class="btn btn-default" name="action" value="<?php echo $translation['search']?>"/>
-	</form>
-</div> -->
 <!DOCTYPE html>
-<!-- saved from url=(0064)http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/# -->
+
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -136,31 +131,41 @@ $searchDatas=getSearchDatas();
           <select multiple name="product">
             <?php
             foreach ($searchDatas["product"] as $key => $value) {
-              echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+              echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
             }
 
             ?>
           </select>
           <label for="component"><?php echo $translation["component"]?></label>
           <select multiple name="component">
+           <?php
+           foreach ($searchDatas["component"] as $key => $value) {
+            echo "<option value='".$value["id"]."'>".$value["component_name"]."</option>";
+          }
 
+          ?> 
           </select>
-          <label for="site"><?php echo $translation["site"]?></label>
-          <select multiple name="site">
+        <label for="site"><?php echo $translation["site"]?></label>
+        <select multiple name="site">
+          <?php
+           foreach ($searchDatas["site"] as $key => $value) {
+            echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+          }
 
-          </select>
-          
-          
-        </div> 
-      </div>
-      <hr/> 
+          ?>
+        </select>
+
+
+      </div> 
     </div>
-    <p class="lead">
-      <div id="results">
-        <h1><?php echo $translation["result"]?></h1>
-      </div>
-    </p>
-  </main>
+    <hr/> 
+  </div>
+  <p class="lead">
+    <div id="results">
+      <h1><?php echo $translation["result"]?></h1>
+    </div>
+  </p>
+</main>
 
 
     <!-- Bootstrap core JavaScript
