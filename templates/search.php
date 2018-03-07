@@ -8,7 +8,7 @@
 
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
-include "/../translations/search_translations.php";
+//include "/../translations/search_translations.php";
 $languageList=getLanguages();
 
 $searchDatas=getSearchDatas();
@@ -95,31 +95,71 @@ $searchDatas=getSearchDatas();
     <div class="page-header">
       <h1><?php echo $translation["titlePage"]?></h1>
       <div id="headerSearch">
-        <?php
+<!--         <?php
         echo "<pre>"; 
         print_r($searchDatas);
         echo "</pre>";
-        ?>
-        <form action="controleur.php">
+        ?> -->
+        <div id="form"> <!-- see Jquery function -->
           <label for="doc_number"><?php echo $translation["doc_number"] ?></label>
           <input type="text" name="doc_number"/>
           <label for="version"><?php echo $translation["version"] ?></label>
           <input type="text" name="version"/>
-          <label for="previous_doc"><?php echo $translation["previous_doc"] ?></label>
+          <label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
           <input type="text" name="previous_doc"/>
           <label for="pic"><?php echo $translation["pic"] ?></label>
           <input type="text" name="pic"/>
           <label for="baseline"><?php echo $translation["baseline"] ?></label>
-          <select multiple>
-            <option>Mustard</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
+          <select multiple name="baseline">
+            <?php
+            foreach ($searchDatas["baseline"] as $key => $value) {
+              echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+            }
+
+            ?>
           </select>
-        </form> 
+          <label for="language"><?php echo $translation["language"]?></label>
+          <select multiple name="language">
+            <?php
+            foreach ($searchDatas["language"] as $key => $value) {
+              echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+            }
+
+            ?>
+          </select>
+          <label for="type"><?php echo $translation["type"]?></label>
+          <select multiple name="type">
+            <option value="installation"><?php echo $translation["installation"]?></option>
+            <option value="maintenance"><?php echo $translation["maintenance"]?></option>
+          </select>
+          <label for="product"><?php echo $translation["product"]?></label>
+          <select multiple name="product">
+            <?php
+            foreach ($searchDatas["product"] as $key => $value) {
+              echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+            }
+
+            ?>
+          </select>
+          <label for="component"><?php echo $translation["component"]?></label>
+          <select multiple name="component">
+
+          </select>
+          <label for="site"><?php echo $translation["site"]?></label>
+          <select multiple name="site">
+
+          </select>
+          
+          
+        </div> 
       </div>
       <hr/> 
     </div>
-    <p class="lead"></p>
+    <p class="lead">
+      <div id="results">
+        <h1><?php echo $translation["result"]?></h1>
+      </div>
+    </p>
   </main>
 
 

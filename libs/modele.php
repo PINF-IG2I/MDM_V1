@@ -94,9 +94,9 @@ function getSearchDatas(){
 	$res["baseline"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT site FROM document_version";
 	$res["site"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT product FROM document_reference";
+	$SQL="SELECT * FROM etcs_subsystem";
 	$res["product"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT component FROM document_reference";
+	$SQL="SELECT * FROM components";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT language FROM document_language";
 	$res["language"]=parcoursRs(SQLSelect($SQL));

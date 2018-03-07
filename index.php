@@ -16,7 +16,7 @@ include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
 
 	// The potential view is collected
-	$view = secure("view"); 
+$view = secure("view"); 
 	/* secure do the code that follows :
 	if (isset($_GET["view"]) && $_GET["view"]!="")
 	{
@@ -38,18 +38,13 @@ include_once "libs/maLibSecurisation.php";
 	switch($view)
 	{		
 
-		case "login" : 
-		include("templates/login.php");
-		break;
-
-		case "search":
-		include("templates/search.php");
-		break;
-
-
 		default : // if the template corresponding to the view exists, it is displayed
-		if (file_exists("templates/$view.php"))
+		if (file_exists("templates/$view.php")){
+			if(file_exists("translations/".$view."_translations.php"))
+				include("translations/".$view."_translations.php");
 			include("templates/$view.php");
+
+		}
 
 	}
 
