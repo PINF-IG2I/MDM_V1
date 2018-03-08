@@ -4,6 +4,14 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
+
+@font-face {
+  font-family: "Alstom";
+  src: url('/fonts/Alstom_Regular.ttf');
+}
+
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -31,7 +39,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont,"Alstom" "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -95,7 +103,6 @@ abbr[data-original-title] {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
   cursor: help;
-  border-bottom: 0;
 }
 
 address {
@@ -104,6 +111,7 @@ address {
   line-height: inherit;
 }
 
+  border-bottom: 0;
 ol,
 ul,
 dl {
@@ -3460,11 +3468,11 @@ tbody.collapse.show {
   align-items: stretch;
   width: 100%;
 }
-
 .input-group > .form-control,
 .input-group > .custom-select,
 .input-group > .custom-file {
   position: relative;
+
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -4378,7 +4386,7 @@ tbody.collapse.show {
 }
 
 .navbar-dark .navbar-brand {
-  color: #fff;
+  color: rgb(237,26,59);
 }
 
 .navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
@@ -4386,15 +4394,15 @@ tbody.collapse.show {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(237, 26, 59, 0.5);
 }
 
 .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(237, 26, 59, 0.75);
 }
 
 .navbar-dark .navbar-nav .nav-link.disabled {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(237, 26, 59, 0.25);
 }
 
 .navbar-dark .navbar-nav .show > .nav-link,
@@ -6135,7 +6143,7 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: rgb(237,26,59);
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -6145,13 +6153,13 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: rgb(237,26,59);
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
 button.bg-dark:focus {
-  background-color: #1d2124 !important;
+  background-color: rgb(237,26,59);
 }
 
 .bg-white {
