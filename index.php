@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <?php
 session_start();
 
@@ -14,6 +20,9 @@ session_start();
 include_once "libs/maLibUtils.php";
 include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
+
+
+
 
 	// The potential view is collected
 $view = secure("view"); 
@@ -42,7 +51,9 @@ $view = secure("view");
 		if (file_exists("templates/$view.php")){
 			if(file_exists("translations/".$view."_translations.php"))
 				include("translations/".$view."_translations.php");
-			include("templates/$view.php");
+				include("templates/header.php");
+				include("templates/$view.php");
+			
 
 		}
 
@@ -58,6 +69,8 @@ $view = secure("view");
 	?>
 
 
+
+</html>
 
 
 
