@@ -71,7 +71,6 @@ $searchDatas=getSearchDatas();
 			<div id="headerSearch">
 
 				<div id="form"> <!-- see Jquery function -->
-
 					<div id="contenu_search_1">
 						<div class="formulaire">
 							<label for="name"><?php echo $translation["doc_number"] ?></label>
@@ -163,6 +162,7 @@ $searchDatas=getSearchDatas();
 							?>
 						</select>
 					</div>
+
 
 					<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 

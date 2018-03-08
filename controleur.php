@@ -11,7 +11,6 @@ session_start();
 	if ($action = secure("action"))
 	{
 		ob_start ();
-		echo "Action = '$action' <br />";
 		// ATTENTION : le codage des caractères peut poser PB si on utilise des actions comportant des accents... 
 		// A EVITER si on ne maitrise pas ce type de problématiques
 
