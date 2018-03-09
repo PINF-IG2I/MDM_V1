@@ -9,7 +9,7 @@ Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer
 @font-face {
   font-family: "Alstom";
   font-style: bold;
-  src: url('./fonts/Alstom_Bold.ttf');
+  src: url('./fonts/Alstom_Black.ttf');
 }
 @font-face {
   font-family: "Alstom";
@@ -26,6 +26,29 @@ body {
 
   /* The html and body elements cannot have any padding or margin. */
 }
+select{
+   font-weight: lighter;
+}
+/* Header */ 
+.bg-dark {
+  background-color: rgb(237,26,59) !important; 
+}
+
+#logoutBtn {
+  color:white;
+  text-decoration: none;
+  padding-right: 2rem; 
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+
+#logoutBtn:hover
+{
+  font-weight: 900;
+}
+
+
+
 
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -67,20 +90,9 @@ code {
 }
 
 
-#custom-select {
-   font-weight: lighter;
-}
 
-#logoutBtn {
-  color:white;
-   text-decoration: none;
-   padding-right: 3rem; 
-}
 
-#logoutBtn:hover
-{
-  font-weight: bold;
-}
+
 #logo_header {
   background-color: #fff;
   border-radius : 15px;
@@ -90,12 +102,12 @@ code {
 
 }
 
-.formulaire{
+.form_search{
   display :inline-block;
   font-size : 0.8rem;
 }
 
-.formulaire label 
+.form_search label 
 {
   font-weight: bold;
   text-align : center;
@@ -104,18 +116,17 @@ code {
   margin-bottom: 0.3rem;
 }
 
-.formulaire input
+.form_search input
 {
  width: 100%;
 }
 
 
-.formulaire select {
+.form_search select {
   width: 100%;
-  height: 3.8rem;
 }
 
-.formulaire select,input
+.form_search select,input
 {
   font-weight : lighter;
   border-radius : 5px;
@@ -125,24 +136,68 @@ code {
 }
 
 
-#contenu_search_1{
+#content_search_1{
   width: 11rem;
   display :inline-block;
-  border : red solid 1px;
 
 }
 
-#contenu_search_2{
+#content_search_1 select  {
+height: 3.8rem;
+
+}
+
+#content_search_2{
   width: 5rem;
   display :inline-block;
-  border : red solid 1px;
-
 }
 
-#contenu_search_3{
+#content_search_2 select  {
+height: 3.8rem;
+}
+
+#content_search_3{
   width : 4.5rem;
   display :inline-block;
- /* height : 6rem;*/
   margin-left: 0.2rem;
-  border : red solid 1px;
 }
+
+#content_search_3 select  {
+height: 3.8rem;
+}
+
+#content_search_4
+{
+  width : 3.6rem;
+  display :inline-block;
+  margin-left: 0.2rem;
+}
+
+#content_search_4 select  {
+height: 3.8rem;
+}
+
+#content_search_5
+{
+  width : 5.2rem;
+  display :inline-block;
+  margin-left: 0.2rem;
+}
+
+#content_search_5 select  {
+height: 2.1rem;
+margin-bottom : 1.7rem;
+}
+
+#content_search_6
+{
+  width : 6rem;
+  display :inline-block;
+  margin-left: 0.2rem;
+}
+#content_search_6 select  {
+height: 3.8rem;
+}
+
+
+
