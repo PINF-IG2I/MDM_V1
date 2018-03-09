@@ -1,4 +1,8 @@
+<?php 
 
+
+$languageList=getLanguages();
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -17,10 +21,13 @@
 	<!-- Custom styles for this template -->
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
 	<link href="./css/sticky-footer.css" rel="stylesheet"/>
+
 	<script src="./bootstrap/js/bootstrap.min.js"></script>
 	<script src="./js/jquery.js"></script>
 	<script src="./bootstrap/js/popper.min.js."></script>
 </head>
+
+
 
 
 
@@ -50,7 +57,6 @@
 						foreach ($languageList as $key => $value) {
 							echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
 						}
-
 
 						?>
 					</select>

@@ -26,39 +26,43 @@ $searchDatas=getSearchDatas();
 					success : location.reload()
 				});
 			});
-			$("#send").click(function(){
-				var oQuery={};
-				$("#headerSearch input").each(function(){
-					var key= $(this).attr("name");
-					var value=$(this).val();
-					if(value!="")
-						oQuery[key]=value;
-					console.log(oQuery);
-				});
-				$("#headerSearch select").each(function(){
-					var key= $(this).attr("name");
-					var value=$(this).val();
-					console.log(key);
-					console.log(value);
-					if(value!=null){
-						oQuery[key]=value;
-						console.log(oQuery);
-
-					}
-				});
+		});
+		$("#send").click(function(){
+			var oQuery={};
+			$("#headerSearch input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
 				console.log(oQuery);
-				if(!$.isEmptyObject(oQuery)){
-					$.getJSON( "controleur.php",
-					{
-						"action":"Search",
-						"data":oQuery
-					},
-					function(oRep){	
-						$("#results").html(oRep);
-					}
-					);
+			});
+			$("#headerSearch select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				console.log(key);
+				console.log(value);
+				if(value!=null){
+					oQuery[key]=value;
+					console.log(oQuery);
+
 				}
 			});
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON( "controleur.php",
+				{
+					"action":"Search",
+					"data":oQuery
+				},
+				function(oRep){	
+					console.log(oRep);
+					if(oRep.length!=0)
+						$("#results").html(JSON.stringify(oRep));
+					else 
+						$("#results").html("No results found");
+				}
+				);
+			}
 		});
 	</script>
 
@@ -165,19 +169,18 @@ $searchDatas=getSearchDatas();
 
 
 					<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
-
-				</div> 
-			</div>
+			</div> 
 		</div>
-		<hr/> 
 	</div>
-	<p class="lead">
-		<div id="resultsPage">
-			<h1><?php echo $translation["result"]?></h1>
-			<div id="results">
-			</div>
+	<hr/> 
+</div>
+<div class="lead">
+	<div id="resultsPage">
+		<h1><?php echo $translation["result"]?></h1>
+		<div id="results">
 		</div>
-	</p>
+	</div>
+</div>
 </main>
 
 
