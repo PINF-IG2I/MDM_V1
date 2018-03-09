@@ -9,7 +9,7 @@
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 //include "/../translations/search_translations.php";
-$languageList=getLanguages();
+$languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
