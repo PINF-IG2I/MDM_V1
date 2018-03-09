@@ -98,9 +98,8 @@ function getSearchDatas(){
 	$res["product"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT * FROM components";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT language FROM document_language";
+	$SQL="SELECT DISTINCT initial_language FROM document_reference";
 	$res["language"]=parcoursRs(SQLSelect($SQL));
-
 	return $res;
 }
 

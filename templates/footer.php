@@ -25,7 +25,6 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 				if (secure("isConnected","SESSION"))
 				{
 					echo "User <b>$_SESSION[last_name]</b> is connected - \t"; 
-					echo "<a href=\"controleur.php?action=Logout\">Logout</a>";
 				}
 				?>
 				<span class="float-right">

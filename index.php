@@ -33,15 +33,15 @@ $view = secure("view");
 	}*/
 
 	// If the user is not connected, the login page is displayed
-	if($_SESSION==array())
-		$view="login";
+	// if($_SESSION==array())
+	// 	$view="login";
 	if (!$view) $view = "search"; 
 
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
 		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
-	}	
+	}
 
 	// The template linked to its view is displayed
 	switch($view)
@@ -49,9 +49,14 @@ $view = secure("view");
 
 		default : // if the template corresponding to the view exists, it is displayed
 		if (file_exists("templates/$view.php")){
-			if(file_exists("translations/".$view."_translations.php"))
-				include("translations/".$view."_translations.php");
-				include("templates/header.php");
+			
+				
+				if($view!="login"){
+					include_once("translations/header_translations.php");
+					include("templates/header.php");
+				}
+				if(file_exists("translations/".$view."_translations.php"))
+					include("translations/".$view."_translations.php");
 				include("templates/$view.php");
 			
 

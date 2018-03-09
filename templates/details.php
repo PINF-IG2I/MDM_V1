@@ -14,6 +14,22 @@ $languageList=getLanguages();
 
 ?>
 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#selectLanguage").change(function(){
+      $.ajax({
+        url : "controleur.php",
+        data : {
+          'action' : 'changeLanguage',
+          'language' : $("#selectLanguage option:selected").val()
+        },
+        success : location.reload()
+      });
+    });
+  });
+</script>
+
+
 
   <div class="container">
    <table class="table table-striped">
@@ -29,24 +45,30 @@ $languageList=getLanguages();
          </div>
        </div>
        <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
+        <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
         <div class="col-md-8 inputGroupContainer">
-         <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder=<?php echo $translation["file"]?> class="form-control" required="true" value="" type="text"></div>
+         <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Key" name="Key" placeholder=<?php echo $translation["key"]?> class="form-control" required="true" value="" type="text"></div>
        </div>
      </div>
      <div class="form-group">
-      <label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
+      <label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
       <div class="col-md-8 inputGroupContainer">
-       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder=<?php echo $translation["version"]?> class="form-control" required="true" value="" type="text"></div>
+       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder=<?php echo $translation["file"]?> class="form-control" required="true" value="" type="text"></div>
      </div>
    </div>
    <div class="form-group">
-    <label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
+    <label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
     <div class="col-md-8 inputGroupContainer">
-     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="city" name="Baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" required="true" value="" type="text"></div>
+     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder=<?php echo $translation["version"]?> class="form-control" required="true" value="" type="text"></div>
    </div>
  </div>
  <div class="form-group">
+  <label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
+  <div class="col-md-8 inputGroupContainer">
+   <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="city" name="Baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" required="true" value="" type="text"></div>
+ </div>
+</div>
+<div class="form-group">
   <label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="Object" placeholder=<?php echo $translation["object"]?> class="form-control" required="true" value="" type="text"></div>
