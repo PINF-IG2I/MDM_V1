@@ -71,31 +71,32 @@ $searchDatas=getSearchDatas();
 			<div id="headerSearch">
 
 				<div id="form"> <!-- see Jquery function -->
-					<div id="contenu_search_1">
-						<div class="formulaire">
+
+					<div id="content_search_1">
+						<div class="form_search">
 							<label for="name"><?php echo $translation["doc_number"] ?></label>
 							<input type="text" name="name"/>
 						</div> 
-						<div class="formulaire">
+						<div class="form_search">
 							<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
 							<input type="text" name="previous_doc"/>
 						</div>	
 					</div>
 
 
-					<div id="contenu_search_2">
-						<div class="formulaire">
+					<div id="content_search_2">
+						<div class="form_search">
 							<label for="version"><?php echo $translation["version"] ?></label>
 							<input type="text" name="version"/>
 						</div>
 
-						<div class="formulaire" >
+						<div class="form_search" >
 							<label for="pic"><?php echo $translation["pic"] ?></label>
 							<input type="text" name="pic"/>
 						</div>
 					</div>
 					
-					<div class="formulaire" id="contenu_search_3">
+					<div class="form_search" id="content_search_3">
 						<label for="baseline"><?php echo $translation["baseline"] ?></label>
 						<select multiple name="gatc_baseline">
 							<?php
@@ -107,19 +108,19 @@ $searchDatas=getSearchDatas();
 						</select>
 					</div>
 
-					<div class="formulaire">
-					<label for="initial_language"><?php echo $translation["language"]?></label>
+					<div class="form_search" id="content_search_4">
+					<label for="language"><?php echo $translation["language"]?></label>
 						<select multiple name="initial_language">
 							<?php
 							foreach ($searchDatas["language"] as $key => $value) {
-								echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+								echo "<option value='".$value["initial_language"]."'>".$value["language"]."</option>";
 							}
 
 							?>
 						</select>
 					</div>
 
-					<div class="formulaire">
+					<div class="form_search" id="content_search_5">
 						<label for="type"><?php echo $translation["type"]?></label>
 						<select multiple name="type">
 							<option value="installation"><?php echo $translation["installation"]?></option>
@@ -127,7 +128,7 @@ $searchDatas=getSearchDatas();
 						</select>
 					</div>
 
-					<div class="formulaire">
+					<div class="form_search" id="content_search_6">
 						<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
 						<select multiple name="etcs_subsystem.id">
 							<?php
@@ -139,7 +140,7 @@ $searchDatas=getSearchDatas();
 						</select>
 					</div>
 
-					<div class="formulaire">
+					<div class="form_search">
 						<label for="component"><?php echo $translation["component"]?></label>
 						<select multiple name="component">
 							<?php
@@ -151,7 +152,7 @@ $searchDatas=getSearchDatas();
 						</select>
 					</div>
 
-					<div class="formulaire">
+					<div class="form_search">
 						<label for="site"><?php echo $translation["site"]?></label>
 						<select multiple name="site">
 							<?php
@@ -162,7 +163,6 @@ $searchDatas=getSearchDatas();
 							?>
 						</select>
 					</div>
-
 
 					<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 
