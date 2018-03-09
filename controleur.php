@@ -51,6 +51,7 @@ session_start();
 
 			case 'Logout' :
 				session_destroy();
+				updateStatus($_SESSION["id_user"],0);
 				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 			break;
 
