@@ -13,24 +13,42 @@ $languages= array(
 		'resetDB' => 'Reset Database',
 		'user_name' => 'User Name',
 		'search' => 'Search',
-		'is_connected' => 'Is Connected'
+		'is_connected' => 'Is Connected',
+		'user' => 'User',
+		'password' => 'Password',
+		'edit' => 'Edit',
+		'delete' => 'Delete',
+		'internal' => 'Internal',
+		'external' => 'External',
+		'inhibited' => 'Inhibited',
+		'manager' => 'Manager',
+		'administrator' => 'Administrator'
 
 
 	),
 	"FR" => array(
 		'user_management' => "Gestion des Utilisateurs",
-		'db_management' => "Gestion de la Base de Données",
-		'number' => "Numéro",
+		'db_management' => "Gestion de la Base de DonnÃ©es",
+		'number' => "NumÃ©ro",
 		'last_name' => "Nom",
-		'first_name' => "Prénom",
+		'first_name' => "PrÃ©nom",
 		'status' => "Statut",
 		'language' => "Langue",
 		'importDB' => 'Importer Sauvegarde',
 		'saveDB' => 'Sauvegarder',
-		'resetDB' => 'Réinitialiser',
+		'resetDB' => 'RÃ©initialiser',
 		'user_name' => 'Nom Utilisateur',
 		'search' => 'Rechercher',
-		'is_connected' => 'Est Connecté'
+		'is_connected' => 'Est ConnectÃ©',
+		'user' => 'Utilisateur',
+		'password' => 'Mot de Passe',
+		'edit' => 'Modifier',
+		'delete' => 'Supprimer',
+		'internal' => 'Interne',
+		'external' => 'Externe',
+		'inhibited' => 'InhibÃ©',
+		'manager' => 'Gestionnaire',
+		'administrator' => 'Administrateur'
 	)
 
 );
