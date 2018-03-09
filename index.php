@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <?php
 session_start();
 
@@ -15,6 +21,9 @@ include_once "libs/maLibUtils.php";
 include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
 
+
+
+
 	// The potential view is collected
 $view = secure("view"); 
 	/* secure do the code that follows :
@@ -24,15 +33,15 @@ $view = secure("view");
 	}*/
 
 	// If the user is not connected, the login page is displayed
-	if($_SESSION==array())
-		$view="login";
+	// if($_SESSION==array())
+	// 	$view="login";
 	if (!$view) $view = "search"; 
 
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
 		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
-	}	
+	}
 
 	// The template linked to its view is displayed
 	switch($view)
@@ -42,7 +51,10 @@ $view = secure("view");
 		if (file_exists("templates/$view.php")){
 			if(file_exists("translations/".$view."_translations.php"))
 				include("translations/".$view."_translations.php");
-			include("templates/$view.php");
+				if($view!="login")
+					include("templates/header.php");
+				include("templates/$view.php");
+			
 
 		}
 
@@ -58,6 +70,8 @@ $view = secure("view");
 	?>
 
 
+
+</html>
 
 
 

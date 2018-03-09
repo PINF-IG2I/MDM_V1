@@ -1,68 +1,64 @@
-<?php
-if (basename($_SERVER["PHP_SELF"]) != "index.php")
-{
-	header("Location:../index.php");
-	die("");
-}
-echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+<?php 
+
+
+$languageList=getLanguages();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 
-<!-- **** H E A D **** -->
-<head>	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>MDM - v1.0</title>
-	<!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
-	<link href="css/sticky-footer.css" rel="stylesheet" />
-	<link href="bootstrap/css/light-bootstrap-dashboard.css" rel="stylesheet" />
-	<!--[if lt IE 9]>
-	  <script src="js/html5shiv.js"></script>
-	  <script src="js/respond.min.js"></script>
-	<![endif]-->
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<script src="js/jquery.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
+	<title>MDM - Alstom</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+	<!-- Custom styles for this template -->
+	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
+	<link href="./css/sticky-footer.css" rel="stylesheet"/>
+
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<script src="./js/jquery.js"></script>
+	<script src="./bootstrap/js/popper.min.js."></script>
 </head>
-<!-- **** E N D **** H E A D **** -->
 
 
-<!-- **** B O D Y **** -->
+
 <body>
+<!-- **** B O D Y **** -->
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<span class="navbar-nav mr-auto">
+				</span>
+					<img id="logo_header"  src="./ressources/logotype_alstom.jpg">
+				
+					<?php
+				// If the user is connected, a logout link is displayed
+				if (secure("isConnected","SESSION"))
+				{
+					echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">Logout</a>";
+				}?>
 
-	<!-- inspired from http://www.bootstrapzero.com/bootstrap-template/sticky-footer --> 
+				<form class="form-inline mt-2 mt-md-0">
+					<select class="custom-select" id="selectLanguage">
+						<option value="" disabled selected><?php echo $translation["language"]?></option>
+						<?php 
 
-	<!-- Wrap all page content here -->
-	<div id="wrap">
+						foreach ($languageList as $key => $value) {
+							echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+						}
 
-		<!-- Fixed navbar -->
-		<div class="navbar navbar-default navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="index.php?view=accueil">MDM 2018</a>
-				</div>
-				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<!-- <li class="active"><a href="index.php?view=accueil">Accueil</a></li> -->
-						<?=mkHeadLink("Home","accueil",$view)?>
-						<?php
-						// If the user is not connected, we display a login link
-						if (!secure("isConnected","SESSION"))
-							echo mkHeadLink("Login","login",$view); 
+
 						?>
-					</ul>
-				</div><!--/.nav-collapse -->
+					</select>
+				</form>
 			</div>
-		</div>
-
-
-
-		<!-- Begin page content -->
-		<div class="container">
+		</nav>

@@ -1,10 +1,29 @@
 /* Sticky footer styles
 Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer 
 -------------------------------------------------- */
+@font-face {
+  font-family: "Alstom";
+  src: url('./fonts/Alstom_Regular.ttf');
+}
+
+@font-face {
+  font-family: "Alstom";
+  font-style: bold;
+  src: url('./fonts/Alstom_Bold.ttf');
+}
+@font-face {
+  font-family: "Alstom";
+  font-weight: lighter;
+  src: url('./fonts/Alstom_Light.ttf');
+}
 
 html,
 body {
+  font-family: "Alstom";
   height: 100%;
+  margin : auto;
+  padding : auto;
+
   /* The html and body elements cannot have any padding or margin. */
 }
 
@@ -45,4 +64,85 @@ body {
 
 code {
   font-size: 80%;
+}
+
+
+#custom-select {
+   font-weight: lighter;
+}
+
+#logoutBtn {
+  color:white;
+   text-decoration: none;
+   padding-right: 3rem; 
+}
+
+#logoutBtn:hover
+{
+  font-weight: bold;
+}
+#logo_header {
+  background-color: #fff;
+  border-radius : 15px;
+  position : absolute;
+  left: 1rem;
+  width : 10rem;
+
+}
+
+.formulaire{
+  display :inline-block;
+  font-size : 0.8rem;
+}
+
+.formulaire label 
+{
+  font-weight: bold;
+  text-align : center;
+  width: 100%;
+  height: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.formulaire input
+{
+ width: 100%;
+}
+
+
+.formulaire select {
+  width: 100%;
+  height: 3.8rem;
+}
+
+.formulaire select,input
+{
+  font-weight : lighter;
+  border-radius : 5px;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(245,245,245);
+}
+
+
+#contenu_search_1{
+  width: 11rem;
+  display :inline-block;
+  border : red solid 1px;
+
+}
+
+#contenu_search_2{
+  width: 5rem;
+  display :inline-block;
+  border : red solid 1px;
+
+}
+
+#contenu_search_3{
+  width : 4.5rem;
+  display :inline-block;
+ /* height : 6rem;*/
+  margin-left: 0.2rem;
+  border : red solid 1px;
 }
