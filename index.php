@@ -53,6 +53,7 @@ $view = secure("view");
 				include("translations/".$view."_translations.php");
 				if($view!="login")
 					include("templates/header.php");
+
 				include("templates/$view.php");
 			
 

@@ -29,6 +29,8 @@ $languageList=getLanguages();
 
 
 
+
+
 <body>
 <!-- **** B O D Y **** -->
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -55,7 +57,6 @@ $languageList=getLanguages();
 						foreach ($languageList as $key => $value) {
 							echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
 						}
-
 
 						?>
 					</select>
