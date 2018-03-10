@@ -37,7 +37,7 @@ session_start();
 				{
 					$result=checkUser($username,$password);
 					if("$result"=="Forbidden"){
-						$addArgs="?view=login&msg=".urlencode("You are not allowed to log in.");
+						$addArgs="?view=login&msg=".urlencode("You are not allowed to log in. Please contact the administrator.");
 					} elseif($result){
 						$addArgs="?view=search";
 					}
