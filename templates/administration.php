@@ -7,7 +7,8 @@
 */
 
 
-if (secure("status","SESSION")!="Administrateur")
+
+if (secure("status","SESSION")!="Administrator")
 {
 	header("Location:index.php?view=search&message=".urlencode("You need to be Administrator."));
 	die("");

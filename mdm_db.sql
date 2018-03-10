@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `document_version` (
   `working_field_2` char(20) NOT NULL,
   `working_field_3` char(20) NOT NULL,
   `working_field_4` char(20) NOT NULL,
-  `status` enum('public','internal','draft','future','obsolete') NOT NULL DEFAULT 'draft'
+  `status` enum('Public','Internal','Draft','Future','Obsolete') NOT NULL DEFAULT 'Draft'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

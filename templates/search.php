@@ -14,57 +14,6 @@ $languageList=array_keys($languages);
 $searchDatas=getSearchDatas();
 
 ?>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("#selectLanguage").change(function(){
-			$.ajax({
-				url : "controleur.php",
-				data : {
-					'action' : 'changeLanguage',
-					'language' : $("#selectLanguage option:selected").val()
-				},
-				success : location.reload()
-			});
-		$("#send").click(function(){
-			var oQuery={};
-			$("#headerSearch input").each(function(){
-				var key= $(this).attr("name");
-				var value=$(this).val();
-				if(value!="")
-					oQuery[key]=value;
-				console.log(oQuery);
-			});
-			$("#headerSearch select").each(function(){
-				var key= $(this).attr("name");
-				var value=$(this).val();
-				console.log(key);
-				console.log(value);
-				if(value!=null){
-					oQuery[key]=value;
-					console.log(oQuery);
-
-				}
-			});
-			console.log(oQuery);
-			if(!$.isEmptyObject(oQuery)){
-				$.getJSON( "controleur.php",
-				{
-					"action":"Search",
-					"data":oQuery
-				},
-				function(oRep){	
-					console.log(oRep);
-					if(oRep.length!=0)
-						$("#results").html(JSON.stringify(oRep));
-					else 
-						$("#results").html("No results found");
-				}
-				);
-			}
-		});
-	});
-</script>
-
 
 
 <!-- Begin page content -->
@@ -111,7 +60,6 @@ $searchDatas=getSearchDatas();
 						?>
 					</select>
 				</div>
-
 				<div class="form_search" id="content_search_4">
 					<label for="language"><?php echo $translation["language"]?></label>
 					<select multiple name="initial_language">
@@ -172,8 +120,7 @@ $searchDatas=getSearchDatas();
 				</div>
 			</div> 
 		</div>
-	</div>
-	<hr/> 
+	</div> 
 </div>
 <div class="lead">
 	<div id="resultsPage">

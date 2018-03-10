@@ -22,9 +22,9 @@ $languageList=array_keys($languages);
 	<!-- Custom styles for this template -->
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
 	<link href="./css/sticky-footer.css" rel="stylesheet"/>
-
-	<script src="./bootstrap/js/bootstrap.min.js"></script>
 	<script src="./js/jquery.js"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<script src="./js/utils.js"></script>
 	<script src="./bootstrap/js/popper.min.js."></script>
 </head>
 
@@ -43,7 +43,7 @@ $languageList=array_keys($languages);
 				
 				<div id="content_header">
 					<?php
-						if (secure("status","SESSION") == "Administrateur")
+						if (secure("status","SESSION") == "Administrator")
 						{
 							echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
 						}
