@@ -60,7 +60,6 @@ $searchDatas=getSearchDatas();
 						?>
 					</select>
 				</div>
-
 				<div class="form_search" id="content_search_4">
 					<label for="language"><?php echo $translation["language"]?></label>
 					<select multiple name="initial_language">

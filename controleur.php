@@ -109,6 +109,7 @@ session_start();
 			
 			case 'forceLogout':
 				$addArgs="?view=administration&fail=true";
+
 				if (secure("status","SESSION")=="Administrator")
 				{
 					if ($id=secure("id"))
