@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2018 at 04:52 PM
+-- Generation Time: Mar 10, 2018 at 05:12 PM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.0.13
 
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_name` char(50) NOT NULL,
   `first_name` char(30) NOT NULL,
   `password` char(20) NOT NULL DEFAULT 'Alstom$Gest',
-  `status` enum('Internal','External','Inhibited','Manager','Administrator','Forbidden') NOT NULL DEFAULT 'External',
+  `status` enum('Internal','External','Manager','Administrator','Forbidden') NOT NULL DEFAULT 'External',
   `language` char(2) NOT NULL DEFAULT 'EN',
   `isConnected` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -162,9 +162,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id_user`, `last_name`, `first_name`, `password`, `status`, `language`, `isConnected`) VALUES
-(1, 'test', 'test', 'test', '', 'EN', 1),
-(2, 'jean', 'jean', 'Alstom$Gest', 'Administrator', 'EN', 0),
-(3, 'jean', 'jean', 'Alstom$Gest', 'Administrator', 'EN', 0);
+(1, 'test', 'test', 'test', 'Administrator', 'EN', 1),
+(3, 'jean', 'jean', 'jean', 'Administrator', 'EN', 0);
 
 --
 -- Indexes for dumped tables
