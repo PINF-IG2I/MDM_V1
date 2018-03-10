@@ -49,8 +49,6 @@ $view = secure("view");
 
 		default : // if the template corresponding to the view exists, it is displayed
 		if (file_exists("templates/$view.php")){
-			
-				
 				if($view!="login"){
 					include_once("translations/header_translations.php");
 					include("templates/header.php");

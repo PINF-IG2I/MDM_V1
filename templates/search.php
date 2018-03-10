@@ -9,7 +9,7 @@
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 //include "/../translations/search_translations.php";
-$languageList=getLanguages();
+$languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
@@ -25,7 +25,6 @@ $searchDatas=getSearchDatas();
 				},
 				success : location.reload()
 			});
-		});
 		$("#send").click(function(){
 			var oQuery={};
 			$("#headerSearch input").each(function(){
@@ -100,6 +99,7 @@ $searchDatas=getSearchDatas();
 					</div>
 				</div>
 
+
 				<div class="form_search" id="content_search_3">
 					<label for="baseline"><?php echo $translation["baseline"] ?></label>
 					<select multiple name="gatc_baseline">
@@ -167,8 +167,8 @@ $searchDatas=getSearchDatas();
 						?>
 					</select>
 				</div>
-				<div class="form_search" id="content_search_9">
-					<button type="button" class="btn btn-primary" id="btn_recherche"><?php echo $translation["search"]?></button>
+				<div class="form_search" id="content_search_9">					
+          <button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
 				</div>
 			</div> 
 		</div>
