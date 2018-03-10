@@ -31,19 +31,14 @@ $languageList=getLanguages();
 
 
 
-  <div class="container">
-   <table class="table table-striped">
-    <tbody>
-     <tr>
-      <td colspan="1">
-       <form class="well form-horizontal">
-        <fieldset>
-         <div class="form-group">
-          <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
-          <div class="col-md-8 inputGroupContainer">
-           <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Key" name="Key" placeholder=<?php echo $translation["key"]?> class="form-control" required="true" value="" type="text"></div>
-         </div>
-       </div>
+
+<div class="container">
+ <table class="table table-striped">
+  <tbody>
+   <tr>
+    <td colspan="1">
+     <form class="well form-horizontal">
+      <fieldset>
        <div class="form-group">
         <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
         <div class="col-md-8 inputGroupContainer">
@@ -98,11 +93,11 @@ $languageList=getLanguages();
         <?php echo $translation["choose"]?>
       </button>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#">Inhibé</a>
-        <a class="dropdown-item" href="#">Interne</a>
-        <a class="dropdown-item" href="#">Externe</a>
-        <a class="dropdown-item" href="#">Gestionnaire</a>
-        <a class="dropdown-item" href="#">Administrateur</a>
+        <a class="dropdown-item" href="#"><?php echo $translation["inhibited"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["intern"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["extern"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["manager"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["administrator"]?></a>
       </div>
     </div>
   </div>
@@ -225,7 +220,7 @@ $languageList=getLanguages();
 </div>
 </div>
 <div class="form-group">
- <div class="input-group text-center">
+ <div class="input-group" style="margin:0 auto">
   <div class="btn-group" role="group" aria-label="Basic example">
     <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
     <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>

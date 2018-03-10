@@ -51,6 +51,7 @@ $languages= array(
 		'manager' => 'Gestionnaire',
 		'administrator' => 'Administrateur',
 		'disconnect' => 'Déconnecter l\'Utilisateur'
+
 	)
 
 );

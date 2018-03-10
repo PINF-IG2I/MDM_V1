@@ -14,19 +14,17 @@ $languageList=array_keys($languages);
 $searchDatas=getSearchDatas();
 
 ?>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#selectLanguage").change(function(){
-				$.ajax({
-					url : "controleur.php",
-					data : {
-						'action' : 'changeLanguage',
-						'language' : $("#selectLanguage option:selected").val()
-					},
-					success : location.reload()
-				});
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#selectLanguage").change(function(){
+			$.ajax({
+				url : "controleur.php",
+				data : {
+					'action' : 'changeLanguage',
+					'language' : $("#selectLanguage option:selected").val()
+				},
+				success : location.reload()
 			});
-		});
 		$("#send").click(function(){
 			var oQuery={};
 			$("#headerSearch input").each(function(){
