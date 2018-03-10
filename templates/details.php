@@ -30,8 +30,6 @@ $languageList=getLanguages();
 </script>
 
 
-
-
 <div class="container">
  <table class="table table-striped">
   <tbody>

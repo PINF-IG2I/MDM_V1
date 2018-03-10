@@ -34,33 +34,70 @@ $languageList=array_keys($languages);
 
 <body>
 <!-- **** B O D Y **** -->
+<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div id="header">
 				<span class="navbar-nav mr-auto">
 				</span>
-					<img id="logo_header"  src="./ressources/logotype_alstom.jpg">
+					<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
 				
+				<div id="content_header">
 					<?php
-				// If the user is connected, a logout link is displayed
-				if (secure("isConnected","SESSION"))
-				{
-					echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">Logout</a>";
-				}?>
-
-				<form class="form-inline mt-2 mt-md-0">
-					<select class="custom-select" id="selectLanguage">
-						<option value="" disabled selected><?php echo $translation["language"]?></option>
-						<?php 
-
-						foreach ($languageList as $key => $value) {
-							echo "<option value='".$value."'>".$value."</option>";
+						if (secure("status","SESSION") == "Administrateur")
+						{
+							echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
 						}
 
-						?>
-					</select>
-				</form>
+						// If the user is connected, a logout link is displayed
+						if (secure("isConnected","SESSION"))
+						{
+							echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+					}?>
+
+					<form id="form_language" class="form-inline mt-2 mt-md-0" >
+						<select id="selectLanguage" class="custom-select">
+							<option value="" disabled selected><?php echo $translation["language"]?></option>
+							<?php 
+
+							foreach ($languageList as $key => $value) {
+								echo "<option value='".$value."'>".$value."</option>";
+							}
+
+							?>
+						</select>
+					</form>
+				</div>
 			</div>
 		</nav>
+</header>
+
+
+
+<!--
+
+  <header>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Disabled</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+  </header>-->

@@ -6,6 +6,7 @@
 * \version 1.0
 */
 
+
 if (secure("status","SESSION")!="Administrateur")
 {
 	header("Location:index.php?view=search&message=".urlencode("You need to be Administrator."));
@@ -13,8 +14,10 @@ if (secure("status","SESSION")!="Administrateur")
 }
 
 include_once "libs/modele.php";
+
 $users=listerUtilisateurs();
 $userJSON=json_encode($users);
+
 ?>
 
   <div class="container">
@@ -144,7 +147,5 @@ $userJSON=json_encode($users);
 		document.getElementById("editUser").style.display="block";
         $("#editUser").hide().fadeIn("slow");
 	}
-	
 
-	
   </script>

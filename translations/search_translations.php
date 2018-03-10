@@ -20,7 +20,8 @@ $languages= array(
 		"result" => "Results",
 		"titlePage" => "Search",
 		"installation" => "Installation",
-		"maintenance" => "Maintenance"
+		"maintenance" => "Maintenance",
+		
 
 
 	),
