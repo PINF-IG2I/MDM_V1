@@ -1,7 +1,8 @@
 <?php 
 
 
-$languageList=getLanguages();
+$languageList=array_keys($languages);
+
 ?>
 <!DOCTYPE html>
 
@@ -55,7 +56,7 @@ $languageList=getLanguages();
 						<?php 
 
 						foreach ($languageList as $key => $value) {
-							echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
+							echo "<option value='".$value."'>".$value."</option>";
 						}
 
 						?>

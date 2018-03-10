@@ -22,7 +22,8 @@ $languages= array(
 		'external' => 'External',
 		'inhibited' => 'Inhibited',
 		'manager' => 'Manager',
-		'administrator' => 'Administrator'
+		'administrator' => 'Administrator',
+		'disconnect' => 'Disconnect User'
 
 
 	),
@@ -48,7 +49,9 @@ $languages= array(
 		'external' => 'Externe',
 		'inhibited' => 'Inhibé',
 		'manager' => 'Gestionnaire',
-		'administrator' => 'Administrateur'
+		'administrator' => 'Administrateur',
+		'disconnect' => 'Déconnecter l\'Utilisateur'
+
 	)
 
 );

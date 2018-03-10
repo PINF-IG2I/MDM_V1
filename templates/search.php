@@ -9,7 +9,7 @@
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 //include "/../translations/search_translations.php";
-$languageList=getLanguages();
+$languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
@@ -25,7 +25,6 @@ $searchDatas=getSearchDatas();
 				},
 				success : location.reload()
 			});
-		});
 		$("#send").click(function(){
 			var oQuery={};
 			$("#headerSearch input").each(function(){
@@ -63,7 +62,6 @@ $searchDatas=getSearchDatas();
 				);
 			}
 		});
-	});
 	</script>
 
 
@@ -113,7 +111,7 @@ $searchDatas=getSearchDatas();
 					</div>
 
 					<div class="form_search" id="content_search_4">
-						<label for="language"><?php echo $translation["language"]?></label>
+					<label for="language"><?php echo $translation["language"]?></label>
 						<select multiple name="initial_language">
 							<?php
 							foreach ($searchDatas["language"] as $key => $value) {
@@ -169,18 +167,18 @@ $searchDatas=getSearchDatas();
 					</div>
 
 					<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
-				</div> 
-			</div>
-		</div>
-		<hr/> 
-	</div>
-	<div class="lead">
-		<div id="resultsPage">
-			<h1><?php echo $translation["result"]?></h1>
-			<div id="results">
-			</div>
+			</div> 
 		</div>
 	</div>
+	<hr/> 
+</div>
+<div class="lead">
+	<div id="resultsPage">
+		<h1><?php echo $translation["result"]?></h1>
+		<div id="results">
+		</div>
+	</div>
+</div>
 </main>
 
 

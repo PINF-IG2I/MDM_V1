@@ -63,15 +63,60 @@ session_start();
 			break;
 
 			case 'changeLanguage':
-				if($language =secure("language")){
+				$language =secure("language");
+				echo $language;
+				die("");
+				if ($language)
+				{
 					$_SESSION["language"]=$language;
 					updateLanguage($language,$_SESSION["id_user"]);
+					$addArgs="?view=administration";
 				}
 			break;
 
-
-
-
+			case 'editUser':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrateur")
+				{
+					$number=secure("number");
+					$lastName=secure("last_name");
+					$firstName=secure("first_name");
+					$status=secure("status");
+					$language=secure("language");
+					$password=secure("password");
+					if ($number && $lastName && $firstName && $status && $language)
+					{
+						if ($password)
+							editUser($number,$lastName,$firstName,$status,$language, $password);
+						else
+							editUser($number,$lastName,$firstName,$status,$language);
+						
+						$addArgs="?view=administration";
+					}
+				}
+			break;
+			
+			case 'deleteUser':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrateur")
+				{
+					if ($number=secure("number"))
+					{
+						deleteUser($number);
+						$addArgs="?view=administration";
+					}
+				}
+			break;
+			
+			case 'forceLogout':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrateur")
+				{
+					if ($id=secure("id"))
+					updateStatus($id,0);
+					$addArgs="?view=administration";
+				}
+			break;
 		}
 
 	}
