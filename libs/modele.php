@@ -3,7 +3,7 @@
 
 // inclure ici la librairie faciliant les requêtes SQL
 include_once("maLibSQL.pdo.php");
-
+include_once("maLibUtils.php");
 
 function listerUtilisateurs($classe = "both")
 {
@@ -77,10 +77,6 @@ function getIsConnected($id){
 }
 
 
-function getLanguages(){
-	$SQL="SELECT DISTINCT language FROM users";
-	return parcoursRs(SQLSelect($SQL));
-}
 
 function updateLanguage($language,$id){
 	$SQL="UPDATE users SET language='$language' WHERE id_user=$id";
@@ -107,15 +103,21 @@ function getResultsFromQuery($data){
 	$SQL="SELECT * FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
 	foreach ($data as $key => $value) {
 		if(!is_array($value)){
+			protect($key);
+			protect($value);
 			$SQL.=" AND ".$key." LIKE '".$value."'";	
 		} else {
 			if($key=="type"){
 				foreach ($value as $content) {
+					protect($value);
+					protect($content);
 					$SQL.= " AND ".$content ." = '1' ";
 				}
 			} else {
+				protect($key);
 				$SQL.= " AND ".$key." IN (";
 				foreach ($value as $content) {
+					protect($content);
 					$SQL.="'$content',";
 				}
 				$SQL=substr($SQL,0,-1);
@@ -126,6 +128,19 @@ function getResultsFromQuery($data){
 	}
 	return parcoursRs(SQLSelect($SQL));
 
+}
+
+
+function editUser($id,$lastname,$firstname,$status,$language,$password=""){
+	$SQL="UPDATE users SET last_name='$lastname', first_name='$firstname', status='$status', language='$language' ";
+	if($password!="") $SQL.= ", password='$password' ";
+	$SQL.= " WHERE id_user='$id'";
+	return SQLUpdate($SQL);
+}
+
+function deleteUser($id){
+	$SQL="DELETE FROM users WHERE id_user='$id'";
+	return SQLDelete($SQL);
 }
 
 
