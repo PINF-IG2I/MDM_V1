@@ -1,11 +1,6 @@
 <?php
 session_start();
-/**
-* \file controleur.php
-* \brief This page treats data and calls functions from modele.php if needed
-* \author
-* \version
-*/
+
 	include_once "libs/maLibUtils.php";
 	include_once "libs/maLibSQL.pdo.php";
 	include_once "libs/maLibSecurisation.php"; 
@@ -16,46 +11,132 @@ session_start();
 	if ($action = secure("action"))
 	{
 		ob_start ();
-		echo "Action = '$action' <br />";
+		// ATTENTION : le codage des caractères peut poser PB si on utilise des actions comportant des accents... 
+		// A EVITER si on ne maitrise pas ce type de problématiques
 
-		if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
+		/* TODO: A REVOIR !!
+		// Dans tous les cas, il faut etre logue... 
+		// Sauf si on veut se connecter (action == Connexion)
+
+		if ($action != "Connexion") 
+			securiser("login");
+		*/
+
+		// Un paramètre action a été soumis, on fait le boulot...
+		if(isset($_SESSION) && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 			$action='Logout';
 		}	
 		switch($action)
 		{
 			
 			
-			// Connection //////////////////////////////////////////////////
+			// Connexion //////////////////////////////////////////////////
 			case 'Identification' :
-				// The username and the password are checked
+				// On verifie la presence des champs login et passe
 				if (($username = secure("username","REQUEST")) && ($password = secure("password")))
 				{
-					// On verifie l'utilisateur,
-					// The user is checked
-					// Then session variables are created (maLibSecurisation)
-					if (checkUser($username,$password)) {
+					$result=checkUser($username,$password);
+					if("$result"=="Forbidden"){
+						$addArgs="?view=login&msg=".urlencode("You are not allowed to log in. Please contact the administrator.");
+					} elseif($result){
 						$addArgs="?view=search";
 					}
 					else $addArgs= "?view=login&msg=".urlencode("Wrong password or username.");	
 				}
 				else $addArgs= "?view=login&msg=".urlencode("Please fill in all fields.");
 
-				// Automatical redirection to the index page
+				// On redirigera vers la page index automatiquement
 			break;
 
 			case 'Logout' :
-				// the session is destroyed and the user is logged out
+				updateStatus($_SESSION["id_user"],0);
 				session_destroy();
 				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 			break;
 
 			case 'Search':
-
+					if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
+						$data=$_REQUEST["data"];
+						$results=getResultsFromQuery($data);
+						echo json_encode($results);
+						die(""); //no need to redirect, the code is stopped there, and the result is sent.
+					}
 			break;
 
+			case 'changeLanguage':
+				if(secure("isConnected","SESSION"))
+				if ($language =secure("language"))
+				{
+					$_SESSION["language"]=$language;
+					updateLanguage($language,$_SESSION["id_user"]);
+					$addArgs="?view=administration";
+				}
+			break;
 
+			case 'editUser':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					$number=secure("number");
+					$lastName=secure("last_name");
+					$firstName=secure("first_name");
+					$status=secure("status");
+					$language=secure("language");
+					$password=secure("password");
+					if ($number && $lastName && $firstName && $status && $language)
+					{
+						if ($password)
+							editUser($number,$lastName,$firstName,$status,$language, $password);
+						else
+							editUser($number,$lastName,$firstName,$status,$language);
+						
+						$addArgs="?view=administration";
+					}
+				}
+			break;
 
+			case 'editDocs':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					//to be continued
+				}
+				break;	
+			
+			case 'deleteUser':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					if ($number=secure("number"))
+					{
+						deleteUser($number);
+						$addArgs="?view=administration";
+					}
+				}
+			break;
+			
+			case 'deleteDoc':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					if($id=secure("id_doc"))
+					{
+						deleteDoc($id);
+						$addArgs="?view=search";
+					}
+				}
+				break;
 
+			case 'forceLogout':
+				$addArgs="?view=administration&fail=true";
+
+				if (secure("status","SESSION")=="Administrator")
+				{
+					if ($id=secure("id"))
+					updateStatus($id,0);
+					$addArgs="?view=administration";
+				}
+			break;
 		}
 
 	}

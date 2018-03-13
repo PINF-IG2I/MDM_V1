@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 /**
 * \file index.php
 * \brief This page is the one that determines which template is displayed thanks to the 'view' attribute
@@ -9,12 +10,16 @@ session_start();
 * \version
 */
 
+
 include_once "libs/maLibUtils.php";
 include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
 
+
+ob_start();
+
 	// The potential view is collected
-	$view = secure("view"); 
+$view = secure("view"); 
 	/* secure do the code that follows :
 	if (isset($_GET["view"]) && $_GET["view"]!="")
 	{
@@ -22,32 +27,37 @@ include_once "libs/maLibSecurisation.php";
 	}*/
 
 	// If the user is not connected, the login page is displayed
-	if($_SESSION==array())
-		$view="login";
-	if (!$view) $view = "search"; 
-
+	// if($_SESSION==array())
+	// 	$view="login";
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
 		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
+	}
+	if (!$view) {
+		if(secure("isConnected","SESSION"))
+			$view = "search";
+		else
+			$view="login"; 
 	}	
+
 
 	// The template linked to its view is displayed
 	switch($view)
 	{		
 
-		case "login" : 
-		include("templates/login.php");
-		break;
+		default : // if the template corresponding to the view exists, it is displayed
+		if (file_exists("templates/$view.php")){
+				if($view!="login"){
+					include_once("translations/header_translations.php");
+					include("templates/header.php");
+				}
+				if(file_exists("translations/".$view."_translations.php"))
+					include("translations/".$view."_translations.php");
+				include("templates/$view.php");
+			
 
-		case "search":
-		include("templates/search.php");
-		break;
-
-
-		default : // if the template corresponding to the view exists, it's displayed
-		if (file_exists("templates/$view.php"))
-			include("templates/$view.php");
+		}
 
 	}
 
@@ -57,10 +67,12 @@ include_once "libs/maLibSecurisation.php";
 		include("templates/footer.php");
 
 
-	
-	?>
+ob_flush();	
+?>
 
 
+
+</html>
 
 
 

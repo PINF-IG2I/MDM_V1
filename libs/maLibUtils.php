@@ -21,19 +21,19 @@ function secure($nom,$type="REQUEST")
 	{
 		case 'REQUEST': 
 		if(isset($_REQUEST[$nom]) && !($_REQUEST[$nom] == "")) 	
-			return proteger($_REQUEST[$nom]); 	
+			return protect($_REQUEST[$nom]); 	
 		break;
 		case 'GET': 	
 		if(isset($_GET[$nom]) && !($_GET[$nom] == "")) 			
-			return proteger($_GET[$nom]); 
+			return protect($_GET[$nom]); 
 		break;
 		case 'POST': 	
 		if(isset($_POST[$nom]) && !($_POST[$nom] == "")) 	
-			return proteger($_POST[$nom]); 		
+			return protect($_POST[$nom]); 		
 		break;
 		case 'COOKIE': 	
 		if(isset($_COOKIE[$nom]) && !($_COOKIE[$nom] == "")) 	
-			return proteger($_COOKIE[$nom]);	
+			return protect($_COOKIE[$nom]);	
 		break;
 		case 'SESSION': 
 		if(isset($_SESSION[$nom]) && !($_SESSION[$nom] == "")) 	
@@ -74,7 +74,7 @@ function getValue($nom,$defaut=false,$type="REQUEST")
 * Y COMPRIS LES ARGUMENTS ENTIERS !!
 * @param string $str
 */
-function proteger($str)
+function protect($str)
 {
 	// attention au cas des select multiples !
 	// On pourrait passer le tableau par référence et éviter la création d'un tableau auxiliaire
