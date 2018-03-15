@@ -23,7 +23,11 @@ $languages= array(
 		'inhibited' => 'Inhibited',
 		'manager' => 'Manager',
 		'administrator' => 'Administrator',
-		'disconnect' => 'Disconnect User'
+		'disconnect' => 'Disconnect User',
+		'create_user' => 'Create User',
+		'delete_user' => 'Delete User',
+		'sure_delete_user' => 'Are you sure you want to delete the user',
+		'close' => 'Close'
 
 
 	),
@@ -50,7 +54,12 @@ $languages= array(
 		'inhibited' => 'Inhibé',
 		'manager' => 'Gestionnaire',
 		'administrator' => 'Administrateur',
-		'disconnect' => 'Déconnecter l\'Utilisateur'
+		'disconnect' => 'Déconnecter l\'Utilisateur',
+		'create_user' => 'Créer Utilisateur',
+		'delete_user' => 'Supprimer User',
+		'sure_delete_user' => 'Êtes-vous sûr de vraiment vouloir supprimer l\'utilisateur',
+		'close' => 'Fermer'
+
 
 	)
 
