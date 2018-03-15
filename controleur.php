@@ -23,7 +23,7 @@ session_start();
 		*/
 
 		// Un paramètre action a été soumis, on fait le boulot...
-		if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
+		if(isset($_SESSION) && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 			$action='Logout';
 		}	
 		switch($action)
@@ -35,11 +35,10 @@ session_start();
 				// On verifie la presence des champs login et passe
 				if (($username = secure("username","REQUEST")) && ($password = secure("password")))
 				{
-					// On verifie l'utilisateur, 
-					// et on crée des variables de session si tout est OK
-					// Cf. maLibSecurisation
-					if (checkUser($username,$password)) {
-						// tout s'est bien passé, doit-on se souvenir de la personne ? 
+					$result=checkUser($username,$password);
+					if("$result"=="Forbidden"){
+						$addArgs="?view=login&msg=".urlencode("You are not allowed to log in. Please contact the administrator.");
+					} elseif($result){
 						$addArgs="?view=search";
 					}
 					else $addArgs= "?view=login&msg=".urlencode("Wrong password or username.");	
@@ -50,23 +49,23 @@ session_start();
 			break;
 
 			case 'Logout' :
-				session_destroy();
 				updateStatus($_SESSION["id_user"],0);
+				session_destroy();
 				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 			break;
 
-			case 'Search': //TODO : secure
-					$data=$_REQUEST["data"];
-					$results=getResultsFromQuery($data);
-					echo json_encode($results);
-					die(""); //no need to redirect, the code is stopped there, and the result is sent.
+			case 'Search':
+					if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
+						$data=$_REQUEST["data"];
+						$results=getResultsFromQuery($data);
+						echo json_encode($results);
+						die(""); //no need to redirect, the code is stopped there, and the result is sent.
+					}
 			break;
 
 			case 'changeLanguage':
-				$language =secure("language");
-				echo $language;
-				die("");
-				if ($language)
+				if(secure("isConnected","SESSION"))
+				if ($language =secure("language"))
 				{
 					$_SESSION["language"]=$language;
 					updateLanguage($language,$_SESSION["id_user"]);
@@ -76,7 +75,7 @@ session_start();
 
 			case 'editUser':
 				$addArgs="?view=administration&fail=true";
-				if (secure("status","SESSION")=="Administrateur")
+				if (secure("status","SESSION")=="Administrator")
 				{
 					$number=secure("number");
 					$lastName=secure("last_name");
@@ -95,10 +94,18 @@ session_start();
 					}
 				}
 			break;
+
+			case 'editDocs':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					//to be continued
+				}
+				break;	
 			
 			case 'deleteUser':
 				$addArgs="?view=administration&fail=true";
-				if (secure("status","SESSION")=="Administrateur")
+				if (secure("status","SESSION")=="Administrator")
 				{
 					if ($number=secure("number"))
 					{
@@ -108,9 +115,22 @@ session_start();
 				}
 			break;
 			
+			case 'deleteDoc':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					if($id=secure("id_doc"))
+					{
+						deleteDoc($id);
+						$addArgs="?view=search";
+					}
+				}
+				break;
+
 			case 'forceLogout':
 				$addArgs="?view=administration&fail=true";
-				if (secure("status","SESSION")=="Administrateur")
+
+				if (secure("status","SESSION")=="Administrator")
 				{
 					if ($id=secure("id"))
 					updateStatus($id,0);

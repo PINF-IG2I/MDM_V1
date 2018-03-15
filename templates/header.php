@@ -19,12 +19,20 @@ $languageList=array_keys($languages);
 	<!-- Bootstrap core CSS -->
 	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
+
 	<!-- Custom styles for this template -->
+
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
 	<link href="./css/sticky-footer.css" rel="stylesheet"/>
 
-	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 	<script src="./js/jquery.js"></script>
+	<script src="./js/utils.js"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	
+	
 	<script src="./bootstrap/js/popper.min.js."></script>
 </head>
 
@@ -33,25 +41,25 @@ $languageList=array_keys($languages);
 
 
 <body>
-<!-- **** B O D Y **** -->
-<header>
+	<!-- **** B O D Y **** -->
+	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<div id="header">
 				<span class="navbar-nav mr-auto">
 				</span>
-					<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
+				<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
 				
 				<div id="content_header">
 					<?php
-						if (secure("status","SESSION") == "Administrateur")
-						{
-							echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
-						}
+					if (secure("status","SESSION") == "Administrator")
+					{
+						echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
+					}
 
 						// If the user is connected, a logout link is displayed
-						if (secure("isConnected","SESSION"))
-						{
-							echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+					if (secure("isConnected","SESSION"))
+					{
+						echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
 					}?>
 
 					<form id="form_language" class="form-inline mt-2 mt-md-0" >
@@ -69,7 +77,7 @@ $languageList=array_keys($languages);
 				</div>
 			</div>
 		</nav>
-</header>
+	</header>
 
 
 

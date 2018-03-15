@@ -6,66 +6,16 @@
 * \version
 */
 
-redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
+redirect("./index.php?view=login&msg=".urlencode("You need to be logged in."));
 
-//include "/../translations/search_translations.php";
+
 $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
+$docs = listerDocs();
+$docJSON = json_encode($docs);
 
 ?>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("#selectLanguage").change(function(){
-			$.ajax({
-				url : "controleur.php",
-				data : {
-					'action' : 'changeLanguage',
-					'language' : $("#selectLanguage option:selected").val()
-				},
-				success : location.reload()
-			});
-		$("#send").click(function(){
-			var oQuery={};
-			$("#headerSearch input").each(function(){
-				var key= $(this).attr("name");
-				var value=$(this).val();
-				if(value!="")
-					oQuery[key]=value;
-				console.log(oQuery);
-			});
-			$("#headerSearch select").each(function(){
-				var key= $(this).attr("name");
-				var value=$(this).val();
-				console.log(key);
-				console.log(value);
-				if(value!=null){
-					oQuery[key]=value;
-					console.log(oQuery);
-
-				}
-			});
-			console.log(oQuery);
-			if(!$.isEmptyObject(oQuery)){
-				$.getJSON( "controleur.php",
-				{
-					"action":"Search",
-					"data":oQuery
-				},
-				function(oRep){	
-					console.log(oRep);
-					if(oRep.length!=0)
-						$("#results").html(JSON.stringify(oRep));
-					else 
-						$("#results").html("No results found");
-				}
-				);
-			}
-		});
-	});
-</script>
-
-
 
 <!-- Begin page content -->
 <main role="main" class="container">
@@ -111,7 +61,6 @@ $searchDatas=getSearchDatas();
 						?>
 					</select>
 				</div>
-
 				<div class="form_search" id="content_search_4">
 					<label for="language"><?php echo $translation["language"]?></label>
 					<select multiple name="initial_language">
@@ -168,12 +117,11 @@ $searchDatas=getSearchDatas();
 					</select>
 				</div>
 				<div class="form_search" id="content_search_9">					
-          <button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
+					<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
 				</div>
 			</div> 
 		</div>
-	</div>
-	<hr/> 
+	</div> 
 </div>
 <div class="lead">
 	<div id="resultsPage">
@@ -184,12 +132,248 @@ $searchDatas=getSearchDatas();
 </div>
 </main>
 
+<table class="table table-striped" id="editDoc">
+	<form action="controleur.php">
+		<tbody>
+			<tr>
+				<td colspan="1">
+					<div class="well form-horizontal">
+						<fieldset>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input readonly required id="Key" name="id_doc" placeholder=<?php echo $translation["key"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder=<?php echo $translation["file"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder=<?php echo $translation["version"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="Baseline" name="Baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="Object" placeholder=<?php echo $translation["object"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["site"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input id="Site" name="Site" placeholder=<?php echo $translation["site"]?> class="form-control" value="" type="text"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["pic"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span><input id="PIC" name="PIC" placeholder=<?php echo $translation["pic"]?> class="form-control" value="" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label"><?php echo $translation["status"]?></label>
+								<div class="col-md-8 inputGroupContainer">
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="Text input with dropdown button">
+										<div class="dropdown">
+											<button class="btn btn-info btn-fill dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $translation["choose"] ?>
+												<span class="caret"></span></button>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a class="dropdown-item" href="#"><?php echo $translation["inhibited"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["intern"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["extern"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["manager"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["administrator"]?></a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["initialLanguage"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span><input id="initialLanguage" name="initialLanguage" placeholder=<?php echo $translation["initialLanguage"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</td>
+					<td colspan="1">
+						<div class="well form-horizontal">
+							<fieldset>
+								<div class="form-group" style="text-align:center">
+									<label class="radio-inline"><input type="radio" name="optradio" id="Installation"><b><?php echo $translation["installation"]?></b></label>
+									<label class="radio-inline"><input type="radio" name="optradio" id="Maintenance"><b><?php echo $translation["maintenance"]?></b></label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["product"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span><input id="Product" name="Product" placeholder=<?php echo $translation["product"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["component"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span><input id="Component" name="Component" placeholder=<?php echo $translation["component"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["translation"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translation" name="Translation" placeholder=<?php echo $translation["translation"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["project"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Project" name="Project" placeholder=<?php echo $translation["project"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["translator"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translator" name="Translator" placeholder=<?php echo $translation["translator"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="Previous reference" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["aec"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="AEC" name="AEC" placeholder=<?php echo $translation["aec"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["network"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="Network" name="Network" placeholder=<?php echo $translation["network"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</td>
+					<td colspan="1">
+						<div class="well form-horizontal">
+							<fieldset>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["vbn"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="VBN" name="VBN" placeholder=<?php echo $translation["vbn"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["blq"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span><input id="BLQ" name="BLQ" placeholder=<?php echo $translation["blq"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group shadow-textarea">
+									<label class="col-md-4 control-label"><?php echo $translation["commentaries"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><textarea class="form-control z-depth-1" id="Commentaries" rows="3"></textarea></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["work1"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work_1" name="Work 1" placeholder=<?php echo $translation["work1"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["work2"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work_2" name="Work 2" placeholder=<?php echo $translation["work2"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["work3"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work_3" name="Work 3" placeholder=<?php echo $translation["work3"]?> class="form-control" value="" type="text"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label"><?php echo $translation["work4"]?></label>
+									<div class="col-md-8 inputGroupContainer">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span><input id="Work_4" name="Work 4" placeholder=<?php echo $translation["work4"]?> class="form-control" value="" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group" style="margin:0 auto">
+										<div class="btn-group" role="group" aria-label="Basic example">
+											<button type="submit" name="action" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
+											<button type="submit" value="deleteDoc" name="action" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>
+											<button type="button" id="leaveEdit" class="btn btn-info btn-fill"><?php echo $translation["leave"]?></button>
+										</div>
+									</div>
+								</div>
+
+
+							</fieldset>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</form>
+	</table>
+
 
     <!-- Bootstrap core JavaScript
     	================================================== -->
     	<!-- Placed at the end of the document so the pages load faster -->
 
-    	<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    	<script>
+    		function editDocu() {
+    			var tabDocs = <?php echo $docJSON; ?>;
+    			console.log(tabDocs);
+    			$("#Key").val(tabDocs[this.id-1]["id_doc"]);
+    			$("#initialLanguage").val(tabDocs[this.id-1]["initial_language"]);
+    			$("#Version").val(tabDocs[this.id-1]["version"]);
+    			$("#File").val(tabDocs[this.id-1]["name"]);
+    			$("#Object").val(tabDocs[this.id-1]["subject"]);
+    			$("#Baseline").val(tabDocs[this.id-1]["GATC_baseline"]);
+    			$("#Site").val(tabDocs[this.id-1]["site"]);
+    			$("#PIC").val(tabDocs[this.id-1]["PIC"]);
+    			$("#Component").val(tabDocs[this.id-1]["component_name"]);
+    			$("#Product").val(tabDocs[this.id-1]["subsystem_name"]);
+    			$("#Project").val(tabDocs[this.id-1]["project"]);
+    			$("#Translation").val(tabDocs[this.id-1]["language"]);
+    			$("#Translator").val(tabDocs[this.id-1]["translator"]);
+    			if(tabDocs[this.id-1]["installation"]==1)
+    				$("#Installation").attr('checked',true);
+    			if(tabDocs[this.id-1]["maintenance"]==1)
+    				$("#Maintenance").attr('checked',true);
+    			$("#Commentaries").val(tabDocs[this.id-1]["remarks"]);
+    			$("#Work_1").val(tabDocs[this.id-1]["working_field_1"]);
+    			$("#Work_2").val(tabDocs[this.id-1]["working_field_2"]);
+    			$("#Work_3").val(tabDocs[this.id-1]["working_field_3"]);
+    			$("#Work_4").val(tabDocs[this.id-1]["working_field_4"]);
+    			$('#editDoc').dialog('open');
+    		}
+
+
+    		window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    	</script>
 
 
 
