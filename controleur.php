@@ -94,6 +94,14 @@ session_start();
 					}
 				}
 			break;
+
+			case 'editDocs':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					//to be continued
+				}
+				break;	
 			
 			case 'deleteUser':
 				$addArgs="?view=administration&fail=true";
@@ -107,6 +115,18 @@ session_start();
 				}
 			break;
 			
+			case 'deleteDoc':
+				$addArgs="?view=search&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					if($id=secure("id_doc"))
+					{
+						deleteDoc($id);
+						$addArgs="?view=search";
+					}
+				}
+				break;
+
 			case 'forceLogout':
 				$addArgs="?view=administration&fail=true";
 
