@@ -70,6 +70,18 @@ function updateLanguage($language,$id){
 
 // Collect datas from a search
 function getSearchDatas(){
+
+	/* Datas for Input*/
+	$SQL="SELECT name FROM document_reference";
+	$res["name"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT previous_doc FROM document_reference";
+	$res["previous_doc"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT version FROM document_version";
+	$res["version"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT pic FROM document_version";
+	$res["pic"]=parcoursRs(SQLSelect($SQL));
+
+	/* Datas for Select*/
 	$SQL="SELECT * FROM gatc_baseline";
 	$res["baseline"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT site FROM document_version";
@@ -136,6 +148,20 @@ function deleteUser($id){
 // Delete a specified document
 function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
 	//A refaire : supprimer un doc revient à le supprimer dans association table
+	$SQL="DELETE FROM document WHERE id_doc='$id'";
+	return SQLDelete($SQL);
+}
+
+
+
+function createUser($lastName, $firstName, $password, $status, $language) {
+	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+	return SQLInsert($SQL);
+}
+
+
+// Delete a specified document
+function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
 	$SQL="DELETE FROM document WHERE id_doc='$id'";
 	return SQLDelete($SQL);
 }
