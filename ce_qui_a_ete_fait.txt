@@ -16,7 +16,26 @@ bordure logo alstom page login :>
 
 Pour la langue : les langues proposées sont celles présentes dans la table users --> créer une table langue spéciale pour cela, ou ça convient ?
 
+la fonction de recherche est INCLUSIVE cela convient-il?
+
+le type : en BRUT ?
+
+format de l'exportation : txt xls, csv ?
 
 
-DEMANDER SI IL FAUT RESPECTER LES SPECIFICATIONS DE LA BDD SUR LE FICHIER ACCESS
 PRESENCE D UN CHAMP NUMERO DE DOCUMENT, A QUOI CORRESPOND-T-IL ? AU NOM DU FICHIER ? OU A L'ID ?
+RECHERCHE PAR LANGUE --> SEULEMENT SUR LA LANGUE INITIALE ?
+DEMANDER SI POSSIBLE D AVOIR LE FICHIER EXCEL D EXEMPLE
+
+
+la suite -> panneau d'administration + gestion statut utilisateurs + fonction d'import et d'export + sécurisation mdp + sécurisation globale
+
+bdd mise à jour avec des données de qualité
+mise sous forme de popup jquery ui des modifs users dans administration et dans le même style que la template details
+(switch DOM -> jquery..)
+mise en forme des résultats de la recherche + popup template details lors d'un clic sur une ligne 
+(il restera à régler qq détails (dropdown etc))
+/!\ éviter onclick et utiliser jQuery.on(...)
+template details : régler le dropdown statut et le label commentaires qui dépasse sur le textarea (en fr)
+modif des docs : boutons leave effectif, reste à faire bouton save et bouton delete (delete en fonction des clés étrangères)
+pb au niveau des id pour récupérer les data de chaque ligne (what if 1 - 2 - 8 ?) (red.id-1)

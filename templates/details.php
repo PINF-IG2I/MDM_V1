@@ -9,97 +9,59 @@
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 
-$languageList=getLanguages();
+$languageList=array_keys($languages);
 
 
 ?>
 
-<!DOCTYPE html>
-<!-- saved from url=(0064)http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/# -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>MDM - Alstom</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <!-- Bootstrap core CSS -->
-  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet">
-
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#selectLanguage").change(function(){
+      $.ajax({
+        url : "controleur.php",
+        data : {
+          'action' : 'changeLanguage',
+          'language' : $("#selectLanguage option:selected").val()
+        },
+        success : location.reload()
+      });
+    });
+  });
+</script>
 
 
-
-
-</head>
-
-<body>
-
-  <header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <span class="navbar-nav mr-auto">
-        </span>
-        <form class="form-inline mt-2 mt-md-0">
-          <select id="selectLanguage">
-            <option value="" disabled selected><?php echo $translation["language"]?></option>
-            <?php 
-
-            foreach ($languageList as $key => $value) {
-              echo "<option value='".$value["language"]."'>".$value["language"]."</option>";
-            }
-
-
-            ?>
-          </select>
-        </form>
-      </div>
-    </nav>
-  </header>
-
-  <div class="container">
-   <table class="table table-striped">
-    <tbody>
-     <tr>
-      <td colspan="1">
-       <form class="well form-horizontal">
-        <fieldset>
-         <div class="form-group">
-          <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
-          <div class="col-md-8 inputGroupContainer">
-           <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Key" name="Key" placeholder=<?php echo $translation["key"]?> class="form-control" required="true" value="" type="text"></div>
-         </div>
-       </div>
+<div class="container">
+ <table class="table table-striped">
+  <tbody>
+   <tr>
+    <td colspan="1">
+     <form class="well form-horizontal">
+      <fieldset>
        <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
+        <label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
         <div class="col-md-8 inputGroupContainer">
-         <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder=<?php echo $translation["file"]?> class="form-control" required="true" value="" type="text"></div>
+         <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Key" name="Key" placeholder=<?php echo $translation["key"]?> class="form-control" required="true" value="" type="text"></div>
        </div>
      </div>
      <div class="form-group">
-      <label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
+      <label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
       <div class="col-md-8 inputGroupContainer">
-       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder=<?php echo $translation["version"]?> class="form-control" required="true" value="" type="text"></div>
+       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="File" placeholder=<?php echo $translation["file"]?> class="form-control" required="true" value="" type="text"></div>
      </div>
    </div>
    <div class="form-group">
-    <label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
+    <label class="col-md-4 control-label"><?php echo $translation["version"]?></label>
     <div class="col-md-8 inputGroupContainer">
-     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="city" name="Baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" required="true" value="" type="text"></div>
+     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span><input id="Version" name="Version" placeholder=<?php echo $translation["version"]?> class="form-control" required="true" value="" type="text"></div>
    </div>
  </div>
  <div class="form-group">
+  <label class="col-md-4 control-label"><?php echo $translation["baseline"]?></label>
+  <div class="col-md-8 inputGroupContainer">
+   <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="city" name="Baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" required="true" value="" type="text"></div>
+ </div>
+</div>
+<div class="form-group">
   <label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
   <div class="col-md-8 inputGroupContainer">
    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="Object" placeholder=<?php echo $translation["object"]?> class="form-control" required="true" value="" type="text"></div>
@@ -129,11 +91,11 @@ $languageList=getLanguages();
         <?php echo $translation["choose"]?>
       </button>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#">Inhibé</a>
-        <a class="dropdown-item" href="#">Interne</a>
-        <a class="dropdown-item" href="#">Externe</a>
-        <a class="dropdown-item" href="#">Gestionnaire</a>
-        <a class="dropdown-item" href="#">Administrateur</a>
+        <a class="dropdown-item" href="#"><?php echo $translation["inhibited"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["intern"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["extern"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["manager"]?></a>
+        <a class="dropdown-item" href="#"><?php echo $translation["administrator"]?></a>
       </div>
     </div>
   </div>
@@ -256,7 +218,7 @@ $languageList=getLanguages();
 </div>
 </div>
 <div class="form-group">
- <div class="input-group text-center">
+ <div class="input-group" style="margin:0 auto">
   <div class="btn-group" role="group" aria-label="Basic example">
     <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
     <button type="submit" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>
@@ -273,3 +235,6 @@ $languageList=getLanguages();
 </tbody>
 </table>
 </div>
+
+
+

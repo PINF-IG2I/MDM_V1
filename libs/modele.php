@@ -3,7 +3,7 @@
 
 // inclure ici la librairie faciliant les requêtes SQL
 include_once("maLibSQL.pdo.php");
-
+include_once("maLibUtils.php");
 
 function listerUtilisateurs($classe = "both")
 {
@@ -26,6 +26,12 @@ function listerUtilisateurs($classe = "both")
 	// echo $SQL;
 	return parcoursRs(SQLSelect($SQL));
 
+}
+
+// Collect informations from every document
+function listerDocs() {
+	$SQL = "SELECT document.id_doc,version,initial_language,name,subject,site,PIC,document_version.status,component_name,subsystem_name,GATC_baseline,language,project,translator,previous_doc,installation,maintenance,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4 FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
+	return parcoursRs(SQLSelect($SQL));
 }
 
 
@@ -77,19 +83,27 @@ function getIsConnected($id){
 }
 
 
-function getLanguages(){
-	$SQL="SELECT DISTINCT language FROM users";
-	return parcoursRs(SQLSelect($SQL));
-}
-
+// Update the language of a user
 function updateLanguage($language,$id){
 	$SQL="UPDATE users SET language='$language' WHERE id_user=$id";
 
 	return SQLUpdate($SQL);
 }
 
-
+// Collect datas from a search
 function getSearchDatas(){
+
+	/* Datas for Input*/
+	$SQL="SELECT name FROM document_reference";
+	$res["name"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT previous_doc FROM document_reference";
+	$res["previous_doc"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT version FROM document_version";
+	$res["version"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT pic FROM document_version";
+	$res["pic"]=parcoursRs(SQLSelect($SQL));
+
+	/* Datas for Select*/
 	$SQL="SELECT * FROM gatc_baseline";
 	$res["baseline"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT site FROM document_version";
@@ -98,9 +112,8 @@ function getSearchDatas(){
 	$res["product"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT * FROM components";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT language FROM document_language";
+	$SQL="SELECT DISTINCT initial_language FROM document_reference";
 	$res["language"]=parcoursRs(SQLSelect($SQL));
-
 	return $res;
 }
 
@@ -108,15 +121,21 @@ function getResultsFromQuery($data){
 	$SQL="SELECT * FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
 	foreach ($data as $key => $value) {
 		if(!is_array($value)){
+			protect($key);
+			protect($value);
 			$SQL.=" AND ".$key." LIKE '".$value."'";	
 		} else {
 			if($key=="type"){
 				foreach ($value as $content) {
+					protect($value);
+					protect($content);
 					$SQL.= " AND ".$content ." = '1' ";
 				}
 			} else {
+				protect($key);
 				$SQL.= " AND ".$key." IN (";
 				foreach ($value as $content) {
+					protect($content);
 					$SQL.="'$content',";
 				}
 				$SQL=substr($SQL,0,-1);
@@ -127,6 +146,31 @@ function getResultsFromQuery($data){
 	}
 	return parcoursRs(SQLSelect($SQL));
 
+}
+
+// Edit the informations of a specified user
+function editUser($id,$lastname,$firstname,$status,$language,$password=""){
+	$SQL="UPDATE users SET last_name='$lastname', first_name='$firstname', status='$status', language='$language' ";
+	if($password!="") $SQL.= ", password='$password' ";
+	$SQL.= " WHERE id_user='$id'";
+	return SQLUpdate($SQL);
+}
+
+// Edit the informations of a specified document
+function editDoc() {
+	//todo
+}
+
+// Delete a specified user
+function deleteUser($id){
+	$SQL="DELETE FROM users WHERE id_user='$id'";
+	return SQLDelete($SQL);
+}
+
+// Delete a specified document
+function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
+	$SQL="DELETE FROM document WHERE id_doc='$id'";
+	return SQLDelete($SQL);
 }
 
 

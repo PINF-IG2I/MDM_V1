@@ -1,68 +1,111 @@
-<?php
-if (basename($_SERVER["PHP_SELF"]) != "index.php")
-{
-	header("Location:../index.php");
-	die("");
-}
-echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+<?php 
+
+
+$languageList=array_keys($languages);
+
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 
-<!-- **** H E A D **** -->
-<head>	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>MDM - v1.0</title>
-	<!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
-	<link href="css/sticky-footer.css" rel="stylesheet" />
-	<link href="bootstrap/css/light-bootstrap-dashboard.css" rel="stylesheet" />
-	<!--[if lt IE 9]>
-	  <script src="js/html5shiv.js"></script>
-	  <script src="js/respond.min.js"></script>
-	<![endif]-->
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<script src="js/jquery.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>MDM - Alstom</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+
+	<!-- Custom styles for this template -->
+
+	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
+	<link href="./css/sticky-footer.css" rel="stylesheet"/>
+
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="./js/jquery.js"></script>
+	<script src="./js/utils.js"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
 	
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	
+	
+	<script src="./bootstrap/js/popper.min.js."></script>
 </head>
-<!-- **** E N D **** H E A D **** -->
 
 
-<!-- **** B O D Y **** -->
+
+
+
 <body>
+	<!-- **** B O D Y **** -->
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<div id="header">
+				<span class="navbar-nav mr-auto">
+				</span>
+				<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
+				
+				<div id="content_header">
+					<?php
+					if (secure("status","SESSION") == "Administrator")
+					{
+						echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
+					}
 
-	<!-- inspired from http://www.bootstrapzero.com/bootstrap-template/sticky-footer --> 
+						// If the user is connected, a logout link is displayed
+					if (secure("isConnected","SESSION"))
+					{
+						echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+					}?>
 
-	<!-- Wrap all page content here -->
-	<div id="wrap">
+					<form id="form_language" class="form-inline mt-2 mt-md-0" >
+						<select id="selectLanguage" class="custom-select">
+							<option value="" disabled selected><?php echo $translation["language"]?></option>
+							<?php 
 
-		<!-- Fixed navbar -->
-		<div class="navbar navbar-default navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="index.php?view=accueil">MDM 2018</a>
+							foreach ($languageList as $key => $value) {
+								echo "<option value='".$value."'>".$value."</option>";
+							}
+
+							?>
+						</select>
+					</form>
 				</div>
-				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<!-- <li class="active"><a href="index.php?view=accueil">Accueil</a></li> -->
-						<?=mkHeadLink("Home","accueil",$view)?>
-						<?php
-						// If the user is not connected, we display a login link
-						if (!secure("isConnected","SESSION"))
-							echo mkHeadLink("Login","login",$view); 
-						?>
-					</ul>
-				</div><!--/.nav-collapse -->
 			</div>
-		</div>
+		</nav>
+	</header>
 
 
 
-		<!-- Begin page content -->
-		<div class="container">
+<!--
+
+  <header>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Disabled</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+  </header>-->

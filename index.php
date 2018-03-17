@@ -15,6 +15,9 @@ include_once "libs/maLibUtils.php";
 include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
 
+
+ob_start();
+
 	// The potential view is collected
 $view = secure("view"); 
 	/* secure do the code that follows :
@@ -24,15 +27,20 @@ $view = secure("view");
 	}*/
 
 	// If the user is not connected, the login page is displayed
-	if($_SESSION==array())
-		$view="login";
-	if (!$view) $view = "search"; 
-
+	// if($_SESSION==array())
+	// 	$view="login";
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
-		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
+		header("Location:./index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
+	}
+	if (!$view) {
+		if(secure("isConnected","SESSION"))
+			$view = "search";
+		else
+			$view="login"; 
 	}	
+
 
 	// The template linked to its view is displayed
 	switch($view)
@@ -40,9 +48,14 @@ $view = secure("view");
 
 		default : // if the template corresponding to the view exists, it is displayed
 		if (file_exists("templates/$view.php")){
-			if(file_exists("translations/".$view."_translations.php"))
-				include("translations/".$view."_translations.php");
-			include("templates/$view.php");
+				if($view!="login"){
+					include_once("./translations/header_translations.php");
+					include("templates/header.php");
+				}
+				if(file_exists("./translations/".$view."_translations.php"))
+					include("./translations/".$view."_translations.php");
+				include("./templates/$view.php");
+			
 
 		}
 
@@ -54,10 +67,12 @@ $view = secure("view");
 		include("templates/footer.php");
 
 
-	
-	?>
+ob_flush();	
+?>
 
 
+
+</html>
 
 
 
