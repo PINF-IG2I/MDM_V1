@@ -23,29 +23,75 @@ $docJSON = json_encode($docs);
 		<h1><?php echo $translation["titlePage"]?></h1>
 		<div id="headerSearch">
 
+
+	<?php
+		foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
+		$name = "[";
+		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+		$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+
+		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
+			[]= $value["previous_doc"];
+		$previous_doc = "[";
+		for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+		$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+
+		foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+		$version = "[";
+		for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+		$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+
+		foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+		$pic = "[";
+		for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+		$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+
+
+
+
+
+	?>
+<script>
+  	$(document).ready( function() {
+
+		var autocompleteName = <?php echo $name; ?>;
+		var autopreviousDoc= <?php echo $previous_doc; ?>;
+		var autoversion= <?php echo $version; ?>;
+		var autopic= <?php echo $pic; ?>;
+	    $( "#doc_number" ).autocomplete({ source: autocompleteName });
+	    $( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
+	    $( "#version" ).autocomplete({ source: autoversion });
+	    $( "#pic" ).autocomplete({ source: autopic });
+	});
+</script>
+
+<!-- Begin page content -->
+<main role="main" class="container">
+	<div class="page-header">
+		<h1><?php echo $translation["titlePage"]?></h1>
+		<div id="headerSearch">
+
 			<div id="form"> <!-- see Jquery function -->
 
 				<div id="content_search_1">
 					<div class="form_search">
 						<label for="name"><?php echo $translation["doc_number"] ?></label>
-						<input type="text" name="name"/>
+						<input id="doc_number" type="text" name="name"/>
 					</div> 
 					<div class="form_search">
 						<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
-						<input type="text" name="previous_doc"/>
+						<input id="previous_ref" type="text" name="previous_doc"/>
 					</div>	
 				</div>
-
-
 				<div id="content_search_2">
 					<div class="form_search">
 						<label for="version"><?php echo $translation["version"] ?></label>
-						<input type="text" name="version"/>
+						<input id="version" type="text" name="version"/>
 					</div>
 
 					<div class="form_search" >
 						<label for="pic"><?php echo $translation["pic"] ?></label>
-						<input type="text" name="pic"/>
+						<input id="pic" type="text" name="pic"/>
 					</div>
 				</div>
 

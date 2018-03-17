@@ -244,8 +244,6 @@ $userJSON=json_encode($users);
 				modal:true
 			});
 			$('#editUser').dialog('close');
-			
-
 		});
 
 		//Display the block editUser
