@@ -17,13 +17,18 @@ $docJSON = json_encode($docs);
 
 ?>
 
+<!-- Begin page content -->
+<main role="main" class="container">
+	<div class="page-header">
+		<h1><?php echo $translation["titlePage"]?></h1>
+		<div id="headerSearch">
+
 
 	<?php
 		foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
 		$name = "[";
 		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
 		$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
-
 
 		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
 			[]= $value["previous_doc"];
@@ -78,8 +83,6 @@ $docJSON = json_encode($docs);
 						<input id="previous_ref" type="text" name="previous_doc"/>
 					</div>	
 				</div>
-
-
 				<div id="content_search_2">
 					<div class="form_search">
 						<label for="version"><?php echo $translation["version"] ?></label>

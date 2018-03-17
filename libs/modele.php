@@ -167,6 +167,14 @@ function deleteUser($id){
 	return SQLDelete($SQL);
 }
 
+
+
+function createUser($lastName, $firstName, $password, $status, $language) {
+	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+	return SQLInsert($SQL);
+}
+
+
 // Delete a specified document
 function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
 	$SQL="DELETE FROM document WHERE id_doc='$id'";

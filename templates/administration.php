@@ -25,14 +25,14 @@ $userJSON=json_encode($users);
 	<!-- USER MANAGEMENT -->
 	<center><h3><?php echo $translation["user_management"]?></h3></center>
 	<form class="form-inline">
-		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-4 col-lg-offset-4" type="text" placeholder="<?php echo $translation["user_name"]?>" />
+		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-5 col-lg-offset-5" type="text" placeholder="<?php echo $translation["user_name"]?>" />
 		<button type="submit" class="btn btn-primary"><?php echo $translation["search"]?></button>
 	</form><br/>
-	<button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+	<button data-toggle="modal" data-target="#createUser" type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
 	<div id="tabUsers" >
 		<center>
-			<table class="table table-hover">
-				<tr>
+			<table style="user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none;" class="table table-hover">
+				<tr style="cursor:not-allowed;">
 					<th><?php echo $translation["number"]?></th>
 					<th><?php echo $translation["last_name"]?></th>
 					<th><?php echo $translation["first_name"]?></th>
@@ -43,7 +43,7 @@ $userJSON=json_encode($users);
 				<?php
 				foreach ($users as $tabUsers)
 				{
-					echo "<tr onclick='editUser(this)' id='$tabUsers[id_user]'>";
+					echo "<tr style='cursor: pointer;' onclick='editUser(this)' id='$tabUsers[id_user]'>";
 					echo "<td>$tabUsers[id_user]</td>";
 					echo "<td>$tabUsers[last_name]</td>";
 					echo "<td>$tabUsers[first_name]</td>";
@@ -64,37 +64,37 @@ $userJSON=json_encode($users);
 		<tbody>
 			<tr>
 				<div>
-					<center><h3><strong><?php echo $translation["user"]?></strong></h3></center>
+					<!--<center><h3><strong><?php echo $translation["user"]?></strong></h3></center>-->
 					<td colspan="1">
 						<form class="well form-horizontal" action="controleur.php" >
 							<fieldset>
 								<div class="form-group">
 									<label for="number" class="col-md-4 control-label"><?php echo $translation["number"]?></label>
-									<div class="col-xs-4 inputGroupContainer">
+									<div class="col-xs-7 inputGroupContainer">
 										<input readonly required id="number" name="number" class="form-control" type="text" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="password" class="col-md-4 control-label"><?php echo $translation["password"]?></label>
-									<div class="col-xs-4 inputGroupContainer">
+									<div class="col-xs-7 inputGroupContainer">
 										<input id="password" name="password" class="form-control" type="password" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="last_name" class="col-md-4 control-label"><?php echo $translation["last_name"]?></label>
-									<div class="col-sm-4 inputGroupContainer">
+									<div class="col-sm-7 inputGroupContainer">
 										<input required id="last_name" name="last_name" class="form-control" type="text" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="first_name" class="col-md-4 control-label"><?php echo $translation["first_name"]?></label>
-									<div class="col-sm-4 inputGroupContainer">
+									<div class="col-sm-7 inputGroupContainer">
 										<input required id="first_name" name="first_name" class="form-control" type="text" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="language" class="col-md-4 control-label"><?php echo $translation["language"]?></label>
-									<div class="col-sm-4 inputGroupContainer">
+									<div class="col-sm-7 inputGroupContainer">
 										<select id="language" name="language" class="form-control">
 											<option value="" disabled selected><?php echo $translation["language"]?></option>
 											<?php 
@@ -107,19 +107,19 @@ $userJSON=json_encode($users);
 								</div>
 								<div class="form-group">
 									<label for="status" class="col-md-4 control-label"><?php echo $translation["status"]?></label>
-									<div class="col-sm-4 inputGroupContainer">
+									<div class="col-sm-7 inputGroupContainer">
 										<select id="status" name="status" class="form-control">
 											<option value="" disabled selected><?php echo $translation["status"]?></option>
-											<option value="Interne"><?php echo $translation["internal"]?></option>
-											<option value="Externe"><?php echo $translation["external"]?></option>
-											<option value="Inhibé"><?php echo $translation["inhibited"]?></option>
-											<option value="Gestionnaire"><?php echo $translation["manager"]?></option>
-											<option value="Administrateur"><?php echo $translation["administrator"]?></option>
+											<option value="Internal"><?php echo $translation["internal"]?></option>
+											<option value="External"><?php echo $translation["external"]?></option>
+											<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+											<option value="Manager"><?php echo $translation["manager"]?></option>
+											<option value="Administrator"><?php echo $translation["administrator"]?></option>
 										</select>
 									</div>
 								</div><br/>
 								<center><button id="changeUser" type="submit" class="btn btn-success" name="action" value="editUser"><?php echo $translation["edit"]?></button>
-									<button id="deleteUser" type="submit" class="btn btn-danger" vname="action"><?php echo $translation["delete"]?></button></center>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUser"><?php echo $translation["delete"]?></button></center>
 								</form><br/>
 							</fieldset>
 						</form>
@@ -128,7 +128,96 @@ $userJSON=json_encode($users);
 			</tr></tbody></table>
 		</div>
 		<!-- END HIDDEN BOX TO EDIT USER -->
+		<!-- HIDDEN BOX TO CREATE USER -->
+		<div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="modalLabelCreate">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalLabelCreate"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?php echo $translation["create_user"] ?></h4>
+			  </div>
+			  <div class="modal-body">
+				<form class="well form-horizontal" action="controleur.php" >
+					<fieldset>
+						<div class="form-group">
+							<label for="last_name" class="col-md-4 control-label"><?php echo $translation["last_name"]?></label>
+							<div class="col-sm-7 inputGroupContainer">
+								<input required id="last_name" name="last_name" class="form-control" type="text" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="first_name" class="col-md-4 control-label"><?php echo $translation["first_name"]?></label>
+							<div class="col-sm-7 inputGroupContainer">
+								<input required id="first_name" name="first_name" class="form-control" type="text" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-md-4 control-label"><?php echo $translation["password"]?></label>
+							<div class="col-xs-7 inputGroupContainer">
+								<input required id="password" name="password" class="form-control" type="password" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="language" class="col-md-4 control-label"><?php echo $translation["language"]?></label>
+							<div class="col-sm-7 inputGroupContainer">
+								<select required id="language" name="language" class="form-control">
+									<option value="" disabled selected><?php echo $translation["language"]?></option>
+									<?php 
+									foreach ($languageList as $key => $value) {
+										echo "<option value='".$value."'>".$value."</option>";
+									}
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="status" class="col-md-4 control-label"><?php echo $translation["status"]?></label>
+							<div class="col-sm-7 inputGroupContainer">
+								<select required id="status" name="status" class="form-control">
+									<option value="" disabled selected><?php echo $translation["status"]?></option>
+									<option value="Internal"><?php echo $translation["internal"]?></option>
+									<option value="External"><?php echo $translation["external"]?></option>
+									<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+									<option value="Manager"><?php echo $translation["manager"]?></option>
+									<option value="Administrator"><?php echo $translation["administrator"]?></option>
+								</select>
+							</div>
+						</div><br/>
+						<center><button id="createUser" type="submit" class="btn btn-success" name="action" value="createUser"><?php echo $translation["create_user"]?></button></center>
+						</form><br/>
+					</fieldset>
+				</form>
+			  </div>
+			  <div class="modal-footer">
+			  </div>
+			</div>
+		  </div>
+</div>
+		<!-- END HIDDEN BOX TO CREATE USER -->
 
+		<!-- HIDDEN DIALOG TO DELETE USER -->
+		<div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalLabel">Important</h4>
+			  </div>
+			  <div class="modal-body">
+				<p id="messageDelete"></p>
+			  </div>
+			  <div class="modal-footer">
+				<form action="controleur.php">
+					<input id="numberDeleteUser" type="hidden" name="number" value="" />
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+					<button type="submit" name="action" value="deleteUser" class="btn btn-danger"><?php echo $translation["delete_user"]?></button>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<!-- END HIDDEN DIALOG TO DELETE USER -->
+		
 		<!-- END USER MANAGEMENT -->
 
 		<!-- DATABASE MANAGEMENT -->
@@ -143,7 +232,6 @@ $userJSON=json_encode($users);
 			</center>
 		</div>
 		<!-- END DATABASE MANAGEMENT -->
-
 	</div>
 
 	<script>
@@ -158,6 +246,7 @@ $userJSON=json_encode($users);
 			$('#editUser').dialog('close');
 		});
 
+		//Display the block editUser
 		function editUser(ref) {
 			var tabUsers=<?php echo $userJSON; ?>;
 			console.log(tabUsers);
@@ -166,7 +255,14 @@ $userJSON=json_encode($users);
 			$("#first_name").val(tabUsers[ref.id-1]["first_name"]);
 			$("#language").val(tabUsers[ref.id-1]["language"]);
 			$("#status").val(tabUsers[ref.id-1]["status"]);
+			$("#numberDeleteUser").val(tabUsers[ref.id-1]["id_user"]);
+			$("#messageDelete").html("<?php echo $translation["sure_delete_user"]?> <strong>"+tabUsers[ref.id-1]['first_name']+" "+tabUsers[ref.id-1]['last_name']+"</strong>?");
 			$('#editUser').dialog('open');
+		}
+		
+		//Display the block createUser
+		function createUser() {
+			$('#createUser').dialog('open');
 		}
 
 	</script>
