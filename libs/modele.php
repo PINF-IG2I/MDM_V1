@@ -160,11 +160,6 @@ function createUser($lastName, $firstName, $password, $status, $language) {
 }
 
 
-// Delete a specified document
-function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
-	$SQL="DELETE FROM document WHERE id_doc='$id'";
-	return SQLDelete($SQL);
-}
 
 
 ?>
