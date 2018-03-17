@@ -114,7 +114,24 @@ session_start();
 					}
 				}
 			break;
-			
+
+			case 'createUser':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					$lastName=secure("last_name");
+					$firstName=secure("first_name");
+					$password=secure("password");
+					$status=secure("status");
+					$language=secure("language");
+					if ($lastName && $firstName && $password && $status && $language)
+					{
+						createUser($lastName,$firstName,$password,$status,$language);
+						$addArgs="?view=administration";
+					}
+				}
+			break;
+
 			case 'deleteDoc':
 				$addArgs="?view=search&fail=true";
 				if (secure("status","SESSION")=="Administrator")
