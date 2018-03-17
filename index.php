@@ -31,7 +31,7 @@ $view = secure("view");
 	// 	$view="login";
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
-		header("Location:index.php?view=login&msg=".urlencode("You have been logged out."));
+		header("Location:./index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
 	}
 	if (!$view) {
@@ -49,12 +49,12 @@ $view = secure("view");
 		default : // if the template corresponding to the view exists, it is displayed
 		if (file_exists("templates/$view.php")){
 				if($view!="login"){
-					include_once("translations/header_translations.php");
+					include_once("./translations/header_translations.php");
 					include("templates/header.php");
 				}
-				if(file_exists("translations/".$view."_translations.php"))
-					include("translations/".$view."_translations.php");
-				include("templates/$view.php");
+				if(file_exists("./translations/".$view."_translations.php"))
+					include("./translations/".$view."_translations.php");
+				include("./templates/$view.php");
 			
 
 		}

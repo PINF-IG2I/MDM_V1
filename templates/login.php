@@ -11,6 +11,11 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
   die("");
 }
 
+if(secure("isConnected","SESSION")){
+  header("Location: index.php?view=search");
+  die(""); 
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

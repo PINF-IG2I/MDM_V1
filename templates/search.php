@@ -6,16 +6,61 @@
 * \version
 */
 
-redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
+redirect("./index.php?view=login&msg=".urlencode("You need to be logged in."));
 
-//include "/../translations/search_translations.php";
+
 $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
-$docs = listerDocs();
-$docJSON = json_encode($docs);
+
+// $docs = listerDocs();
+// $docJSON = json_encode($docs);
+
 
 ?>
+
+
+
+<?php
+foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
+$name = "[";
+for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+
+foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
+	[]= $value["previous_doc"];
+$previous_doc = "[";
+for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+
+foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+$version = "[";
+for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+	$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+
+foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+$pic = "[";
+for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+
+
+
+
+
+?>
+<script>
+	$(document).ready( function() {
+
+		var autocompleteName = <?php echo $name; ?>;
+		var autopreviousDoc= <?php echo $previous_doc; ?>;
+		var autoversion= <?php echo $version; ?>;
+		var autopic= <?php echo $pic; ?>;
+		$( "#doc_number" ).autocomplete({ source: autocompleteName });
+		$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
+		$( "#version" ).autocomplete({ source: autoversion });
+		$( "#pic" ).autocomplete({ source: autopic });
+	});
+</script>
 
 <!-- Begin page content -->
 <main role="main" class="container">
@@ -28,24 +73,22 @@ $docJSON = json_encode($docs);
 				<div id="content_search_1">
 					<div class="form_search">
 						<label for="name"><?php echo $translation["doc_number"] ?></label>
-						<input type="text" name="name"/>
+						<input id="doc_number" type="text" name="name"/>
 					</div> 
 					<div class="form_search">
 						<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
-						<input type="text" name="previous_doc"/>
+						<input id="previous_ref" type="text" name="previous_doc"/>
 					</div>	
 				</div>
-
-
 				<div id="content_search_2">
 					<div class="form_search">
 						<label for="version"><?php echo $translation["version"] ?></label>
-						<input type="text" name="version"/>
+						<input id="version" type="text" name="version"/>
 					</div>
 
 					<div class="form_search" >
 						<label for="pic"><?php echo $translation["pic"] ?></label>
-						<input type="text" name="pic"/>
+						<input id="pic" type="text" name="pic"/>
 					</div>
 				</div>
 
@@ -132,11 +175,17 @@ $docJSON = json_encode($docs);
 </div>
 </main>
 
-<table class="table table-striped" id="editDoc">
-	<form action="controleur.php">
-		<tbody>
-			<tr>
-				<td colspan="1">
+<div class="modal fade" id="editDoc" tabindex="-1" role="dialog" aria-labelledby="modalLabelCreate">
+	<form  action="controleur.php">
+		<div class="modal-dialog" role="document" style="width:80%;height:100%">
+			<div class="modal-content" style="height:100%;overflow:auto">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabelCreate"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <?php echo $translation["update_document"] ?></h4>
+				</div>
+				<div class="modal-body" style="overflow-x:auto">
+					<table class="table table-striped" id="editDoc">
+					<td>
 					<div class="well form-horizontal">
 						<fieldset>
 							<div class="form-group">
@@ -192,11 +241,11 @@ $docJSON = json_encode($docs);
 											<button class="btn btn-info btn-fill dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $translation["choose"] ?>
 												<span class="caret"></span></button>
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a class="dropdown-item" href="#"><?php echo $translation["inhibited"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["intern"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["extern"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["manager"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["administrator"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["internal"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["public"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["draft"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["future"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["obsolete"]?></a></li>
 												</ul>
 											</div>
 										</div>
@@ -323,7 +372,7 @@ $docJSON = json_encode($docs);
 										<div class="btn-group" role="group" aria-label="Basic example">
 											<button type="submit" name="action" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
 											<button type="submit" value="deleteDoc" name="action" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>
-											<button type="submit" id="leaveEdit" class="btn btn-info btn-fill"><?php echo $translation["leave"]?></button>
+											<button type="button" id="leaveEdit" class="btn btn-info btn-fill"><?php echo $translation["leave"]?></button>
 										</div>
 									</div>
 								</div>
@@ -332,10 +381,13 @@ $docJSON = json_encode($docs);
 							</fieldset>
 						</div>
 					</td>
-				</tr>
-			</tbody>
-		</form>
-	</table>
+				</div>
+			</table>
+			</div>
+		</div>
+	</form>
+</div>
+
 
 
     <!-- Bootstrap core JavaScript
@@ -344,31 +396,31 @@ $docJSON = json_encode($docs);
 
     	<script>
     		function editDocu() {
-    			var tabDocs = <?php echo $docJSON; ?>;
     			console.log(tabDocs);
-    			$("#Key").val(tabDocs[this.id-1]["id_doc"]);
-    			$("#initialLanguage").val(tabDocs[this.id-1]["initial_language"]);
-    			$("#Version").val(tabDocs[this.id-1]["version"]);
-    			$("#File").val(tabDocs[this.id-1]["name"]);
-    			$("#Object").val(tabDocs[this.id-1]["subject"]);
-    			$("#Baseline").val(tabDocs[this.id-1]["GATC_baseline"]);
-    			$("#Site").val(tabDocs[this.id-1]["site"]);
-    			$("#PIC").val(tabDocs[this.id-1]["PIC"]);
-    			$("#Component").val(tabDocs[this.id-1]["component_name"]);
-    			$("#Product").val(tabDocs[this.id-1]["subsystem_name"]);
-    			$("#Project").val(tabDocs[this.id-1]["project"]);
-    			$("#Translation").val(tabDocs[this.id-1]["language"]);
-    			$("#Translator").val(tabDocs[this.id-1]["translator"]);
-    			if(tabDocs[this.id-1]["installation"]==1)
+    			var index=$("#tableResults tr").index(this);
+    			$("#Key").val(tabDocs[index]["id_doc"]);
+    			$("#initialLanguage").val(tabDocs[index]["initial_language"]);
+    			$("#Version").val(tabDocs[index]["version"]);
+    			$("#File").val(tabDocs[index]["name"]);
+    			$("#Object").val(tabDocs[index]["subject"]);
+    			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
+    			$("#Site").val(tabDocs[index]["site"]);
+    			$("#PIC").val(tabDocs[index]["PIC"]);
+    			$("#Component").val(tabDocs[index]["component_name"]);
+    			$("#Product").val(tabDocs[index]["subsystem_name"]);
+    			$("#Project").val(tabDocs[index]["project"]);
+    			$("#Translation").val(tabDocs[index]["language"]);
+    			$("#Translator").val(tabDocs[index]["translator"]);
+    			if(tabDocs[index]["installation"]==1)
     				$("#Installation").attr('checked',true);
-    			if(tabDocs[this.id-1]["maintenance"]==1)
+    			if(tabDocs[index]["maintenance"]==1)
     				$("#Maintenance").attr('checked',true);
-    			$("#Commentaries").val(tabDocs[this.id-1]["remarks"]);
-    			$("#Work_1").val(tabDocs[this.id-1]["working_field_1"]);
-    			$("#Work_2").val(tabDocs[this.id-1]["working_field_2"]);
-    			$("#Work_3").val(tabDocs[this.id-1]["working_field_3"]);
-    			$("#Work_4").val(tabDocs[this.id-1]["working_field_4"]);
-    			$('#editDoc').dialog('open');
+    			$("#Commentaries").val(tabDocs[index]["remarks"]);
+    			$("#Work_1").val(tabDocs[index]["working_field_1"]);
+    			$("#Work_2").val(tabDocs[index]["working_field_2"]);
+    			$("#Work_3").val(tabDocs[index]["working_field_3"]);
+    			$("#Work_4").val(tabDocs[index]["working_field_4"]);
+    			// $('#editDoc').dialog('open');
     		}
 
 

@@ -5,7 +5,7 @@
 include_once("maLibSQL.pdo.php");
 include_once("maLibUtils.php");
 
-function listerUtilisateurs($classe = "both")
+function listUsers()
 {
 	// NB : la présence du symbole '=' indique la valeur par défaut du paramètre s'il n'est pas fourni
 	// Cette fonction liste les utilisateurs de la base de données 
@@ -17,13 +17,8 @@ function listerUtilisateurs($classe = "both")
 	// Lorsqu'elle vaut "bl", elle ne renvoie que les utilisateurs blacklistés
 	// Lorsqu'elle vaut "nbl", elle ne renvoie que les utilisateurs non blacklistés
 
-	$SQL = "select * from users";
-	if ($classe == "bl")
-		$SQL .= " where blacklist=1";
-	if ($classe == "nbl")
-		$SQL .= " where blacklist=0";
-	
-	// echo $SQL;
+	$SQL = "select * from users ORDER BY id_user";
+
 	return parcoursRs(SQLSelect($SQL));
 
 }
@@ -35,23 +30,6 @@ function listerDocs() {
 }
 
 
-function interdireUtilisateur($idUser)
-{
-	// cette fonction affecte le booléen "blacklist" à vrai
-	$SQL = "UPDATE users SET blacklist=1 WHERE id='$idUser'";
-	// les apostrophes font partie de la sécurité !! 
-	// Il faut utiliser addslashes lors de la récupération 
-	// des données depuis les formulaires
-
-	SQLUpdate($SQL);
-}
-
-function autoriserUtilisateur($idUser)
-{
-	// cette fonction affecte le booléen "blacklist" à faux 
-	$SQL = "UPDATE users SET blacklist=0 WHERE id='$idUser'";
-	SQLUpdate($SQL);
-}
 
 function checkUserDB($login,$password)
 {
@@ -92,6 +70,18 @@ function updateLanguage($language,$id){
 
 // Collect datas from a search
 function getSearchDatas(){
+
+	/* Datas for Input*/
+	$SQL="SELECT name FROM document_reference";
+	$res["name"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT previous_doc FROM document_reference";
+	$res["previous_doc"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT version FROM document_version";
+	$res["version"]=parcoursRs(SQLSelect($SQL));
+	$SQL="SELECT pic FROM document_version";
+	$res["pic"]=parcoursRs(SQLSelect($SQL));
+
+	/* Datas for Select*/
 	$SQL="SELECT * FROM gatc_baseline";
 	$res["baseline"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT site FROM document_version";
@@ -100,7 +90,7 @@ function getSearchDatas(){
 	$res["product"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT * FROM components";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT initial_language FROM document_reference";
+	$SQL="SELECT DISTINCT initial_language, language FROM document_reference,document_language";
 	$res["language"]=parcoursRs(SQLSelect($SQL));
 	return $res;
 }
@@ -157,8 +147,33 @@ function deleteUser($id){
 
 // Delete a specified document
 function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
+	//A refaire : supprimer un doc revient à le supprimer dans association table
 	$SQL="DELETE FROM document WHERE id_doc='$id'";
 	return SQLDelete($SQL);
+}
+
+
+
+function createUser($lastName, $firstName, $password, $status, $language) {
+	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+	return SQLInsert($SQL);
+}
+
+// Delete all the data from the database
+function deleteDatabase() {
+	$SQL="SET FOREIGN_KEY_CHECKS = 0; 
+	DELETE FROM document; 
+	DELETE FROM document_language; 
+	DELETE FROM association_table; 
+	DELETE FROM components; 
+	DELETE FROM document_reference; 
+	DELETE FROM document_version; 
+	DELETE FROM etcs_subsystem; 
+	DELETE FROM gatc_baseline; 
+	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
+	SET FOREIGN_KEY_CHECKS = 1;";
+	return SQLUpdate($SQL);
+
 }
 
 
