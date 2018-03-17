@@ -114,7 +114,7 @@ session_start();
 					}
 				}
 			break;
-			
+
 			case 'createUser':
 				$addArgs="?view=administration&fail=true";
 				if (secure("status","SESSION")=="Administrator")
@@ -131,7 +131,7 @@ session_start();
 					}
 				}
 			break;
-			
+
 			case 'deleteDoc':
 				$addArgs="?view=search&fail=true";
 				if (secure("status","SESSION")=="Administrator")

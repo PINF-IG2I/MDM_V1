@@ -64,6 +64,7 @@ $userJSON=json_encode($users);
 		<tbody>
 			<tr>
 				<div>
+					<!--<center><h3><strong><?php echo $translation["user"]?></strong></h3></center>-->
 					<td colspan="1">
 						<form class="well form-horizontal" action="controleur.php" >
 							<fieldset>
@@ -127,7 +128,6 @@ $userJSON=json_encode($users);
 			</tr></tbody></table>
 		</div>
 		<!-- END HIDDEN BOX TO EDIT USER -->
-		
 		<!-- HIDDEN BOX TO CREATE USER -->
 		<div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="modalLabelCreate">
 		  <div class="modal-dialog" role="document">
@@ -192,8 +192,7 @@ $userJSON=json_encode($users);
 			  </div>
 			</div>
 		  </div>
-		</div>
-	
+</div>
 		<!-- END HIDDEN BOX TO CREATE USER -->
 
 		<!-- HIDDEN DIALOG TO DELETE USER -->
@@ -219,7 +218,6 @@ $userJSON=json_encode($users);
 		</div>
 		<!-- END HIDDEN DIALOG TO DELETE USER -->
 		
-		
 		<!-- END USER MANAGEMENT -->
 
 		<!-- DATABASE MANAGEMENT -->
@@ -234,7 +232,6 @@ $userJSON=json_encode($users);
 			</center>
 		</div>
 		<!-- END DATABASE MANAGEMENT -->
-
 	</div>
 
 	<script>
@@ -269,6 +266,5 @@ $userJSON=json_encode($users);
 		function createUser() {
 			$('#createUser').dialog('open');
 		}
-
 
 	</script>

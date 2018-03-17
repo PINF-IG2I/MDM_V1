@@ -155,7 +155,7 @@ function deleteUser($id){
 	return SQLDelete($SQL);
 }
 
-// Create a user
+
 function createUser($lastName, $firstName, $password, $status, $language) {
 	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
 	return SQLInsert($SQL);

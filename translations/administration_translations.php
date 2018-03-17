@@ -61,6 +61,7 @@ $languages= array(
 		'close' => 'Fermer'
 
 
+
 	)
 
 );
