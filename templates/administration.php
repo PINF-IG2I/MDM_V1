@@ -16,7 +16,7 @@ if (secure("status","SESSION")!="Administrator")
 
 include_once "libs/modele.php";
 
-$users=listerUtilisateurs();
+$users=listUsers();
 $userJSON=json_encode($users);
 
 ?>
@@ -264,5 +264,4 @@ $userJSON=json_encode($users);
 		function createUser() {
 			$('#createUser').dialog('open');
 		}
-
 	</script>

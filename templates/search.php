@@ -12,16 +12,13 @@ redirect("./index.php?view=login&msg=".urlencode("You need to be logged in."));
 $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
-$docs = listerDocs();
-$docJSON = json_encode($docs);
+
+// $docs = listerDocs();
+// $docJSON = json_encode($docs);
+
 
 ?>
 
-<!-- Begin page content -->
-<main role="main" class="container">
-	<div class="page-header">
-		<h1><?php echo $translation["titlePage"]?></h1>
-		<div id="headerSearch">
 
 
 	<?php
@@ -238,11 +235,11 @@ $docJSON = json_encode($docs);
 											<button class="btn btn-info btn-fill dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $translation["choose"] ?>
 												<span class="caret"></span></button>
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a class="dropdown-item" href="#"><?php echo $translation["inhibited"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["intern"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["extern"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["manager"]?></a></li>
-													<li><a class="dropdown-item" href="#"><?php echo $translation["administrator"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["internal"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["public"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["draft"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["future"]?></a></li>
+													<li><a class="dropdown-item" href="#"><?php echo $translation["obsolete"]?></a></li>
 												</ul>
 											</div>
 										</div>
@@ -390,30 +387,30 @@ $docJSON = json_encode($docs);
 
     	<script>
     		function editDocu() {
-    			var tabDocs = <?php echo $docJSON; ?>;
     			console.log(tabDocs);
-    			$("#Key").val(tabDocs[this.id-1]["id_doc"]);
-    			$("#initialLanguage").val(tabDocs[this.id-1]["initial_language"]);
-    			$("#Version").val(tabDocs[this.id-1]["version"]);
-    			$("#File").val(tabDocs[this.id-1]["name"]);
-    			$("#Object").val(tabDocs[this.id-1]["subject"]);
-    			$("#Baseline").val(tabDocs[this.id-1]["GATC_baseline"]);
-    			$("#Site").val(tabDocs[this.id-1]["site"]);
-    			$("#PIC").val(tabDocs[this.id-1]["PIC"]);
-    			$("#Component").val(tabDocs[this.id-1]["component_name"]);
-    			$("#Product").val(tabDocs[this.id-1]["subsystem_name"]);
-    			$("#Project").val(tabDocs[this.id-1]["project"]);
-    			$("#Translation").val(tabDocs[this.id-1]["language"]);
-    			$("#Translator").val(tabDocs[this.id-1]["translator"]);
-    			if(tabDocs[this.id-1]["installation"]==1)
+    			var index=$("#tableResults tr").index(this);
+    			$("#Key").val(tabDocs[index]["id_doc"]);
+    			$("#initialLanguage").val(tabDocs[index]["initial_language"]);
+    			$("#Version").val(tabDocs[index]["version"]);
+    			$("#File").val(tabDocs[index]["name"]);
+    			$("#Object").val(tabDocs[index]["subject"]);
+    			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
+    			$("#Site").val(tabDocs[index]["site"]);
+    			$("#PIC").val(tabDocs[index]["PIC"]);
+    			$("#Component").val(tabDocs[index]["component_name"]);
+    			$("#Product").val(tabDocs[index]["subsystem_name"]);
+    			$("#Project").val(tabDocs[index]["project"]);
+    			$("#Translation").val(tabDocs[index]["language"]);
+    			$("#Translator").val(tabDocs[index]["translator"]);
+    			if(tabDocs[index]["installation"]==1)
     				$("#Installation").attr('checked',true);
-    			if(tabDocs[this.id-1]["maintenance"]==1)
+    			if(tabDocs[index]["maintenance"]==1)
     				$("#Maintenance").attr('checked',true);
-    			$("#Commentaries").val(tabDocs[this.id-1]["remarks"]);
-    			$("#Work_1").val(tabDocs[this.id-1]["working_field_1"]);
-    			$("#Work_2").val(tabDocs[this.id-1]["working_field_2"]);
-    			$("#Work_3").val(tabDocs[this.id-1]["working_field_3"]);
-    			$("#Work_4").val(tabDocs[this.id-1]["working_field_4"]);
+    			$("#Commentaries").val(tabDocs[index]["remarks"]);
+    			$("#Work_1").val(tabDocs[index]["working_field_1"]);
+    			$("#Work_2").val(tabDocs[index]["working_field_2"]);
+    			$("#Work_3").val(tabDocs[index]["working_field_3"]);
+    			$("#Work_4").val(tabDocs[index]["working_field_4"]);
     			$('#editDoc').dialog('open');
     		}
 

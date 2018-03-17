@@ -1,3 +1,4 @@
+	var tabDocs;
 	$(document).ready(function(){
 
 		//When the user wants to leave the edit box
@@ -43,8 +44,9 @@
 				function(oRep){	
 					console.log(oRep);
 					if(oRep.length!=0) {
+					tabDocs=oRep;
 						var oTable = $("<table>").attr("class","table table-hover");
-						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead><tbody>");
+						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead><tbody id='tableResults'>");
 						$.each(oRep,function(i,val) {
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"

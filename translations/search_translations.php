@@ -46,7 +46,13 @@ $languages= array(
 		"leave" => "Leave",
 		"choose" => "Choose",
 		"update_document" => "Modify the document",
-		"initialLanguage" => "Initial language"
+		"initialLanguage" => "Initial language",
+		'public' => "Public",
+		'internal' => "Internal",
+		'draft' => "Draft",
+		'future' => "Future",
+		'obsolete' => "Obsolete"
+
 		
 
 
@@ -96,7 +102,12 @@ $languages= array(
 		"delete" =>"Supprimer",
 		"leave" => "Quitter",
 		"update_document" => "Modifier le document",
-		"initialLanguage" => "Langage initial"
+		"initialLanguage" => "Langage initial",
+		'public' => "Public",
+		'internal' => "Interne",
+		'draft' => "Draft",
+		'future' => "Futur",
+		'obsolete' => "Obsolète"
 	)
 
 );
