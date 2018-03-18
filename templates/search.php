@@ -21,44 +21,44 @@ $searchDatas=getSearchDatas();
 
 
 
-	<?php
-		foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
-		$name = "[";
-		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
-		$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+<?php
+foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
+$name = "[";
+for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
 
-		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
-			[]= $value["previous_doc"];
-		$previous_doc = "[";
-		for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
-		$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
+	[]= $value["previous_doc"];
+$previous_doc = "[";
+for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
 
-		foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
-		$version = "[";
-		for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
-		$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+$version = "[";
+for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+	$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
 
-		foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
-		$pic = "[";
-		for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
-		$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
-
-
+foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+$pic = "[";
+for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
 
 
 
-	?>
+
+
+?>
 <script>
-  	$(document).ready( function() {
+	$(document).ready( function() {
 
 		var autocompleteName = <?php echo $name; ?>;
 		var autopreviousDoc= <?php echo $previous_doc; ?>;
 		var autoversion= <?php echo $version; ?>;
 		var autopic= <?php echo $pic; ?>;
-	    $( "#doc_number" ).autocomplete({ source: autocompleteName });
-	    $( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
-	    $( "#version" ).autocomplete({ source: autoversion });
-	    $( "#pic" ).autocomplete({ source: autopic });
+		$( "#doc_number" ).autocomplete({ source: autocompleteName });
+		$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
+		$( "#version" ).autocomplete({ source: autoversion });
+		$( "#pic" ).autocomplete({ source: autopic });
 	});
 </script>
 
@@ -167,6 +167,10 @@ $searchDatas=getSearchDatas();
 	</div> 
 </div>
 <div class="lead">
+	<form action="controleur.php">
+		<input type="hidden" name="data"  id="searchValues">
+		<button type="submit" id="exportButton" name="action" value="exportResults" style="display: none;"><?php echo $translation["export"]?></button>
+	</form>
 	<div id="resultsPage">
 		<h1><?php echo $translation["result"]?></h1>
 		<div id="results">
@@ -175,11 +179,17 @@ $searchDatas=getSearchDatas();
 </div>
 </main>
 
-<table class="table table-striped" id="editDoc">
-	<form action="controleur.php">
-		<tbody>
-			<tr>
-				<td colspan="1">
+<div class="modal fade" id="editDoc" tabindex="-1" role="dialog" aria-labelledby="modalLabelCreate">
+	<form  action="controleur.php">
+		<div class="modal-dialog" role="document" style="width:80%;height:100%">
+			<div class="modal-content" style="height:100%;overflow:auto">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabelCreate"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <?php echo $translation["update_document"] ?></h4>
+				</div>
+				<div class="modal-body" style="overflow-x:auto">
+					<table class="table table-striped" id="editDoc">
+					<td>
 					<div class="well form-horizontal">
 						<fieldset>
 							<div class="form-group">
@@ -375,10 +385,13 @@ $searchDatas=getSearchDatas();
 							</fieldset>
 						</div>
 					</td>
-				</tr>
-			</tbody>
-		</form>
-	</table>
+				</div>
+			</table>
+			</div>
+		</div>
+	</form>
+</div>
+
 
 
     <!-- Bootstrap core JavaScript
@@ -411,7 +424,7 @@ $searchDatas=getSearchDatas();
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
     			$("#Work_3").val(tabDocs[index]["working_field_3"]);
     			$("#Work_4").val(tabDocs[index]["working_field_4"]);
-    			$('#editDoc').dialog('open');
+    			// $('#editDoc').dialog('open');
     		}
 
 

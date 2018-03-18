@@ -51,7 +51,8 @@ $languages= array(
 		'internal' => "Internal",
 		'draft' => "Draft",
 		'future' => "Future",
-		'obsolete' => "Obsolete"
+		'obsolete' => "Obsolete",
+		"export" => "Export"
 
 		
 
@@ -107,7 +108,8 @@ $languages= array(
 		'internal' => "Interne",
 		'draft' => "Draft",
 		'future' => "Futur",
-		'obsolete' => "Obsolète"
+		'obsolete' => "Obsolète",
+		'export' => "Exporter"
 	)
 
 );
