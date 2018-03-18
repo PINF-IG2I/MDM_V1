@@ -39,3 +39,7 @@ mise en forme des résultats de la recherche + popup template details lors d'un c
 template details : régler le dropdown statut et le label commentaires qui dépasse sur le textarea (en fr)
 modif des docs : boutons leave effectif, reste à faire bouton save et bouton delete (delete en fonction des clés étrangères)
 pb au niveau des id pour récupérer les data de chaque ligne (what if 1 - 2 - 8 ?) (red.id-1)
+
+QUESTIONS REUNION JEUDI 22/03
+possible d'avoir un document sans traduction ? (me semble évident mais confirmation)
+(dans table document enregistrement 1 - 1 - 1 - NULL par exemple ?)

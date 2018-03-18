@@ -83,12 +83,15 @@ function protect($str)
 		$nextTab = array();
 		foreach($str as $cle => $val)
 		{
-			$nextTab[$cle] = addslashes($val);
+			$nextTab[$cle] = mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $val);
+			$nextTab[$cle] = mb_ereg_replace('[\x60]', '``', $val);
+				
 		}
 		return $nextTab;
 	}
-	else 	
-		return addslashes ($str);
+	else
+		$str= mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $str);	
+		return mb_ereg_replace('[\x60]', '``', $str); 
 	//return str_replace("'","''",$str); 	//utile pour les serveurs de bdd Crosoft
 }
 

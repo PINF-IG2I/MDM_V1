@@ -49,15 +49,17 @@ session_start();
 			break;
 
 			case 'Logout' :
-				updateStatus($_SESSION["id_user"],0);
-				session_destroy();
-				$addArgs="?view=login&msg=".urlencode("You have been logged out.");
+				if(secure("isConnected","SESSION")){
+					updateStatus($_SESSION["id_user"],0);
+					session_destroy();
+					$addArgs="?view=login&msg=".urlencode("You have been logged out.");
+				}
 			break;
 
 			case 'Search':
 					if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
 						$data=$_REQUEST["data"];
-						$results=getResultsFromQuery($data);
+						$results=getResultsFromQuery($data,secure("status","SESSION"));
 						echo json_encode($results);
 						die(""); //no need to redirect, the code is stopped there, and the result is sent.
 					}
@@ -151,6 +153,25 @@ session_start();
 				{
 					if ($id=secure("id"))
 					updateStatus($id,0);
+					$addArgs="?view=administration";
+				}
+			break;
+
+			case 'exportResults':
+				if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
+					$data=json_decode($_REQUEST["data"],true);
+					if(!empty($data));
+						exportResults($data);
+					$addArgs="?view=search";
+			}
+			break;
+
+			case 'resetDB':
+				$addArgs="?view=administration&fail=true";
+
+				if (secure("status","SESSION")=="Administrator")
+				{
+					deleteDatabase();
 					$addArgs="?view=administration";
 				}
 			break;

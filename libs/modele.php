@@ -7,17 +7,7 @@ include_once("maLibUtils.php");
 
 function listUsers()
 {
-	// NB : la présence du symbole '=' indique la valeur par défaut du paramètre s'il n'est pas fourni
-	// Cette fonction liste les utilisateurs de la base de données 
-	// et renvoie un tableau d'enregistrements. 
-	// Chaque enregistrement est un tableau associatif contenant les champs 
-	// id,pseudo,blacklist,connecte,couleur
-
-	// Lorsque la variable $classe vaut "both", elle renvoie tous les utilisateurs
-	// Lorsqu'elle vaut "bl", elle ne renvoie que les utilisateurs blacklistés
-	// Lorsqu'elle vaut "nbl", elle ne renvoie que les utilisateurs non blacklistés
-
-	$SQL = "select * from users ORDER BY id_user";
+	$SQL = "select id_user,first_name,last_name,status,language,isConnected from users ORDER BY id_user";
 
 	return parcoursRs(SQLSelect($SQL));
 
@@ -90,31 +80,39 @@ function getSearchDatas(){
 	$res["product"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT * FROM components";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT DISTINCT initial_language, language FROM document_reference,document_language";
+	$SQL="SELECT initial_language AS initial_language FROM document_reference UNION DISTINCT SELECT language FROM document_language ;";
 	$res["language"]=parcoursRs(SQLSelect($SQL));
 	return $res;
 }
 
-function getResultsFromQuery($data){
+function getResultsFromQuery($data,$status){
 	$SQL="SELECT * FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
 	foreach ($data as $key => $value) {
 		if(!is_array($value)){
-			protect($key);
-			protect($value);
-			$SQL.=" AND ".$key." LIKE '".$value."'";	
+			$SQL.=" AND `".protect($key)."` LIKE '".protect($value)."'";	
 		} else {
 			if($key=="type"){
 				foreach ($value as $content) {
-					protect($value);
-					protect($content);
-					$SQL.= " AND ".$content ." = '1' ";
+					$SQL.= " AND `".protect($content) ."` = '1' ";
 				}
+			} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
+				$SQL.="AND (`initial_language` IN(";
+				foreach($value as $content){
+					$SQL.="'".protect($content)."',";
+				}
+				$SQL=substr($SQL,0,-1);
+				$SQL.=") ";
+				$SQL.="OR `language` IN(";
+				foreach($value as $content){
+					$SQL.="'".protect($content)."',";
+
+				}
+				$SQL=substr($SQL,0,-1);
+				$SQL.=") )";
 			} else {
-				protect($key);
-				$SQL.= " AND ".$key." IN (";
+				$SQL.= " AND `".protect($key)."` IN (";
 				foreach ($value as $content) {
-					protect($content);
-					$SQL.="'$content',";
+					$SQL.="'".protect($content)."',";
 				}
 				$SQL=substr($SQL,0,-1);
 				$SQL.=") ";
@@ -122,6 +120,8 @@ function getResultsFromQuery($data){
 			}
 		}
 	}
+	if($status == "External") //if the user has the status "external", only public documents are displayed.
+	$SQL.= " AND status = 'public'";
 	return parcoursRs(SQLSelect($SQL));
 
 }
@@ -159,6 +159,47 @@ function createUser($lastName, $firstName, $password, $status, $language) {
 	return SQLInsert($SQL);
 }
 
+// Delete all the data from the database
+function deleteDatabase() {
+	$SQL="SET FOREIGN_KEY_CHECKS = 0; 
+	DELETE FROM document; 
+	DELETE FROM document_language; 
+	DELETE FROM association_table; 
+	DELETE FROM components; 
+	DELETE FROM document_reference; 
+	DELETE FROM document_version; 
+	DELETE FROM etcs_subsystem; 
+	DELETE FROM gatc_baseline; 
+	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
+	SET FOREIGN_KEY_CHECKS = 1;";
+	return SQLUpdate($SQL);
+
+}
+
+function exportResults($data){
+	$file=fopen("php://output","w");
+	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+	fputcsv($file,array_keys($data[0]));
+
+
+	/*foreach($data as $row => $value){
+		foreach($value as $subvalue => $key){
+			//print_r($data[$row][$subvalue]);
+			$data[$row][$subvalue]='="'.$data[$row][$subvalue].'"';
+		}
+	}*/
+	foreach($data as $row){
+		//print_r($row);
+		fputcsv($file, $row);
+	}
+	fclose($file);
+	header("Content-Encoding: UTF-8");
+	header("Content-type:text/csv; charset=UTF-8");
+	header('Content-Disposition: attachment; filename="result.csv"');
+	header('Pragma: no-cache');
+	header('Expires: 0');
+	exit;
+}
 
 
 
