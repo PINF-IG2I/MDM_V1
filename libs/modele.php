@@ -126,6 +126,11 @@ function getResultsFromQuery($data,$status){
 
 }
 
+function getUsersFromQuery($data){
+	$SQL="SELECT * FROM users WHERE last_name LIKE '%$data%' OR first_name LIKE '%$data%'";
+	return parcoursRs(SQLSelect($SQL));
+}
+
 // Edit the informations of a specified user
 function editUser($id,$lastname,$firstname,$status,$language,$password=""){
 	$SQL="UPDATE users SET last_name='$lastname', first_name='$firstname', status='$status', language='$language' ";
@@ -146,14 +151,12 @@ function deleteUser($id){
 }
 
 // Delete a specified document
-function deleteDoc($id){ //TODO : grosse requête qui delete le doc en prenant en compte les clés étrangères
-	//A refaire : supprimer un doc revient à le supprimer dans association table
-	$SQL="DELETE FROM document WHERE id_doc='$id'";
+function deleteDoc($id){ 
+	$SQL="DELETE FROM association_table WHERE id_doc='$id'";
 	return SQLDelete($SQL);
 }
 
-
-
+// Create a user
 function createUser($lastName, $firstName, $password, $status, $language) {
 	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
 	return SQLInsert($SQL);

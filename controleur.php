@@ -65,6 +65,16 @@ session_start();
 					}
 			break;
 
+			case 'SearchUser':
+				if(secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
+					$userName=secure("userName");
+					// print_r($userName);
+					$results=getUsersFromQuery($userName);
+					echo json_encode($results);
+					die("");
+				}
+			break;
+
 			case 'changeLanguage':
 				if(secure("isConnected","SESSION"))
 				if ($language =secure("language"))
@@ -97,11 +107,37 @@ session_start();
 				}
 			break;
 
-			case 'editDocs':
+			case 'editDoc':
 				$addArgs="?view=search&fail=true";
 				if (secure("status","SESSION")=="Administrator")
 				{
-					//to be continued
+					// $id_doc=secure("id_doc");
+					// $file=secure("File");
+					// $version=secure("Version");
+					// $baseline=secure("Baseline");
+					// $object=secure("Object");
+					// $site=secure("Site");
+					// $pic=secure("PIC");
+					// $status=secure("status");
+					// $initialLanguage=secure("initialLanguage");
+					// $installOrMaint=secure("optradio");
+					// $product=secure("Product");
+					// $component=secure("Component");
+					// $translation=secure("Translation");
+					// $project=secure("Project");
+					// $translator=secure("Translator");
+					// $previous_ref=secure("Previous reference");
+					// $aec=secure("AEC");
+					// $network=secure("Network");
+					// $vbn=secure("VBN");
+					// $blq=secure("BLQ");
+					// $commentaries=secure("Commentaries");
+					// $work1=secure("Work 1");
+					// $work2=secure("Work 2");
+					// $work3=secure("Work 3");
+					// $work4=secure("Work 4");
+
+					
 				}
 				break;	
 			

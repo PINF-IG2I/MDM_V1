@@ -1,10 +1,10 @@
 	var tabDocs;
 	$(document).ready(function(){
 
-		//When the user wants to leave the edit box
-		// $("#leaveEdit").click(function() {
-		// 	$("#editDoc").dialog('close');
-		// });
+		//When an option is selected in the status dropdown
+		$("#statusDoc").on('click','li a',function() {
+			$("#displayStatus").val($(this).html());
+		})
 
 		//When the language is changed
 		$("#selectLanguage").change(function(){
@@ -15,6 +15,28 @@
 					'language' : $("#selectLanguage option:selected").val()
 				},
 				success : location.reload()
+			});
+		});
+
+		//When the users wants to display results of the user search
+		$("#searchUser").click(function() {
+			$.getJSON("controleur.php",
+			{
+				"action":"SearchUser",
+				"userName":$("#userName").val()
+			},
+			function(oRep) {
+
+				$("#tabUsers").data("users",oRep);
+				$("tr[data-toggle=modal]").remove();
+				$.each(oRep,function(i,val) {
+					var oRow = $("<tr id='" + val["id_user"] + "'>").attr({"data-toggle":"modal","data-target":"#editUser","onClick":"editUser(this)"}).css("cursor","pointer");
+					oRow.append("<td>" + val["id_user"] + "</td><td>" + val["last_name"] + "</td><td>" 
+						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
+						+ val["language"] + "</td><td>" + val["isConnected"] + "</td>");
+					$("#usersResult").append(oRow);
+				})
+				
 			});
 		});
 
@@ -42,7 +64,6 @@
 					"data":oQuery
 				},
 				function(oRep){	
-					console.log(oRep);
 					if(oRep.length!=0) {
 					tabDocs=oRep;
 						var oTable = $("<table>").attr("class","table table-hover");
@@ -73,14 +94,6 @@
 
 		//When a document is changed
 
-
-		//Popup box that displays when a user clicks on a document
-		// $('#editDoc').dialog({
-		// 	autoOpen:false,
-		// 	width:1200,
-		// 	modal:true
-		// });
-		// $("#editDoc").dialog('close');
 
 
 		

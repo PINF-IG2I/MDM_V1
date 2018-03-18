@@ -25,8 +25,8 @@ $userJSON=json_encode($users);
 	<!-- USER MANAGEMENT -->
 	<center><h3><?php echo $translation["user_management"]?></h3></center>
 	<form class="form-inline">
-		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-5 col-lg-offset-5" type="text" placeholder="<?php echo $translation["user_name"]?>" />
-		<button type="submit" class="btn btn-primary"><?php echo $translation["search"]?></button>
+		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-5 col-lg-offset-5" id="userName" type="text" placeholder="<?php echo $translation["user_name"]?>" />
+		<button type="button" id="searchUser" class="btn btn-primary"><?php echo $translation["search"]?></button>
 	</form><br/>
 	<button data-toggle="modal" data-target="#createUser" type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
 	<div id="tabUsers" >
@@ -232,19 +232,45 @@ $userJSON=json_encode($users);
 		<form action="controleur.php" >
 			<button class="btn btn-default" name="action" value="importDB" ><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
 			<button class="btn btn-success" name="action" value="saveDB" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-			<button class="btn btn-danger" name="action" value="resetDB" ><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-		</form>
-	</center>
-</div>
-<!-- END DATABASE MANAGEMENT -->
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+
+		</center>
+	</div>
+	<!-- END DATABASE MANAGEMENT -->
+
+	<!-- HIDDEN DIALOG TO DELETE DATABASE -->
+	<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel">Important</h4>
+				</div>
+				<div class="modal-body">
+					<p><?php echo $translation["sure_delete_database"] ?></p>
+				</div>
+				<div class="modal-footer">
+					<form action="controleur.php">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+						<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END HIDDEN DIALOG TO DELETE DATABASE -->
+
 </div>
 
 <script>
 		//Display the block editUser
 		function editUser(ref) {
-			var tabUsers=<?php echo $userJSON; ?>;
+			if(typeof $("#tabUsers").data("users")!=="undefined") {
+				var tabUsers = $("#tabUsers").data("users");
+			}
+			else
+				var tabUsers=<?php echo $userJSON; ?>;
 			var index = $("tbody tr").index(ref) -1;
-			console.log(index);
 			$("#number").val(tabUsers[index]["id_user"]);
 			$("#last_name").val(tabUsers[index]["last_name"]);
 			$("#first_name").val(tabUsers[index]["first_name"]);
