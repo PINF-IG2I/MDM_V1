@@ -181,6 +181,7 @@ function exportResults($data){
 	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 	fputcsv($file,array_keys($data[0]));
 
+
 	/*foreach($data as $row => $value){
 		foreach($value as $subvalue => $key){
 			//print_r($data[$row][$subvalue]);
@@ -199,6 +200,7 @@ function exportResults($data){
 	header('Expires: 0');
 	exit;
 }
+
 
 
 ?>
