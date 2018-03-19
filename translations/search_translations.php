@@ -54,7 +54,7 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Future",
 		'obsolete' => "Obsolete",
-		"export" => "Export"
+		"export" => "Export the results of the search"
 
 		
 
@@ -113,7 +113,7 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Futur",
 		'obsolete' => "Obsolète",
-		'export' => "Exporter"
+		'export' => "Exporter les résultats de la recherche"
 	)
 
 );

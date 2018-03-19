@@ -166,7 +166,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 <div class="lead">
 	<form action="controleur.php">
 		<input type="hidden" name="data"  id="searchValues">
-		<button type="submit" id="exportButton" name="action" value="exportResults" style="display: none;"><?php echo $translation["export"]?></button>
+		<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;"><?php echo $translation["export"]?></button>
 	</form>
 	<div id="resultsPage">
 		<h1><?php echo $translation["result"]?></h1>
