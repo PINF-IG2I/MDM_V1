@@ -40,6 +40,19 @@
 			});
 		});
 
+		$('#upload').on("change",function(){
+			var file = $("#file")[0].files[0];
+			console.log($("#file")[0].files[0]);
+			$.getJSON("controleur.php",
+			{
+				"action":"saveDB",
+				"file":file
+			},
+			function(oRep) {
+
+			});
+		});
+
 		//When the user wants to display results of the search
 		$("#send").click(function(){
 			var oQuery={};
@@ -65,7 +78,7 @@
 				},
 				function(oRep){	
 					if(oRep.length!=0) {
-					tabDocs=oRep;
+						tabDocs=oRep;
 						var oTable = $("<table>").attr("class","table table-hover");
 						oTable.append("<thead><tr><th>Id</th><th></th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead><tbody id='tableResults'>");
 						$.each(oRep,function(i,val) {

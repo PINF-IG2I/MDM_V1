@@ -23,7 +23,9 @@ $userJSON=json_encode($users);
 
 <div class="container">
 	<!-- USER MANAGEMENT -->
-	<center><h3><?php echo $translation["user_management"]?></h3></center>
+	<div class="page-header">
+		<center><h1><?php echo $translation["user_management"]?></h1></center>
+	</div>
 	<form class="form-inline">
 		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-5 col-lg-offset-5" id="userName" type="text" placeholder="<?php echo $translation["user_name"]?>" />
 		<button type="button" id="searchUser" class="btn btn-primary"><?php echo $translation["search"]?></button>
@@ -226,39 +228,42 @@ $userJSON=json_encode($users);
 <!-- END USER MANAGEMENT -->
 
 <!-- DATABASE MANAGEMENT -->
-<center><h3><?php echo $translation["db_management"]?></h3></center>
+<div class="page-header">
+	<center><h1><?php echo $translation["db_management"]?></h1></center>
+</div>
 <div id="db_management" >
 	<center>
 		<form action="controleur.php" >
 			<button class="btn btn-default" name="action" value="importDB" ><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-			<button class="btn btn-success" name="action" value="saveDB" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' hidden style="display:none !important"><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></label>
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+		</form>
+	</center>
+</div>
 
-		</center>
-	</div>
-	<!-- END DATABASE MANAGEMENT -->
+<!-- END DATABASE MANAGEMENT -->
 
-	<!-- HIDDEN DIALOG TO DELETE DATABASE -->
-	<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalLabel">Important</h4>
-				</div>
-				<div class="modal-body">
-					<p><?php echo $translation["sure_delete_database"] ?></p>
-				</div>
-				<div class="modal-footer">
-					<form action="controleur.php">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
-						<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
-					</form>
-				</div>
+<!-- HIDDEN DIALOG TO DELETE DATABASE -->
+<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalLabel">Important</h4>
+			</div>
+			<div class="modal-body">
+				<p><?php echo $translation["sure_delete_database"] ?></p>
+			</div>
+			<div class="modal-footer">
+				<form action="controleur.php">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+					<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
+				</form>
 			</div>
 		</div>
 	</div>
-	<!-- END HIDDEN DIALOG TO DELETE DATABASE -->
+</div>
+<!-- END HIDDEN DIALOG TO DELETE DATABASE -->
 
 </div>
 

@@ -29,7 +29,7 @@ $languages= array(
 		'delete_user' => 'Delete User',
 		'delete_database' => 'Delete Database',
 		'sure_delete_user' => 'Are you sure you want to delete the user',
-		'sure_delete_database' => 'Are you sure you want to delete the database',
+		'sure_delete_database' => 'Are you sure you want to delete the database ?',
 		'close' => 'Close'
 
 
@@ -63,7 +63,7 @@ $languages= array(
 		'delete_user' => 'Supprimer User',
 		'delete_database' => 'Supprimer les données de la base',
 		'sure_delete_user' => 'Êtes-vous sûr de vraiment vouloir supprimer l\'utilisateur',
-		'sure_delete_database' => 'Êtes-vous sûr de vraiment vouloir supprimer la base',
+		'sure_delete_database' => 'Êtes-vous sûr de vraiment vouloir supprimer la base ?',
 		'close' => 'Fermer'
 
 

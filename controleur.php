@@ -211,6 +211,20 @@ session_start();
 					$addArgs="?view=administration";
 				}
 			break;
+
+			case 'saveDB':
+				$addArgs="?view=administration&fail=true";
+				if (secure("status","SESSION")=="Administrator")
+				{
+					//add function
+					
+					$data=json_decode($_FILES["file"]["name"]);
+					echo json_encode($data);
+					die();
+
+					$addArgs="?view=administration";
+				}
+			break;
 		}
 
 	}
