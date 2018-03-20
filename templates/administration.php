@@ -18,6 +18,7 @@ include_once "libs/modele.php";
 
 $users=listUsers();
 $userJSON=json_encode($users);
+$lockedDatabase=lockedDatabase();
 
 ?>
 
@@ -117,7 +118,7 @@ $userJSON=json_encode($users);
 										<option value="" disabled selected><?php echo $translation["status"]?></option>
 										<option value="Internal"><?php echo $translation["internal"]?></option>
 										<option value="External"><?php echo $translation["external"]?></option>
-										<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+										<option value="Forbidden"><?php echo $translation["inhibited"]?></option>
 										<option value="Manager"><?php echo $translation["manager"]?></option>
 										<option value="Administrator"><?php echo $translation["administrator"]?></option>
 									</select>
@@ -208,7 +209,7 @@ $userJSON=json_encode($users);
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="modalLabel">Important</h4>
+				<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
 			</div>
 			<div class="modal-body">
 				<p id="messageDelete"></p>
@@ -237,6 +238,13 @@ $userJSON=json_encode($users);
 			<button class="btn btn-default" name="action" value="importDB" ><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
 			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' hidden style="display:none !important"><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></label>
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase"><?php
+
+			if($lockedDatabase=="1")
+				echo $translation["unlockDB"];
+			else 
+				echo $translation["lockDB"];
+			?> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></button>
 		</form>
 	</center>
 </div>
@@ -249,10 +257,10 @@ $userJSON=json_encode($users);
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="modalLabel">Important</h4>
+				<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
 			</div>
 			<div class="modal-body">
-				<p><?php echo $translation["sure_delete_database"] ?></p>
+				<p><?php echo $translation["sure_delete_database"] ?>?</p>
 			</div>
 			<div class="modal-footer">
 				<form action="controleur.php">
@@ -265,6 +273,37 @@ $userJSON=json_encode($users);
 </div>
 <!-- END HIDDEN DIALOG TO DELETE DATABASE -->
 
+<!-- HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
+<div class="modal fade" id="lockDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
+			</div>
+			<div class="modal-body">
+				<p><?php
+				if($lockedDatabase=="1")
+					echo $translation["sure_unlock_database"];
+				else if($lockedDatabase=="0")
+					echo $translation["sure_lock_database"];
+				?> ?</p>
+			</div>
+			<div class="modal-footer">
+				<form action="controleur.php">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+					<button type="submit" name="action" value="lockDB" class="btn btn-danger"><?php 
+					if($lockedDatabase=="1")
+						echo $translation["unlockDB"];
+					else 
+						echo $translation["lockDB"];
+					?></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
 </div>
 
 <script>
