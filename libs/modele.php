@@ -156,6 +156,12 @@ function deleteDoc($id){
 	return SQLDelete($SQL);
 }
 
+function managerConnected(){
+	$SQL="SELECT isConnected FROM users WHERE status='Manager' AND isConnected='1'";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
 // Create a user
 function createUser($lastName, $firstName, $password, $status, $language) {
 	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
@@ -204,6 +210,84 @@ function exportResults($data){
 	exit;
 }
 
+function checkInFile($propertyName){
 
+	if(!file_exists("./properties.txt")){ //In case the file does not exist, it is recreated with DEFAULT values
+			$file=fopen("./properties.txt","r+");
+			if($file){
+				fwrite($file,"manager=\n");
+				fwrite($file,"locked_database=1");
+				fclose($file);
+				return "problem";  
+			}
+	} else {
+
+		$file=fopen("./properties.txt","r+");
+		if($file){
+			while(!feof($file)){
+				$entry=array_map('trim', explode('=', fgets($file)));
+				if($entry[0]==$propertyName){
+					return $entry[1];
+				}
+			}
+			die("");
+			fclose($file);
+		}
+		return NULL;
+	}
+}
+
+function lockedDatabase(){
+	return checkInFile("locked_database");
+}
+
+function connectedManager(){
+	return checkInFile("manager");
+}
+
+
+function changeDatabaseStatus($status){
+	if($status=="lock"){
+		writeInFile("locked_database","1");
+	} else
+		writeInFile("locked_database","0");
+	disconnectAll();
+
+}
+
+/** Disconnect all users except administrator*/
+function disconnectAll(){
+	$SQL="UPDATE users SET isConnected='0' WHERE status!='Administrator'";
+	return SQLUpdate($SQL);
+}
+
+
+/** Write something in a file with the following pattern $propertyName=$value */
+function writeInFile($propertyName,$value){
+	if(!file_exists("./properties.txt")){ //In case the file does not exist, it is recreated with DEFAULT values
+			$file=fopen("./properties.txt","w");
+			if($file){
+				fwrite($file,"manager=\r\n");
+				fwrite($file,"locked_database=1\r\n");
+				fclose($file);
+				return "problem";  
+			}
+	} else {
+		$text='';
+		$file=fopen("./properties.txt","r+");
+		if($file){
+			while(!feof($file)){
+				$line=fgets($file);
+				$entry=explode("=",$line);
+				if($entry[0]==$propertyName){
+					$text.=$propertyName."=".$value."\r\n";
+
+				} else $text.=$line;
+			}
+			fclose($file);
+		}
+		file_put_contents("./properties.txt",$text);
+	}
+}
 
 ?>

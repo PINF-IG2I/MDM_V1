@@ -27,13 +27,18 @@ $view = secure("view");
 	}*/
 
 	// If the user is not connected, the login page is displayed
-	// if($_SESSION==array())
-	// 	$view="login";
 	if($_SESSION != array() && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
 		session_destroy();
 		header("Location:./index.php?view=login&msg=".urlencode("You have been logged out."));
 		die("");
 	}
+	if(lockedDatabase()=="1" && secure("status","SESSION")!='Administrator'){
+		if(secure("isConnected","SESSION")){
+			updateStatus($_SESSION["id_user"],0);
+			session_destroy();
+		}
+			$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
+	} 
 	if (!$view) {
 		if(secure("isConnected","SESSION"))
 			$view = "search";

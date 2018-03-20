@@ -3,14 +3,16 @@ $languages= array(
 	"EN" => array(
 		"language" => "Language",
 		"logout" => "Log out",
-		"administration" => "Administration"
+		"administration" => "Administration",
+
 
 
 	),
 	"FR" => array(
 		"language" => "Langue",
 		"logout" => "Déconnexion",
-		"administration" => "Administration"
+		"administration" => "Administration",
+
 	)
 
 );

@@ -13,6 +13,17 @@ $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
+if(secure("status","SESSION")=='Manager'){
+	$id_manager=connectedManager();
+	if($id_manager==secure("id_user","SESSION")){
+		$_SESSION["authorized"]=1;
+	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
+		writeInFile("manager",secure("id_user","SESSION"));
+		$_SESSION["authorized"]=1;
+	} else $_SESSION["authorized"]=0;
+}
+
+
 
 ?>
 
@@ -45,22 +56,25 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 
 ?>
-<script>
-	$(document).ready( function() {
 
-		var autocompleteName = <?php echo $name; ?>;
-		var autopreviousDoc= <?php echo $previous_doc; ?>;
-		var autoversion= <?php echo $version; ?>;
-		var autopic= <?php echo $pic; ?>;
-		$( "#doc_number" ).autocomplete({ source: autocompleteName });
-		$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
-		$( "#version" ).autocomplete({ source: autoversion });
-		$( "#pic" ).autocomplete({ source: autopic });
-	});
-</script>
 
 <!-- Begin page content -->
 <main role="main" class="container">
+	<?php
+	if(managerConnected() && secure("status","SESSION")!='Manager'){
+		echo '<div class="alert alert-warning text-center"><strong>';
+		echo  $translation["manager_connected"];
+		echo '</strong></div>';
+	} else if(secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1){
+		echo '<div class="alert alert-success text-center" role="alert"><strong>';
+  		echo $translation["manager_in_charge"];
+		echo '</strong></div>';
+	} else if (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==0){
+		echo '<div class="alert alert-info text-center" role="alert"><strong>';
+  		echo $translation["manager_not_in_charge"];
+		echo '</strong></div>';
+	}
+	?>
 	<div class="page-header">
 		<h1><?php echo $translation["titlePage"]?></h1>
 		<div id="headerSearch">
@@ -268,8 +282,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 							<div class="well form-horizontal">
 								<fieldset>
 									<div class="form-group" style="text-align:center">
-										<label class="radio-inline"><input type="radio" name="optradio" id="Installation"><b><?php echo $translation["installation"]?></b></label>
-										<label class="radio-inline"><input type="radio" name="optradio" id="Maintenance"><b><?php echo $translation["maintenance"]?></b></label>
+										<label class="radio-inline"><input type="checkbox" name="optradio" id="Installation"><b><?php echo $translation["installation"]?></b></label>
+										<label class="radio-inline"><input type="checkbox" name="optradio" id="Maintenance"><b><?php echo $translation["maintenance"]?></b></label>
 									</div>
 									<div class="form-group">
 										<label class="col-md-4 control-label"><?php echo $translation["product"]?></label>
@@ -385,8 +399,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 								</fieldset>
 							</div>
 						</td>
-					</div>
-				</table>
+					</table>
+				</div>
 			</div>
 		</div>
 	</form>
@@ -431,7 +445,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
     			$("#Object").val(tabDocs[index]["subject"]);
     			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
     			$("#Site").val(tabDocs[index]["site"]);
-    			$("#PIC").val(tabDocs[index]["PIC"]);
+    			$("#PIC").val(tabDocs[index]["pic"]);
     			$("#Component").val(tabDocs[index]["component_name"]);
     			$("#Product").val(tabDocs[index]["subsystem_name"]);
     			$("#Project").val(tabDocs[index]["project"]);
@@ -449,8 +463,19 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
     			$("#numberDeleteDoc").val(tabDocs[index]["id_doc"]);
     		}
 
+    		$(document).ready( function() {
 
-    		window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    			var autocompleteName = <?php echo $name; ?>;
+    			var autopreviousDoc= <?php echo $previous_doc; ?>;
+    			var autoversion= <?php echo $version; ?>;
+    			var autopic= <?php echo $pic; ?>;
+    			$( "#doc_number" ).autocomplete({ source: autocompleteName });
+    			$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
+    			$( "#version" ).autocomplete({ source: autoversion });
+    			$( "#pic" ).autocomplete({ source: autopic });
+    		});
+
+    		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
 
 

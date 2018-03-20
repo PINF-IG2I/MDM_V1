@@ -33,7 +33,12 @@
 					var oRow = $("<tr id='" + val["id_user"] + "'>").attr({"data-toggle":"modal","data-target":"#editUser","onClick":"editUser(this)"}).css("cursor","pointer");
 					oRow.append("<td>" + val["id_user"] + "</td><td>" + val["last_name"] + "</td><td>" 
 						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
-						+ val["language"] + "</td><td>" + val["isConnected"] + "</td>");
+						+ val["language"] + "</td>");
+					if(val["isConnected"]==1)
+						 oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
+					else
+						oRow.append("<td>"+val["isConnected"]);
+					oRow.append("</td>");
 					$("#usersResult").append(oRow);
 				})
 				

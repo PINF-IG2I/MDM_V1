@@ -54,7 +54,10 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Future",
 		'obsolete' => "Obsolete",
-		"export" => "Export the results of the search"
+		"export" => "Export the results of the search",
+		"manager_connected" => "A manager is connected, datas may change.",
+		"manager_in_charge" => "You are allowed to update datas.",
+		"manager_not_in_charge" => "Another manager already has the possibility to update datas."
 
 		
 
@@ -113,7 +116,10 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Futur",
 		'obsolete' => "Obsolète",
-		'export' => "Exporter les résultats de la recherche"
+		'export' => "Exporter les résultats de la recherche",
+		"manager_connected" => "Un gestionnaire est connecté, les données sont susceptibles de changer.",
+		"manager_in_charge" => "Vous êtes autorisés à modifier des données de la base.",
+		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base."
 	)
 
 );
