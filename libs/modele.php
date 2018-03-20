@@ -15,7 +15,7 @@ function listUsers()
 
 // Collect informations from every document
 function listerDocs() {
-	$SQL = "SELECT document.id_doc,version,initial_language,name,subject,site,PIC,document_version.status,component_name,subsystem_name,GATC_baseline,language,project,translator,previous_doc,installation,maintenance,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4 FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
+	$SQL = "SELECT document.id_doc,version,initial_language,name,subject,site,PIC,document_version.status,component_name,subsystem_name,GATC_baseline,language,project,translator,previous_doc,installation,maintenance,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4 FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_document=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
 	return parcoursRs(SQLSelect($SQL));
 }
 
@@ -126,6 +126,17 @@ function getResultsFromQuery($data,$status){
 
 }
 
+function editDocument($data) {
+	$SQL="SET foreign_key_checks = 0;
+	UPDATE document,document_version,document_language,components, etcs_subsystem,document_reference,gatc_baseline,association_table  SET ";
+	foreach($data as $key=>$value) {
+		$SQL.=protect($key)."='".protect($value)."',";
+	}
+	$SQL=substr($SQL,0,-1);
+	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id;SET foreign_key_checks = 1;";
+	return SQLUpdate($SQL);
+}
+
 function getUsersFromQuery($data){
 	$SQL="SELECT * FROM users WHERE last_name LIKE '%$data%' OR first_name LIKE '%$data%'";
 	return parcoursRs(SQLSelect($SQL));
@@ -137,11 +148,6 @@ function editUser($id,$lastname,$firstname,$status,$language,$password=""){
 	if($password!="") $SQL.= ", password='$password' ";
 	$SQL.= " WHERE id_user='$id'";
 	return SQLUpdate($SQL);
-}
-
-// Edit the informations of a specified document
-function editDoc() {
-	//todo
 }
 
 // Delete a specified user
@@ -160,7 +166,6 @@ function managerConnected(){
 	$SQL="SELECT isConnected FROM users WHERE status='Manager' AND isConnected='1'";
 	return parcoursRs(SQLSelect($SQL));
 }
-
 
 // Create a user
 function createUser($lastName, $firstName, $password, $status, $language) {

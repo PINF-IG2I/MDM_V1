@@ -28,9 +28,9 @@ include_once "libs/modele.php";
 			}
 			$lockedDatabase=lockedDatabase();
 			if($lockedDatabase=="1" && !empty($_SESSION && secure("status","SESSION")!='Administrator')){
-					updateStatus($_SESSION["id_user"],0);
-					session_destroy();
-					$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
+				updateStatus($_SESSION["id_user"],0);
+				session_destroy();
+				$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
 			} else {
 
 
@@ -80,6 +80,18 @@ include_once "libs/modele.php";
 						}
 						break;
 
+						case 'updateDoc':
+						$addArgs="?view=search&fail=true";
+						if (secure("status","SESSION")=="Administrator" || 	(secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1))
+						{
+							$data=$_REQUEST["data"];
+							$result=editDocument($data);
+							echo json_encode($result);
+							$addArgs="?view=search";
+
+						}
+						break;	
+
 						case 'SearchUser':
 						if(secure("status","SESSION")=="Administrator" && secure("isConnected","SESSION")){
 							$userName=secure("userName");
@@ -121,40 +133,6 @@ include_once "libs/modele.php";
 								}
 							}
 							break;
-
-							case 'editDoc':
-							$addArgs="?view=search&fail=true";
-							if (secure("status","SESSION")=="Administrator" || 	(secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1))
-							{
-						// $id_doc=secure("id_doc");
-						// $file=secure("File");
-						// $version=secure("Version");
-						// $baseline=secure("Baseline");
-						// $object=secure("Object");
-						// $site=secure("Site");
-						// $pic=secure("PIC");
-						// $status=secure("status");
-						// $initialLanguage=secure("initialLanguage");
-						// $installOrMaint=secure("optradio");
-						// $product=secure("Product");
-						// $component=secure("Component");
-						// $translation=secure("Translation");
-						// $project=secure("Project");
-						// $translator=secure("Translator");
-						// $previous_ref=secure("Previous reference");
-						// $aec=secure("AEC");
-						// $network=secure("Network");
-						// $vbn=secure("VBN");
-						// $blq=secure("BLQ");
-						// $commentaries=secure("Commentaries");
-						// $work1=secure("Work 1");
-						// $work2=secure("Work 2");
-						// $work3=secure("Work 3");
-						// $work4=secure("Work 4");
-								$addArgs="?view=search";
-
-							}
-							break;	
 
 							case 'deleteUser':
 							$addArgs="?view=administration&fail=true";
@@ -227,11 +205,10 @@ include_once "libs/modele.php";
 							}
 							break;
 
-							case 'saveDB':
+							case 'importDB':
 							$addArgs="?view=administration&fail=true";
 							if (secure("status","SESSION")=="Administrator")
 							{
-						//add function
 
 								$data=json_decode($_FILES["file"]["name"]);
 								echo json_encode($data);

@@ -45,17 +45,51 @@
 			});
 		});
 
+		//When a user imports some data
 		$('#upload').on("change",function(){
 			var file = $("#file")[0].files[0];
 			console.log($("#file")[0].files[0]);
-			$.getJSON("controleur.php",
-			{
-				"action":"saveDB",
-				"file":file
-			},
-			function(oRep) {
-
+			var formData = new FormData();
+			formData  = {
+				'action':'importDB',
+				'file_name' : ($("#file")[0].files[0]).name,
+				'file_type' : ($("#file")[0].files[0]).type
+			};
+			$.ajax({
+				type:'POST',
+				url:'controleur.php',
+				data:formData,
+				dataType:'json',
+				encode:true,
+				success:function(data){
+					console.log("oui");
+				}
 			});
+		});
+
+		//When the manager or administrator wants to edit the document
+		$("#changeDoc").click(function() {
+			var oQuery={};
+			$("#editDoc input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON( "controleur.php",
+				{
+					"action":"updateDoc",
+					"data":oQuery
+				},
+				function(oRep){	
+					if(oRep.length!=0) {
+						console.log("oui monsieur");
+					}
+				}
+				);
+			}
 		});
 
 		//When the user wants to display results of the search
@@ -106,14 +140,4 @@
 				);
 			}
 		});
-
-		//When a document is deleted
-
-
-		//When a document is changed
-
-
-
-		
-		
 	});

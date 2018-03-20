@@ -235,8 +235,8 @@ $lockedDatabase=lockedDatabase();
 <div id="db_management" >
 	<center>
 		<form action="controleur.php" >
-			<button class="btn btn-default" name="action" value="importDB" ><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' hidden style="display:none !important"><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></label>
+			<button class="btn btn-info" name="action" value="importDB" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase"><?php
 

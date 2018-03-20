@@ -20,25 +20,25 @@ Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer
 html,
 body {
   font-family: "Alstom";
-  height: 100%;
-  margin : auto;
-  padding : auto;
+  /*height: 100%;*/
+  /*margin : auto;*/
+  /*margin-bottom:60px;*/
+  /*padding-bottom:60px;*/
+  /*padding : auto;*/
 
   /* The html and body elements cannot have any padding or margin. */
 }
 select{
    font-weight: lighter;
 }
+
+
 /* Header */ 
-
-
-
-
 
 
 /* Bootstrap modification */
 .bg-dark {
-  background-color: rgb(237,26,59) !important; 
+  background-color: rgb(12, 65, 173) !important; 
 }
 
 .navbar
@@ -117,9 +117,7 @@ select{
   padding: 0 0 60px;
 }
 
-/* Set the fixed height of the footer here */
-#footer {
-  height: 20rem;
+.footer {
   background-color: #f5f5f5;
 }
 

@@ -10,7 +10,7 @@ $languageList=array_keys($languages);
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -49,6 +49,7 @@ $languageList=array_keys($languages);
 				<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
 				
 				<div id="content_header">
+
 					<?php
 					if (secure("status","SESSION") == "Administrator")
 					{
