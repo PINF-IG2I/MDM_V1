@@ -230,7 +230,6 @@ function checkInFile($propertyName){
 					return $entry[1];
 				}
 			}
-			die("");
 			fclose($file);
 		}
 		return NULL;
