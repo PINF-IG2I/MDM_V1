@@ -86,33 +86,33 @@ function getSearchDatas(){
 }
 
 function getResultsFromQuery($data,$status){
-	$SQL="SELECT * FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
+	$SQL="SELECT name,subject,version,initial_language,language,project,translator,previous_doc,product,subsystem_name,component_name,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,	availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
 	foreach ($data as $key => $value) {
 		if(!is_array($value)){
-			$SQL.=" AND `".protect($key)."` LIKE '".protect($value)."'";	
+			$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
 		} else {
 			if($key=="type"){
 				foreach ($value as $content) {
-					$SQL.= " AND `".protect($content) ."` = '1' ";
+					$SQL.= " AND `".protect(trim($content)) ."` = '1' ";
 				}
 			} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
 				$SQL.="AND (`initial_language` IN(";
 				foreach($value as $content){
-					$SQL.="'".protect($content)."',";
+					$SQL.="'".protect(trim($content))."',";
 				}
 				$SQL=substr($SQL,0,-1);
 				$SQL.=") ";
 				$SQL.="OR `language` IN(";
 				foreach($value as $content){
-					$SQL.="'".protect($content)."',";
+					$SQL.="'".protect(trim($content))."',";
 
 				}
 				$SQL=substr($SQL,0,-1);
 				$SQL.=") )";
 			} else {
-				$SQL.= " AND `".protect($key)."` IN (";
+				$SQL.= " AND `".protect(trim($key))."` IN (";
 				foreach ($value as $content) {
-					$SQL.="'".protect($content)."',";
+					$SQL.="'".protect(trim($content))."',";
 				}
 				$SQL=substr($SQL,0,-1);
 				$SQL.=") ";
@@ -121,7 +121,7 @@ function getResultsFromQuery($data,$status){
 		}
 	}
 	if($status == "External") //if the user has the status "external", only public documents are displayed.
-	$SQL.= " AND status = 'public'";
+		$SQL.= " AND status = 'Public'";
 	return parcoursRs(SQLSelect($SQL));
 
 }
@@ -130,10 +130,12 @@ function editDocument($data) {
 	$SQL="SET foreign_key_checks = 0;
 	UPDATE document,document_version,document_language,components, etcs_subsystem,document_reference,gatc_baseline,association_table  SET ";
 	foreach($data as $key=>$value) {
-		$SQL.=protect($key)."='".protect($value)."',";
+		$SQL.="`".protect(trim($key))."`='".protect(trim($value))."',";
 	}
 	$SQL=substr($SQL,0,-1);
-	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id;SET foreign_key_checks = 1;";
+	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id AND document.id_doc=".protect($data["document.id_doc"]).";SET foreign_key_checks = 1;";
+	echo $SQL;
+	die("");
 	return SQLUpdate($SQL);
 }
 
@@ -193,17 +195,15 @@ function deleteDatabase() {
 function exportResults($data){
 	$file=fopen("php://output","w");
 	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+	foreach ($data as $key => $value) {
+		foreach ($data[$key] as $insideKey=> $insideValue) {
+			if(substr($insideKey,0,2)=="id")
+				unset($data[$key][$insideKey]);
+		}
+	}
 	fputcsv($file,array_keys($data[0]));
 
-
-	/*foreach($data as $row => $value){
-		foreach($value as $subvalue => $key){
-			//print_r($data[$row][$subvalue]);
-			$data[$row][$subvalue]='="'.$data[$row][$subvalue].'"';
-		}
-	}*/
 	foreach($data as $row){
-		//print_r($row);
 		fputcsv($file, $row);
 	}
 	fclose($file);

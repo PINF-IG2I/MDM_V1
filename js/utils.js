@@ -71,10 +71,16 @@
 		$("#changeDoc").click(function() {
 			var oQuery={};
 			$("#editDoc input").each(function(){
+				if($(this).is(':checkbox')){
+					if($(this).prop('checked')== true)
+						var value=1;
+					else
+						var value=0;
+				}
+				else
+					var value=$(this).val();
 				var key= $(this).attr("name");
-				var value=$(this).val();
-				if(value!="")
-					oQuery[key]=value;
+				oQuery[key]=value;
 			});
 			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
@@ -119,7 +125,7 @@
 					if(oRep.length!=0) {
 						tabDocs=oRep;
 						var oTable = $("<table>").attr("class","table table-hover");
-						oTable.append("<thead><tr><th>Id</th><th></th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead><tbody id='tableResults'>");
+						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead><tbody id='tableResults'>");
 						$.each(oRep,function(i,val) {
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").attr({"data-toggle":"modal","data-target":"#editDoc"}).on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
