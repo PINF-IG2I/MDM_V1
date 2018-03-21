@@ -76,9 +76,9 @@ function getSearchDatas(){
 	$res["baseline"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT DISTINCT site FROM document_version";
 	$res["site"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT * FROM etcs_subsystem";
+	$SQL="SELECT DISTINCT product FROM document_reference";
 	$res["product"]=parcoursRs(SQLSelect($SQL));
-	$SQL="SELECT * FROM components";
+	$SQL="SELECT DISTINCT component FROM document_reference";
 	$res["component"]=parcoursRs(SQLSelect($SQL));
 	$SQL="SELECT initial_language AS initial_language FROM document_reference UNION DISTINCT SELECT language FROM document_language ;";
 	$res["language"]=parcoursRs(SQLSelect($SQL));
@@ -86,7 +86,7 @@ function getSearchDatas(){
 }
 
 function getResultsFromQuery($data,$status){
-	$SQL="SELECT name,subject,version,initial_language,language,project,translator,previous_doc,product,subsystem_name,component_name,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,	availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
+	$SQL="SELECT name,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
 	foreach ($data as $key => $value) {
 		if(!is_array($value)){
 			$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
@@ -128,14 +128,12 @@ function getResultsFromQuery($data,$status){
 
 function editDocument($data) {
 	$SQL="SET foreign_key_checks = 0;
-	UPDATE document,document_version,document_language,components, etcs_subsystem,document_reference,gatc_baseline,association_table  SET ";
+	UPDATE document,document_version,document_language,document_reference,gatc_baseline,association_table  SET ";
 	foreach($data as $key=>$value) {
-		$SQL.="`".protect(trim($key))."`='".protect(trim($value))."',";
+		$SQL.=protect(trim($key))."='".protect(trim($value))."',";
 	}
 	$SQL=substr($SQL,0,-1);
-	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id AND document.id_doc=".protect($data["document.id_doc"]).";SET foreign_key_checks = 1;";
-	echo $SQL;
-	die("");
+	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc=".protect($data["document.id_doc"]).";SET foreign_key_checks = 1;";
 	return SQLUpdate($SQL);
 }
 
