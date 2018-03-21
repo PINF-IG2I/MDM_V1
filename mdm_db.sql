@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 21 mars 2018 à 10:50
+-- Généré le :  mer. 21 mars 2018 à 17:35
 -- Version du serveur :  5.7.19
 -- Version de PHP :  5.6.31
 
@@ -53,30 +53,6 @@ INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `components`
---
-
-DROP TABLE IF EXISTS `components`;
-CREATE TABLE IF NOT EXISTS `components` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `component_name` char(40) NOT NULL,
-  `subsystem` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subsystem` (`subsystem`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `components`
---
-
-INSERT INTO `components` (`id`, `component_name`, `subsystem`) VALUES
-(1, 'Accéléromètre', 1),
-(2, 'TELOC 1550', 4),
-(3, 'ODE', 3);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `document`
 --
 
@@ -90,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `document` (
   KEY `id_document_language` (`id_document_language`),
   KEY `id_document_version` (`id_document_version`),
   KEY `id_document_reference` (`id_document_reference`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `document`
@@ -139,8 +115,8 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
   `subject` char(255) NOT NULL DEFAULT 'To be defined',
   `initial_language` char(2) NOT NULL DEFAULT 'EN',
   `previous_doc` char(255) NOT NULL,
-  `product` int(11) NOT NULL,
-  `component` int(11) NOT NULL,
+  `product` char(10) NOT NULL,
+  `component` char(40) NOT NULL,
   `installation` tinyint(1) NOT NULL DEFAULT '0',
   `maintenance` tinyint(1) NOT NULL DEFAULT '0',
   `x_link` char(255) NOT NULL,
@@ -159,8 +135,8 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
 --
 
 INSERT INTO `document_reference` (`id_ref`, `name`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
-(1, 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'User Guide', 'EN', '', 3, 3, 0, 1, '', '', '', '', '', 1),
-(2, 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'System Description', 'DE', 'ATC_BSI_GUID_009', 4, 2, 1, 0, '', '', '', '', '', 1);
+(1, 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'User Guide', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 1),
+(2, 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'System Description', 'DE', '', 'TRU', 'TELOC 1550', 1, 0, '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -194,30 +170,7 @@ CREATE TABLE IF NOT EXISTS `document_version` (
 
 INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availability_x`, `availability_aec`, `availability_ftp`, `availability_sharepoint_vbn`, `availability_sharepoint_blq`, `remarks`, `working_field_1`, `working_field_2`, `working_field_3`, `working_field_4`, `status`) VALUES
 (1, 'A01', 'VBN', 'M. Dem.', 1, 0, 0, 0, 1, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
-(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'peuplé par défaut', '', '', '', '', 'Internal');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etcs_subsystem`
---
-
-DROP TABLE IF EXISTS `etcs_subsystem`;
-CREATE TABLE IF NOT EXISTS `etcs_subsystem` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subsystem_name` char(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `etcs_subsystem`
---
-
-INSERT INTO `etcs_subsystem` (`id`, `subsystem_name`) VALUES
-(1, 'Rack EVC'),
-(2, 'ODO'),
-(3, 'Tools'),
-(4, 'TRU');
+(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be review', 'Working', 'field', '', '', 'Draft');
 
 -- --------------------------------------------------------
 
@@ -282,25 +235,12 @@ ALTER TABLE `association_table`
   ADD CONSTRAINT `FK_id_doc` FOREIGN KEY (`id_doc`) REFERENCES `document` (`id_doc`);
 
 --
--- Contraintes pour la table `components`
---
-ALTER TABLE `components`
-  ADD CONSTRAINT `FK_id_subsystem` FOREIGN KEY (`subsystem`) REFERENCES `etcs_subsystem` (`id`);
-
---
 -- Contraintes pour la table `document`
 --
 ALTER TABLE `document`
   ADD CONSTRAINT `FK_id_document_language` FOREIGN KEY (`id_document_language`) REFERENCES `document_language` (`id_entry`),
   ADD CONSTRAINT `FK_id_document_reference` FOREIGN KEY (`id_document_reference`) REFERENCES `document_reference` (`id_ref`),
   ADD CONSTRAINT `FK_id_document_version` FOREIGN KEY (`id_document_version`) REFERENCES `document_version` (`id_version`);
-
---
--- Contraintes pour la table `document_reference`
---
-ALTER TABLE `document_reference`
-  ADD CONSTRAINT `FK_component` FOREIGN KEY (`component`) REFERENCES `components` (`id`),
-  ADD CONSTRAINT `FK_product` FOREIGN KEY (`product`) REFERENCES `etcs_subsystem` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
