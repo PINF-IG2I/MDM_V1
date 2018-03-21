@@ -127,7 +127,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 				<select class="form-control selcls" size="2"  multiple="multiple" name="etcs_subsystem.id">
 					<?php
 					foreach ($searchDatas["product"] as $key => $value) {
-						echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
+						echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 					}
 
 					?>
@@ -138,7 +138,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 				<select class="form-control selcls" size="2" multiple="multiple" name="component">
 					<?php
 					foreach ($searchDatas["component"] as $key => $value) {
-						echo "<option value='".$value["id"]."'>".$value["component_name"]."</option>";
+						echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 					}
 
 					?>
@@ -713,8 +713,8 @@ else {
     			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
     			$("#Site").val(tabDocs[index]["site"]);
     			$("#PIC").val(tabDocs[index]["pic"]);
-    			$("#Component").val(tabDocs[index]["component_name"]);
-    			$("#Product").val(tabDocs[index]["subsystem_name"]);
+    			$("#Component").val(tabDocs[index]["component"]);
+    			$("#Product").val(tabDocs[index]["product"]);
     			$("#Project").val(tabDocs[index]["project"]);
     			$("#Translation").val(tabDocs[index]["language"]);
     			$("#Translator").val(tabDocs[index]["translator"]);

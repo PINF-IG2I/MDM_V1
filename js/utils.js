@@ -82,6 +82,7 @@
 				var key= $(this).attr("name");
 				oQuery[key]=value;
 			});
+			oQuery["remarks"]=$("#editDoc textarea").val();
 			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON( "controleur.php",
@@ -95,6 +96,7 @@
 					}
 				}
 				);
+				$("#send").trigger('click');
 			}
 		});
 
@@ -131,7 +133,7 @@
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
 								+ val["language"] + "</th><th>" + val["name"] + "</th><th>" + val["subject"] + "</th><th>"
 								+ val["site"] + "</th><th>" + val["pic"] + "</th><th>" + val["status"] + "</th><th>" 
-								+ val["component_name"] + "</th><th>" + val["subsystem_name"] + "</th></tr>");
+								+ val["component"] + "</th><th>" + val["product"] + "</th></tr>");
 							oTable.append(oRow);
 						});
 						oTable.append("</tbody></table");
