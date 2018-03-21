@@ -29,7 +29,7 @@ body {
   /* The html and body elements cannot have any padding or margin. */
 }
 select{
-   font-weight: lighter;
+ font-weight: lighter;
 }
 
 
@@ -83,7 +83,7 @@ select{
   font-size: 2rem;
   font-weight: lighter;
   display :inline-block;  
-    margin-top: 0.6rem;
+  margin-top: 0.6rem;
 }
 
 #administrationBtn:hover
@@ -127,6 +127,19 @@ select{
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
+
+
+.selcls { 
+  padding: 9px; 
+  border: solid 1px #517B97; 
+  outline: 0; 
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #badaef), to(#FFFFFF)); 
+  background: -moz-linear-gradient(top, #FFFFFF, #CAD9E3 1px, #FFFFFF 25px); 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+
+} 
 
 .container .credit {
   margin:0;
@@ -192,7 +205,7 @@ select{
 }
 
 #content_search_1 select  {
-height: 7.6rem;
+  height: 7.6rem;
 
 }
 
@@ -202,7 +215,7 @@ height: 7.6rem;
 }
 
 #content_search_2 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_3{
@@ -212,7 +225,7 @@ height: 7.6rem;
 }
 
 #content_search_3 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_4
@@ -256,7 +269,7 @@ height: 7.6rem;
 
 
 #content_search_7 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_8 {
@@ -267,7 +280,7 @@ height: 7.6rem;
 
 
 #content_search_8 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 
