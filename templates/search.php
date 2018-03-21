@@ -286,8 +286,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 							<div class="well form-horizontal">
 								<fieldset>
 									<div class="form-group" style="text-align:center">
-										<label class="checkbox-inline"><input type="checkbox" name="installation" id="Installation"><b><?php echo $translation["installation"]?></b></label>
-										<label class="checkbox-inline"><input type="checkbox" name="maintenance" id="Maintenance"><b><?php echo $translation["maintenance"]?></b></label>
+										<label class="checkbox-inline"><input type="checkbox" name="installation" id="Installation" value="1"><b><?php echo $translation["installation"]?></b></label>
+										<label class="checkbox-inline"><input type="checkbox" name="maintenance" id="Maintenance" value="1"><b><?php echo $translation["maintenance"]?></b></label>
 									</div>
 									<div class="form-group">
 										<label class="col-md-4 control-label"><?php echo $translation["product"]?></label>
@@ -339,7 +339,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 												<div class="input-group">
 													<b><?php echo $translation["up_to_date_aec"]?></b>
 													&nbsp;
-													<input type="checkbox" name="different_aec" id="aec_different">
+													<input type="checkbox" name="different_aec" id="aec_different" value="1">
 												</div>
 											</div>
 											

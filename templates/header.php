@@ -23,8 +23,8 @@ $languageList=array_keys($languages);
 	<!-- Custom styles for this template -->
 
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
-	<link href="./css/sticky-footer.css" rel="stylesheet"/>
 	<link rel="stylesheet" href="./css/jquery-ui.min.css">
+	<link href="./css/sticky-footer.css" rel="stylesheet"/>
 	<script src="./js/jquery.js"></script>
 	<script src="./js/jquery-ui.min.js"></script>
 	<script src="./js/utils.js"></script>

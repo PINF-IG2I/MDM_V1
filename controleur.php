@@ -23,25 +23,20 @@ include_once "libs/modele.php";
 		*/
 
 		// Un paramètre action a été soumis, on fait le boulot...
-			if(isset($_SESSION) && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
-				$action='Logout';
-			}
-			$lockedDatabase=lockedDatabase();
-			if($lockedDatabase=="1" && !empty($_SESSION && secure("status","SESSION")!='Administrator')){
-				updateStatus($_SESSION["id_user"],0);
-				session_destroy();
-				$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
-			} else {
-
-
-
-				switch($action)
-				{
-
-
+		if(isset($_SESSION) && getIsConnected($_SESSION["id_user"]) != $_SESSION["isConnected"]){
+			$action='Logout';
+		}
+		$lockedDatabase=lockedDatabase();
+		if($lockedDatabase=="1" && !empty($_SESSION && secure("status","SESSION")!='Administrator')){
+			updateStatus($_SESSION["id_user"],0);
+			session_destroy();
+			$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
+		} else {
+			switch($action)
+			{
 				// Connexion //////////////////////////////////////////////////
-					case 'Identification' :
-					// On verifie la presence des champs login et passe
+				case 'Identification' :
+				// On verifie la presence des champs login et passe
 					if (($username = secure("username","REQUEST")) && ($password = secure("password")))
 					{
 						$result=checkUser($username,$password);
@@ -59,180 +54,180 @@ include_once "libs/modele.php";
 						}
 					}
 					else $addArgs= "?view=login&msg=".urlencode("Please fill in all fields.");
-
 					// On redirigera vers la page index automatiquement
-					break;
+				break;
 
-					case 'Logout' :
+				case 'Logout' :
 					if(secure("isConnected","SESSION")){
 						updateStatus($_SESSION["id_user"],0);
 						session_destroy();
 						$addArgs="?view=login&msg=".urlencode("You have been logged out.");
 					}
-					break;
+				break;
 
-					case 'Search':
+				case 'Search':
 					if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
 						$data=$_REQUEST["data"];
 						$results=getResultsFromQuery($data,secure("status","SESSION"));
 						echo json_encode($results);
-							die(""); //no need to redirect, the code is stopped there, and the result is sent.
-						}
-						break;
+						die(""); //no need to redirect, the code is stopped there, and the result is sent.
+					}
+				break;
 
-						case 'updateDoc':
-						$addArgs="?view=search&fail=true";
-						if (secure("status","SESSION")=="Administrator" || 	(secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1))
+				case 'updateDoc':
+					$addArgs="?view=search&fail=true";
+					if (secure("status","SESSION")=="Administrator" || 	(secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1))
+					{
+						$data=$_REQUEST["data"];
+						print_r($data);
+						$result=editDocument($data);
+						echo json_encode($result);
+						die("");
+						//$addArgs="?view=search";
+					}
+				break;	
+
+				case 'SearchUser':
+				if(secure("status","SESSION")=="Administrator" && secure("isConnected","SESSION")){
+					$userName=secure("userName");
+				// print_r($userName);
+					$results=getUsersFromQuery($userName);
+					echo json_encode($results);
+					die("");
+				}
+				break;
+
+				case 'changeLanguage':
+					if(secure("isConnected","SESSION"))
+					if ($language =secure("language"))
+					{
+						$_SESSION["language"]=$language;
+						updateLanguage($language,$_SESSION["id_user"]);
+						$addArgs="?view=administration";
+					}
+				break;
+
+				case 'editUser':
+					$addArgs="?view=administration&fail=true";
+					if (secure("status","SESSION")=="Administrator")
+					{
+						$number=secure("number");
+						$lastName=secure("last_name");
+						$firstName=secure("first_name");
+						$status=secure("status");
+						$language=secure("language");
+						$password=secure("password");
+						if ($number && $lastName && $firstName && $status && $language)
 						{
-							$data=$_REQUEST["data"];
-							$result=editDocument($data);
-							echo json_encode($result);
-							$addArgs="?view=search";
+							if ($password)
+								editUser($number,$lastName,$firstName,$status,$language, $password);
+							else
+								editUser($number,$lastName,$firstName,$status,$language);
 
-						}
-						break;	
-
-						case 'SearchUser':
-						if(secure("status","SESSION")=="Administrator" && secure("isConnected","SESSION")){
-							$userName=secure("userName");
-						// print_r($userName);
-							$results=getUsersFromQuery($userName);
-							echo json_encode($results);
-							die("");
-						}
-						break;
-
-						case 'changeLanguage':
-						if(secure("isConnected","SESSION"))
-							if ($language =secure("language"))
-							{
-								$_SESSION["language"]=$language;
-								updateLanguage($language,$_SESSION["id_user"]);
-								$addArgs="?view=administration";
-							}
-							break;
-
-							case 'editUser':
-							$addArgs="?view=administration&fail=true";
-							if (secure("status","SESSION")=="Administrator")
-							{
-								$number=secure("number");
-								$lastName=secure("last_name");
-								$firstName=secure("first_name");
-								$status=secure("status");
-								$language=secure("language");
-								$password=secure("password");
-								if ($number && $lastName && $firstName && $status && $language)
-								{
-									if ($password)
-										editUser($number,$lastName,$firstName,$status,$language, $password);
-									else
-										editUser($number,$lastName,$firstName,$status,$language);
-
-									$addArgs="?view=administration";
-								}
-							}
-							break;
-
-							case 'deleteUser':
-							$addArgs="?view=administration&fail=true";
-							if (secure("status","SESSION")=="Administrator")
-							{
-								if ($number=secure("number"))
-								{
-									deleteUser($number);
-									$addArgs="?view=administration";
-								}
-							}
-							break;
-
-							case 'createUser':
-							$addArgs="?view=administration&fail=true";
-							if (secure("status","SESSION")=="Administrator")
-							{
-								$lastName=secure("last_name");
-								$firstName=secure("first_name");
-								$password=secure("password");
-								$status=secure("status");
-								$language=secure("language");
-								if ($lastName && $firstName && $password && $status && $language)
-								{
-									createUser($lastName,$firstName,$password,$status,$language);
-									$addArgs="?view=administration";
-								}
-							}
-							break;
-
-							case 'deleteDoc':
-							$addArgs="?view=search&fail=true";
-							if (secure("status","SESSION")=="Administrator")
-							{
-								if($id=secure("id_doc"))
-								{
-									deleteDoc($id);
-									$addArgs="?view=search";
-								}
-							}
-							break;
-
-							case 'forceLogout':
-							$addArgs="?view=administration&fail=true";
-
-							if (secure("status","SESSION")=="Administrator")
-							{
-								if ($id=secure("id"))
-									updateStatus($id,0);
-								$addArgs="?view=administration";
-							}
-							break;
-
-							case 'exportResults':
-							if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
-								$data=json_decode($_REQUEST["data"],true);
-								if(!empty($data));
-								exportResults($data);
-								$addArgs="?view=search";
-							}
-							break;
-
-							case 'resetDB':
-							$addArgs="?view=administration&fail=true";
-
-							if (secure("status","SESSION")=="Administrator")
-							{
-								deleteDatabase();
-								$addArgs="?view=administration";
-							}
-							break;
-
-							case 'importDB':
-							$addArgs="?view=administration&fail=true";
-							if (secure("status","SESSION")=="Administrator")
-							{
-
-								$data=json_decode($_FILES["file"]["name"]);
-								echo json_encode($data);
-								die();
-
-								$addArgs="?view=administration";
-							}
-							break;
-
-							case 'lockDB':
-							$addArgs="?view=administration&fail=true";
-							if(secure("status","SESSION")=="Administrator"){
-								if($lockedDatabase=="1")
-									changeDatabaseStatus("unlock");
-								else
-									changeDatabaseStatus("lock");
-								$addArgs="?view=administration";
-							}
-
+							$addArgs="?view=administration";
 						}
 					}
+				break;
 
-				}
+				case 'deleteUser':
+					$addArgs="?view=administration&fail=true";
+					if (secure("status","SESSION")=="Administrator")
+					{
+						if ($number=secure("number"))
+						{
+							deleteUser($number);
+							$addArgs="?view=administration";
+						}
+					}
+				break;
 
+				case 'createUser':
+					$addArgs="?view=administration&fail=true";
+					if (secure("status","SESSION")=="Administrator")
+					{
+						$lastName=secure("last_name");
+						$firstName=secure("first_name");
+						$password=secure("password");
+						$status=secure("status");
+						$language=secure("language");
+						if ($lastName && $firstName && $password && $status && $language)
+						{
+							createUser($lastName,$firstName,$password,$status,$language);
+							$addArgs="?view=administration";
+						}
+					}
+				break;
+
+				case 'deleteDoc':
+					$addArgs="?view=search&fail=true";
+					if (secure("status","SESSION")=="Administrator")
+					{
+						if($id=secure("id_doc"))
+						{
+							deleteDoc($id);
+							$addArgs="?view=search";
+						}
+					}
+				break;
+
+				case 'forceLogout':
+					$addArgs="?view=administration&fail=true";
+
+					if (secure("status","SESSION")=="Administrator")
+					{
+						if ($id=secure("id"))
+							updateStatus($id,0);
+						$addArgs="?view=administration";
+					}
+				break;
+
+				case 'exportResults':
+					if(isset($_REQUEST["data"]) && $_REQUEST["data"] !="" && secure("status","SESSION")!="Forbidden" && secure("isConnected","SESSION")){
+						$data=json_decode($_REQUEST["data"],true);
+						if(!empty($data));
+						exportResults($data);
+						$addArgs="?view=search";
+					}
+				break;
+
+				case 'resetDB':
+					$addArgs="?view=administration&fail=true";
+
+					if (secure("status","SESSION")=="Administrator")
+					{
+						deleteDatabase();
+						$addArgs="?view=administration";
+					}
+				break;
+
+				case 'importDB':
+					$addArgs="?view=administration&fail=true";
+					if (secure("status","SESSION")=="Administrator")
+					{
+
+						$data=json_decode($_FILES["file"]["name"]);
+						echo json_encode($data);
+						die();
+
+						$addArgs="?view=administration";
+					}
+				break;
+
+				case 'lockDB':
+					$addArgs="?view=administration&fail=true";
+					if(secure("status","SESSION")=="Administrator"){
+						if($lockedDatabase=="1")
+							changeDatabaseStatus("unlock");
+						else
+							changeDatabaseStatus("lock");
+						$addArgs="?view=administration";
+					}
+				break;
+
+			}
+		}
+
+	}
 	// On redirige toujours vers la page index, mais on ne connait pas le répertoire de base
 	// On l'extrait donc du chemin du script courant : $_SERVER["PHP_SELF"]
 	// Par exemple, si $_SERVER["PHP_SELF"] vaut /chat/data.php, dirname($_SERVER["PHP_SELF"]) contient /chat

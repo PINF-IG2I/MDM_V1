@@ -43,3 +43,7 @@ pb au niveau des id pour récupérer les data de chaque ligne (what if 1 - 2 - 8 ?
 QUESTIONS REUNION JEUDI 22/03
 possible d'avoir un document sans traduction ? (me semble évident mais confirmation)
 (dans table document enregistrement 1 - 1 - 1 - NULL par exemple ?)
+modification d'un document : modifier un des attributs de document_reference aura un impact sur tous les autres documents, puisqu'une référence est unique pour un doc.
+l'ajout d'une langue de traduction à un document qui n'en avait pas produira un nouvel enregistrement dans la table document_language.
+un produit et/ou un composant qui n'existe pas produira un nouvel enregistrement dans la table produit et/ou composant
+utilité des tables components et ETCS_subsystem de moins en moins précise
