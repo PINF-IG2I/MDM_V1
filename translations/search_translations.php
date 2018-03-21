@@ -65,7 +65,10 @@ $languages= array(
 		"export" => "Export the results of the search",
 		"manager_connected" => "A manager is connected, datas may change.",
 		"manager_in_charge" => "You are allowed to update datas.",
-		"manager_not_in_charge" => "Another manager already has the possibility to update datas."
+		"manager_not_in_charge" => "Another manager already has the possibility to update datas.",
+		"no result" => "No results found.",
+		"sure_edit_doc" => "Are you sure you want to edit the document ?",
+		"edit" => "Edit"
 
 		
 
@@ -135,7 +138,10 @@ $languages= array(
 		'export' => "Exporter les résultats de la recherche",
 		"manager_connected" => "Un gestionnaire est connecté, les données sont susceptibles de changer.",
 		"manager_in_charge" => "Vous êtes autorisés à modifier des données de la base.",
-		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base."
+		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base.",
+		"no_result" => "Aucun résultat.",
+		"sure_edit_doc" => "Êtes-vous sur de vouloir éditer le document ?",
+		"edit" => "Éditer"
 	)
 
 );

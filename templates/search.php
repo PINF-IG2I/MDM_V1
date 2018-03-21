@@ -166,6 +166,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 
 	<div class="lead">
+		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
 		<div id="resultsPage">
 			<div class="page-header">
 				<center><h1><?php echo $translation["result"]?></h1></center>
@@ -451,14 +452,12 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 										<div class="form-group">
 											<div class="input-group" style="margin:0 auto">
 												<div class="btn-group" role="group" aria-label="Basic example">
-													<button type="button" id="changeDoc" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
+													<button type="button" data-target="#changeDoc" data-toggle="modal" class="btn btn-info btn-fill"><?php echo $translation["save"]?></button>
 													<button type="button" data-target="#deleteDoc" data-toggle="modal" class="btn btn-info btn-fill"><?php echo $translation["delete"]?></button>
 													<button type="button" id="leaveEdit" class="btn btn-info btn-fill" data-dismiss="modal" aria-label="Close"><?php echo $translation["leave"]?></button>
 												</div>
 											</div>
 										</div>
-
-
 									</fieldset>
 								</div>
 							</td>
@@ -689,6 +688,28 @@ else {
 					<input id="numberDeleteDoc" type="hidden" name="id_doc" value="" />
 					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 					<button type="submit" name="action" value="deleteDoc" class="btn btn-danger"><?php echo $translation["delete"]?></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL TO EDIT THE DOCUMENT -->
+<div class="modal fade" id="changeDoc" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalLabel">Important</h4>
+			</div>
+			<div class="modal-body">
+				<p><?php echo $translation["sure_edit_doc"] ?></p>
+			</div>
+			<div class="modal-footer">
+				<form action="controleur.php">
+					<input id="numberDeleteDoc" type="hidden" name="id_doc" value="" />
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+					<button type="submit" name="action" value="changeDoc" class="btn btn-success"><?php echo $translation["edit"]?></button>
 				</form>
 			</div>
 		</div>
