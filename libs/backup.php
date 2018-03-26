@@ -1,9 +1,12 @@
 <?php
 include_once "config.php";
+include_once "maLibUtils.php";
+
+session_start();
 
 if (secure("status","SESSION")!="Administrator")
 {
-	header("Location:index.php?view=search&message=".urlencode("You need to be Administrator."));
+	header("Location:../index.php?view=search&message=".urlencode("You need to be Administrator."));
 	die("");
 }
 
