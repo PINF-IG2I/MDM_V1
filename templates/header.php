@@ -10,7 +10,7 @@ $languageList=array_keys($languages);
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -23,17 +23,16 @@ $languageList=array_keys($languages);
 	<!-- Custom styles for this template -->
 
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="./css/jquery-ui.min.css">
 	<link href="./css/sticky-footer.css" rel="stylesheet"/>
-
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery-ui.min.js"></script>
 	<script src="./js/utils.js"></script>
 	<script src="./bootstrap/js/bootstrap.min.js"></script>
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	
 	
-	<script src="./bootstrap/js/popper.min.js."></script>
+	<script src="./bootstrap/js/popper.min.js"></script>
 </head>
 
 
@@ -50,6 +49,7 @@ $languageList=array_keys($languages);
 				<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
 				
 				<div id="content_header">
+
 					<?php
 					if (secure("status","SESSION") == "Administrator")
 					{
@@ -78,34 +78,3 @@ $languageList=array_keys($languages);
 			</div>
 		</nav>
 	</header>
-
-
-
-<!--
-
-  <header>
-
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Fixed navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/#">Disabled</a>
-          </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-  </header>-->

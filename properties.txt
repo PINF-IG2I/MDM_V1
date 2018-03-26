@@ -1,0 +1,2 @@
+locked_database=0
+manager=10

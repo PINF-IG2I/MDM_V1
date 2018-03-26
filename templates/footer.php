@@ -16,8 +16,8 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 <!-- end of content --> 
 
 <!-- end of wrap -->
-</div>
-<footer class="footer" >
+</body>
+<footer class="footer" id="footer">
 	<div class="container">
 			<span class="text-muted">
 				<?php
@@ -37,6 +37,4 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 			</span>
 	</div>
 </footer>
-</main>
-</body>
 </html>
