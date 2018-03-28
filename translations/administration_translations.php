@@ -11,6 +11,9 @@ $languages= array(
 		'importDB' => 'Import Backup',
 		'saveDB' => 'Save Database',
 		'resetDB' => 'Reset Database',
+		'lockDB' => 'Lock Database',
+		'unlockDB' => 'Unlock Database',
+		'important' => 'Important',
 		'user_name' => 'User Name',
 		'search' => 'Search',
 		'is_connected' => 'Is Connected',
@@ -25,8 +28,13 @@ $languages= array(
 		'administrator' => 'Administrator',
 		'disconnect' => 'Disconnect User',
 		'create_user' => 'Create User',
+		'edit_user' => 'Edit user',
 		'delete_user' => 'Delete User',
+		'delete_database' => 'Delete Database',
 		'sure_delete_user' => 'Are you sure you want to delete the user',
+		'sure_delete_database' => 'Are you sure you want to delete the database ',
+		'sure_unlock_database' => 'Are you sure you want to unlock the database ',
+		'sure_lock_database' => 'Are you sure you want to lock the database ',
 		'close' => 'Close'
 
 
@@ -42,6 +50,9 @@ $languages= array(
 		'importDB' => 'Importer Sauvegarde',
 		'saveDB' => 'Sauvegarder',
 		'resetDB' => 'Réinitialiser',
+		'lockDB' => 'Verrouiller la base',
+		'unlockDB' => 'Déverrouiller la base',
+		'important' => 'Important',
 		'user_name' => 'Nom Utilisateur',
 		'search' => 'Rechercher',
 		'is_connected' => 'Est Connecté',
@@ -56,8 +67,13 @@ $languages= array(
 		'administrator' => 'Administrateur',
 		'disconnect' => 'Déconnecter l\'Utilisateur',
 		'create_user' => 'Créer Utilisateur',
+		'edit_user' => 'Éditer l\'Utilisateur',
 		'delete_user' => 'Supprimer User',
+		'delete_database' => 'Supprimer les données de la base',
 		'sure_delete_user' => 'Êtes-vous sûr de vraiment vouloir supprimer l\'utilisateur',
+		'sure_delete_database' => 'Êtes-vous sûr de vraiment vouloir supprimer la base ',
+		'sure_unlock_database' => 'Êtes-vous sûr de vraiment vouloir déverouiller la base ',
+		'sure_lock_database' => 'Êtes-vous sûr de vraiment vouloir verouiller la base ',
 		'close' => 'Fermer'
 
 

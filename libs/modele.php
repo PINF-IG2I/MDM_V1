@@ -187,7 +187,6 @@ function deleteDatabase() {
 	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
 	SET FOREIGN_KEY_CHECKS = 1;";
 	return SQLUpdate($SQL);
-
 }
 
 function exportResults($data){
@@ -295,7 +294,6 @@ function writeInFile($propertyName,$value){
 //Execute queries from an SQL file
 function importSQL($filesql) {
     deleteDatabase();
-	
 }
 
 ?>

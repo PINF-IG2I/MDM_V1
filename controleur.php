@@ -208,6 +208,7 @@ include_once "libs/modele.php";
 					{
 						$addArgs="?view=administration";
 						die();
+ 
 					}
 				break;
 

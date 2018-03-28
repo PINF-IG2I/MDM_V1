@@ -20,25 +20,25 @@ Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer
 html,
 body {
   font-family: "Alstom";
-  height: 100%;
-  margin : auto;
-  padding : auto;
+  /*height: 100%;*/
+  /*margin : auto;*/
+  /*margin-bottom:60px;*/
+  /*padding-bottom:60px;*/
+  /*padding : auto;*/
 
   /* The html and body elements cannot have any padding or margin. */
 }
 select{
-   font-weight: lighter;
+ font-weight: lighter;
 }
+
+
 /* Header */ 
-
-
-
-
 
 
 /* Bootstrap modification */
 .bg-dark {
-  background-color: rgb(237,26,59) !important; 
+  background-color: rgb(12, 65, 173) !important; 
 }
 
 .navbar
@@ -83,7 +83,7 @@ select{
   font-size: 2rem;
   font-weight: lighter;
   display :inline-block;  
-    margin-top: 0.6rem;
+  margin-top: 0.6rem;
 }
 
 #administrationBtn:hover
@@ -117,9 +117,7 @@ select{
   padding: 0 0 60px;
 }
 
-/* Set the fixed height of the footer here */
-#footer {
-  height: 20rem;
+.footer {
   background-color: #f5f5f5;
 }
 
@@ -129,6 +127,19 @@ select{
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
+
+
+.selcls { 
+  padding: 9px; 
+  border: solid 1px #517B97; 
+  outline: 0; 
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #ddf1ff), to(#FFFFFF)); 
+  background: -moz-linear-gradient(top, #FFFFFF, #cae5f7 1px, #FFFFFF 25px); 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+
+} 
 
 .container .credit {
   margin:0;
@@ -194,7 +205,7 @@ select{
 }
 
 #content_search_1 select  {
-height: 7.6rem;
+  height: 7.6rem;
 
 }
 
@@ -204,7 +215,7 @@ height: 7.6rem;
 }
 
 #content_search_2 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_3{
@@ -214,7 +225,7 @@ height: 7.6rem;
 }
 
 #content_search_3 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_4
@@ -258,7 +269,7 @@ height: 7.6rem;
 
 
 #content_search_7 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 #content_search_8 {
@@ -269,7 +280,7 @@ height: 7.6rem;
 
 
 #content_search_8 select  {
-height: 7.6rem;
+  height: 7.6rem;
 }
 
 
