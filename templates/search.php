@@ -24,6 +24,16 @@ if(secure("status","SESSION")=='Manager'){
 }
 
 
+if(secure("status","SESSION")=='Manager'){
+	$id_manager=connectedManager();
+	if($id_manager==secure("id_user","SESSION")){
+		$_SESSION["authorized"]=1;
+	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
+		writeInFile("manager",secure("id_user","SESSION"));
+		$_SESSION["authorized"]=1;
+	} else $_SESSION["authorized"]=0;
+}
+
 
 ?>
 
@@ -40,6 +50,7 @@ $previous_doc = "[";
 for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
 	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
 
+
 foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
 $version = "[";
 for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
@@ -49,12 +60,8 @@ foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
 $pic = "[";
 for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
-
-
-
-
-
 ?>
+
 
 <!-- Begin page content -->
 <main role="main" class="container">

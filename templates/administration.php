@@ -226,7 +226,9 @@ $lockedDatabase=lockedDatabase();
 </div>
 <!-- END HIDDEN DIALOG TO DELETE USER -->
 
+
 <!-- END USER MANAGEMENT -->
+
 
 <!-- DATABASE MANAGEMENT -->
 <div class="page-header">
@@ -234,11 +236,14 @@ $lockedDatabase=lockedDatabase();
 </div>
 <div id="db_management" >
 	<center>
-		<form action="controleur.php" >
-			<button class="btn btn-info" name="action" value="importDB" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
+		<button class="btn btn-info" onclick="saveDB();" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+		<form id="db_management_form" style="display: inline-block;" action="controleur.php" method="POST" >
+			
+			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' onchange="importSave();" hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase"><?php
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
+			<input type="submit" name="action" value="importDB" style="display: none" />
+			<?php
 
 			if($lockedDatabase=="1")
 				echo $translation["unlockDB"];
@@ -322,6 +327,16 @@ $lockedDatabase=lockedDatabase();
 			$("#status").val(tabUsers[index]["status"]);
 			$("#numberDeleteUser").val(tabUsers[index]["id_user"]);
 			$("#messageDelete").html("<?php echo $translation["sure_delete_user"]?> <strong>"+tabUsers[index]['first_name']+" "+tabUsers[index]['last_name']+"</strong>?");
+		}
+	
+		function saveDB()
+		{
+			document.location.href="./libs/backup.php"; 
+		}
+		
+		function importSave()
+		{
+			$("#db_management_form").submit();
 		}
 		
 	</script>

@@ -60,7 +60,7 @@ function secure($nom,$type="REQUEST")
 function getValue($nom,$defaut=false,$type="REQUEST")
 {
 	// NB : cette commande affecte la variable resultat une ou deux fois
-	if (($resultat = valider($nom,$type)) === false)
+	if (($resultat = secure($nom,$type)) === false)
 		$resultat = $defaut;
 
 	return $resultat;

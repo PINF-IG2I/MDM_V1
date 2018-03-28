@@ -7,8 +7,10 @@ include_once "libs/maLibSecurisation.php";
 include_once "libs/modele.php"; 
 
 	$addArgs = ""; //this variable is used to redirect the user after the action has been treated.
-
-	if ($action = secure("action"))
+	$action = secure("action");
+	if (!$action)
+		$action = secure("action", "POST");
+	if ($action)
 	{
 		ob_start ();
 		// ATTENTION : le codage des caractères peut poser PB si on utilise des actions comportant des accents... 
@@ -204,12 +206,8 @@ include_once "libs/modele.php";
 					$addArgs="?view=administration&fail=true";
 					if (secure("status","SESSION")=="Administrator")
 					{
-
-						$data=json_decode($_FILES["file"]["name"]);
-						echo json_encode($data);
-						die();
-
 						$addArgs="?view=administration";
+						die();
 					}
 				break;
 
