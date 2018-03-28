@@ -226,7 +226,9 @@ $lockedDatabase=lockedDatabase();
 </div>
 <!-- END HIDDEN DIALOG TO DELETE USER -->
 
+
 <!-- END USER MANAGEMENT -->
+
 
 <!-- DATABASE MANAGEMENT -->
 <div class="page-header">
@@ -326,7 +328,7 @@ $lockedDatabase=lockedDatabase();
 			$("#numberDeleteUser").val(tabUsers[index]["id_user"]);
 			$("#messageDelete").html("<?php echo $translation["sure_delete_user"]?> <strong>"+tabUsers[index]['first_name']+" "+tabUsers[index]['last_name']+"</strong>?");
 		}
-		
+	
 		function saveDB()
 		{
 			document.location.href="./libs/backup.php"; 

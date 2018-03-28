@@ -24,9 +24,18 @@ if(secure("status","SESSION")=='Manager'){
 }
 
 
+if(secure("status","SESSION")=='Manager'){
+	$id_manager=connectedManager();
+	if($id_manager==secure("id_user","SESSION")){
+		$_SESSION["authorized"]=1;
+	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
+		writeInFile("manager",secure("id_user","SESSION"));
+		$_SESSION["authorized"]=1;
+	} else $_SESSION["authorized"]=0;
+}
+
 
 ?>
-
 
 
 <?php
@@ -41,6 +50,7 @@ $previous_doc = "[";
 for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
 	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
 
+
 foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
 $version = "[";
 for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
@@ -50,11 +60,6 @@ foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
 $pic = "[";
 for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
-
-
-
-
-
 ?>
 
 
@@ -76,91 +81,129 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 	}
 	?>
 	<div class="page-header">
-		<center><h1><?php echo $translation["titlePage"]?></h1></center>
+	<h1><?php echo $translation["titlePage"]?></h1>
 	</div>
 
 	<form role="form" class="form-horizontal" id="headerSearch">
-		<div class="form-group">
-			<label class="col-sm-1" for="name"><?php echo $translation["doc_number"] ?></label>
-			<div class="col-sm-2"><input type="text" class="form-control selcls" id="doc_number" placeholder="<?php echo $translation["doc_number"] ?>" name="name"></div>
-			<label class="col-sm-1" for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
-			<div class="col-sm-2"><input type="text" class="form-control selcls" id="previous_ref" placeholder="<?php echo $translation["previous_ref"] ?>" name="previous_doc"></div>
-			<label class="col-sm-1" for="version"><?php echo $translation["version"] ?></label>
-			<div class="col-sm-2"><input type="text" class="form-control selcls" id="version" placeholder="<?php echo $translation["version"] ?>" name="version"></div>
-			<label class="col-sm-1" for="inputPassword1"><?php echo $translation["pic"] ?></label>
-			<div class="col-sm-2"><input type="text" class="form-control selcls" id="pic" placeholder="<?php echo $translation["pic"] ?>" name="pic"></div>
+				
+		<!-- doc_number and previous_doc input -->
+		<div id="content_search_1">
+			<div class="form_search">
+				<label for="name"><?php echo $translation["doc_number"] ?></label>
+				<input id="doc_number" type="text" name="name"/>
+			</div> 
+
+			<div class="form_search">
+				<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
+				<input id="previous_ref" type="text" name="previous_doc"/>
+			</div>	
 		</div>
-		<div class="form-group">
-			<label class="col-sm-1" for="baseline"><?php echo $translation["baseline"] ?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2"  multiple="multiple" name="gatc_baseline">
-					<?php
+
+		<!-- version and pic input -->
+		<div id="content_search_2">
+			<div class="form_search">
+				<label for="version"><?php echo $translation["version"] ?></label>
+				<input id="version" type="text" name="version"/>
+			</div>
+
+			<div class="form_search" >
+				<label for="pic"><?php echo $translation["pic"] ?></label>
+				<input id="pic" type="text" name="pic"/>
+			</div>
+		</div>
+
+		<!-- baseline select-->
+		<div class="form_search" id="content_search_3">
+			<label for="baseline"><?php echo $translation["baseline"] ?></label>
+		
+			<select multiple name="gatc_baseline">
+				<?php
+				foreach ($searchDatas["baseline"] as $key => $value) {
+					echo "<div><option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option></div>";
+				}
+
+				?>
+			</select>
+
+			<div class="multiselect"  multiple name="gatc_baseline" >
+
+				<?php
 					foreach ($searchDatas["baseline"] as $key => $value) {
-						echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+						echo "<label> <input type='checkbox' value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</label>";
 					}
+				?>
+			</div>
 
-					?>
-				</select>
-			</div>
-			<label class="col-sm-1" for="language"><?php echo $translation["language"]?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2"  multiple="multiple" name="initial_language">
-					<?php
-					foreach ($searchDatas["language"] as $key => $value) {
-						echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
-					}
 
-					?>
-				</select>
-			</div>
-			<label class="col-sm-1" for="type"><?php echo $translation["type"]?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2"  multiple="multiple" name="type">
-					<option value="installation"><?php echo $translation["installation"]?></option>
-					<option value="maintenance"><?php echo $translation["maintenance"]?></option>
-				</select>
-			</div>
+
 		</div>
-		<div class="form-group">
-			<label class="col-sm-1" for="etcs_subsystem"><?php echo $translation["product"]?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2"  multiple="multiple" name="etcs_subsystem.id">
-					<?php
-					foreach ($searchDatas["product"] as $key => $value) {
-						echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
-					}
 
-					?>
-				</select>
-			</div>
-			<label class="col-sm-1" for="component"><?php echo $translation["component"]?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2" multiple="multiple" name="component">
-					<?php
-					foreach ($searchDatas["component"] as $key => $value) {
-						echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
-					}
+		<!-- language select -->
+		<div class="form_search" id="content_search_4">
+			<label for="language"><?php echo $translation["language"]?></label>
+			<select multiple name="initial_language">
+				<?php
+				foreach ($searchDatas["language"] as $key => $value) {
+					echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+				}
 
-					?>
-				</select>
-			</div>
-			<label class="col-sm-1" for="site"><?php echo $translation["site"]?></label>
-			<div class="col-sm-3">
-				<select class="form-control selcls" size="2" multiple="multiple" name="site">
-					<?php
-					foreach ($searchDatas["site"] as $key => $value) {
-						echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
-					}
-
-					?>
-				</select>
-			</div>
+				?>
+			</select>
 		</div>
+
+		<!--  type select, only 2 options available : Installation and Maintenance -->
+		<div class="form_search" id="content_search_5">
+			<label for="type"><?php echo $translation["type"]?></label>
+			<select multiple name="type">
+				<option value="installation"><?php echo $translation["installation"]?></option>
+				<option value="maintenance"><?php echo $translation["maintenance"]?></option>
+			</select>
+		</div>
+
+
+		<!-- product select-->
+		<div class="form_search" id="content_search_6">
+			<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
+			<select multiple name="etcs_subsystem.id">
+				<?php
+				foreach ($searchDatas["product"] as $key => $value) {
+					echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
+				}
+
+				?>
+			</select>
+		</div>
+
+		<!-- component select-->
+		<div class="form_search" id="content_search_7">
+			<label for="component"><?php echo $translation["component"]?></label>
+			<select multiple name="component">
+				<?php
+				foreach ($searchDatas["component"] as $key => $value) {
+					echo "<option value='".$value["id"]."'>".$value["component_name"]."</option>";
+				}
+
+				?> 
+			</select>
+		</div>
+
+		<!-- site select-->
+		<div class="form_search" id="content_search_8">
+			<label for="site"><?php echo $translation["site"]?></label>
+			<select multiple name="site">
+				<?php
+				foreach ($searchDatas["site"] as $key => $value) {
+					echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+				}
+
+				?>
+			</select>
+		</div>
+
+
 		<br>
-		<div class="form-group">
-			<div class="col-sm-12">
-				<button type="button" class="btn btn-info btn-block" id="send" style="width:30%;margin:auto"><?php echo $translation["search"]?></button>
-			</div>
+		<div class="form_search" id="content_search_9">					
+			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
 		</div>
 	</form>
 
@@ -468,6 +511,11 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 		</form>
 	</div>
 
+
+
+
+
+
 	<?php 
 }
 else {
@@ -763,6 +811,26 @@ else {
     			$( "#version" ).autocomplete({ source: autoversion });
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
+
+    		jQuery.fn.multiselect = function() {
+			$(this).each(function() {
+			    var checkboxes = $(this).find("input:checkbox");
+			    checkboxes.each(function() {
+			        var checkbox = $(this);
+			        // Highlight pre-selected checkboxes
+			        if (checkbox.prop("checked"))
+			            checkbox.parent().addClass("multiselect-on");
+
+			        // Highlight checkboxes that the user selects
+			        checkbox.click(function() {
+			            if (checkbox.prop("checked"))
+			                checkbox.parent().addClass("multiselect-on");
+			            else
+			                checkbox.parent().removeClass("multiselect-on");
+			        });
+			    });
+			});
+			};
 
     		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>

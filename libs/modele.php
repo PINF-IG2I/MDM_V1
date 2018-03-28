@@ -291,6 +291,50 @@ function writeInFile($propertyName,$value){
 	}
 }
 
+function changeDatabaseStatus($status){
+	if($status=="lock"){
+		writeInFile("locked_database","1");
+	} else
+		writeInFile("locked_database","0");
+	disconnectAll();
+
+}
+
+/** Disconnect all users except administrator*/
+function disconnectAll(){
+	$SQL="UPDATE users SET isConnected='0' WHERE status!='Administrator'";
+	return SQLUpdate($SQL);
+}
+
+
+/** Write something in a file with the following pattern $propertyName=$value */
+function writeInFile($propertyName,$value){
+	if(!file_exists("./properties.txt")){ //In case the file does not exist, it is recreated with DEFAULT values
+			$file=fopen("./properties.txt","w");
+			if($file){
+				fwrite($file,"manager=\r\n");
+				fwrite($file,"locked_database=1\r\n");
+				fclose($file);
+				return "problem";  
+			}
+	} else {
+		$text='';
+		$file=fopen("./properties.txt","r+");
+		if($file){
+			while(!feof($file)){
+				$line=fgets($file);
+				$entry=explode("=",$line);
+				if($entry[0]==$propertyName){
+					$text.=$propertyName."=".$value."\r\n";
+
+				} else $text.=$line;
+			}
+			fclose($file);
+		}
+		file_put_contents("./properties.txt",$text);
+	}
+}
+
 //Execute queries from an SQL file
 function importSQL($filesql) {
     deleteDatabase();
