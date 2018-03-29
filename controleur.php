@@ -210,6 +210,16 @@ include_once "libs/modele.php";
 						die();
 					}
 				break;
+				//Import datas
+				case 'import':
+					$addArgs="?view=search";
+					if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1)){
+						print_r($_POST);
+						print_r($_FILES); // TODO : check file validity
+						importDatas($_FILES["file"]['tmp_name']);
+						die("");	
+					}
+				break;
 
 				case 'lockDB':
 					$addArgs="?view=administration&fail=true";
