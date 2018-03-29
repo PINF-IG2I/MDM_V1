@@ -72,8 +72,8 @@ $languages= array(
 		'delete_database' => 'Supprimer les données de la base',
 		'sure_delete_user' => 'Êtes-vous sûr de vraiment vouloir supprimer l\'utilisateur',
 		'sure_delete_database' => 'Êtes-vous sûr de vraiment vouloir supprimer la base ',
-		'sure_unlock_database' => 'Êtes-vous sûr de vraiment vouloir déverouiller la base ',
-		'sure_lock_database' => 'Êtes-vous sûr de vraiment vouloir verouiller la base ',
+		'sure_unlock_database' => 'Êtes-vous sûr de vraiment vouloir déverrouiller la base ',
+		'sure_lock_database' => 'Êtes-vous sûr de vraiment vouloir verrouiller la base ',
 		'close' => 'Fermer'
 
 

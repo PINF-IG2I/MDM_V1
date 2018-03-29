@@ -39,7 +39,7 @@ if(secure("status","SESSION")=='Manager'){
 
 
 <?php
-foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
+foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
 $name = "[";
 for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
 	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
@@ -81,16 +81,25 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 	}
 	?>
 	<div class="page-header">
-	<h1><?php echo $translation["titlePage"]?></h1>
+		<h1><?php echo $translation["titlePage"]?></h1>
 	</div>
-
+	<?php 
+		if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
+		echo'
+		<form action="controleur.php" method="post" enctype="multipart/form-data">
+		<label for="file">'.$translation["import"].'</label>
+		<input type="file" name="file" id="file" />
+		<button type="submit" name="action" value="import" >'.$translation["import"].'</button>
+		</form>';
+		}
+	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
 				
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
 				<label for="name"><?php echo $translation["doc_number"] ?></label>
-				<input id="doc_number" type="text" name="name"/>
+				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
 			<div class="form_search">
@@ -125,14 +134,14 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 				?>
 			</select>
 
-			<div class="multiselect"  multiple name="gatc_baseline" >
+			<!--<div class="multiselect"  multiple name="gatc_baseline" >
 
 				<?php
 					foreach ($searchDatas["baseline"] as $key => $value) {
 						echo "<label> <input type='checkbox' value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</label>";
 					}
 				?>
-			</div>
+			</div>-->
 
 
 
@@ -164,10 +173,10 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		<!-- product select-->
 		<div class="form_search" id="content_search_6">
 			<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
-			<select multiple name="etcs_subsystem.id">
+			<select multiple name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
+					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
@@ -180,7 +189,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					echo "<option value='".$value["id"]."'>".$value["component_name"]."</option>";
+					echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
@@ -214,10 +223,10 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<div class="page-header">
 				<center><h1><?php echo $translation["result"]?></h1></center>
 			</div>
-			<div action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
-			</div>
+			</form>
 			<br>
 			<div id="results">
 			</div>
@@ -249,9 +258,15 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
+											<label class="col-md-4 control-label"><?php echo $translation["reference"]?></label>
 											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="name" placeholder=<?php echo $translation["file"]?> class="form-control" value="" type="text"></div>
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="Reference" name="reference" placeholder=<?php echo $translation["reference"]?> class="form-control" value="" type="text"></div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
+											<div class="col-md-8 inputGroupContainer">
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="subject" placeholder=<?php echo $translation["object"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
 										<div class="form-group">
@@ -266,12 +281,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="Baseline" name="GATC_baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
-											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="subject" placeholder=<?php echo $translation["object"]?> class="form-control" value="" type="text"></div>
-											</div>
-										</div>
+										
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["site"]?></label>
 											<div class="col-md-8 inputGroupContainer">
@@ -777,7 +787,7 @@ else {
     			$("#Key").val(tabDocs[index]["id_doc"]);
     			$("#initialLanguage").val(tabDocs[index]["initial_language"]);
     			$("#Version").val(tabDocs[index]["version"]);
-    			$("#File").val(tabDocs[index]["name"]);
+    			$("#Reference").val(tabDocs[index]["reference"]);
     			$("#Object").val(tabDocs[index]["subject"]);
     			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
     			$("#Site").val(tabDocs[index]["site"]);
