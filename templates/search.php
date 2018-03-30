@@ -212,13 +212,29 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 		<br>
 		<div class="form_search" id="content_search_9">					
-			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
+			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 		</div>
 	</form>
 
 
 	<div class="lead">
 		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+		<div style="display:none" id="hiddenTab">
+			<table class="table table-hover">
+				<thead><tr>
+					<th><?php echo $translation["key"]?></th>
+					<th><?php echo $translation["version"]?></th>
+					<th><?php echo $translation["language"]?></th>
+					<th><?php echo $translation["reference"]?></th>
+					<th><?php echo $translation["object"]?></th>
+					<th><?php echo $translation["site"]?></th>
+					<th><?php echo $translation["pic"]?></th>
+					<th><?php echo $translation["status"]?></th>
+					<th><?php echo $translation["component"]?></th>
+					<th><?php echo $translation["product"]?></th>
+				</tr></thead>
+			</table>
+		</div>
 		<div id="resultsPage">
 			<div class="page-header">
 				<center><h1><?php echo $translation["result"]?></h1></center>
