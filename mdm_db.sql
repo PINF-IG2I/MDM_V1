@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 21 mars 2018 à 17:35
+-- Généré le :  jeu. 29 mars 2018 à 10:48
 -- Version du serveur :  5.7.19
 -- Version de PHP :  5.6.31
 
@@ -111,7 +111,7 @@ INSERT INTO `document_language` (`id_entry`, `language`, `project`, `translator`
 DROP TABLE IF EXISTS `document_reference`;
 CREATE TABLE IF NOT EXISTS `document_reference` (
   `id_ref` int(11) NOT NULL DEFAULT '0',
-  `name` char(255) NOT NULL DEFAULT 'To be defined',
+  `reference` char(255) NOT NULL DEFAULT 'To be defined',
   `subject` char(255) NOT NULL DEFAULT 'To be defined',
   `initial_language` char(2) NOT NULL DEFAULT 'EN',
   `previous_doc` char(255) NOT NULL,
@@ -134,9 +134,9 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
 -- Déchargement des données de la table `document_reference`
 --
 
-INSERT INTO `document_reference` (`id_ref`, `name`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
-(1, 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'User Guide', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 1),
-(2, 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'System Description', 'DE', '', 'TRU', 'TELOC 1550', 1, 0, '', '', '', '', '', 0);
+INSERT INTO `document_reference` (`id_ref`, `reference`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
+(1, '4RDUKP5396', 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 0),
+(2, '5.0300.091', 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'DE', '', 'TRU', 'TELOC 1550', 1, 0, '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -169,8 +169,8 @@ CREATE TABLE IF NOT EXISTS `document_version` (
 --
 
 INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availability_x`, `availability_aec`, `availability_ftp`, `availability_sharepoint_vbn`, `availability_sharepoint_blq`, `remarks`, `working_field_1`, `working_field_2`, `working_field_3`, `working_field_4`, `status`) VALUES
-(1, 'A01', 'VBN', 'M. Dem.', 1, 0, 0, 0, 1, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
-(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be review', 'Working', 'field', '', '', 'Draft');
+(1, 'A01', 'VBN', 'M. Dem.', 0, 0, 0, 0, 0, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
+(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be reviewed', 'Working', 'field', '', '', 'Draft');
 
 -- --------------------------------------------------------
 
@@ -210,18 +210,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `language` char(2) NOT NULL DEFAULT 'EN',
   `isConnected` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id_user`, `last_name`, `first_name`, `password`, `status`, `language`, `isConnected`) VALUES
-(1, 'test', 'test', 'test', 'Administrator', 'EN', 1),
+(1, 'test', 'test', 'test', 'Administrator', 'FR', 1),
 (5, 'forbidden', 'forbidden', 'forbidden', 'Forbidden', 'EN', 0),
 (6, 'external', 'external', 'external', 'External', 'EN', 0),
-(8, 'test2', 'test2', 'test2', 'Manager', 'FR', 0),
-(10, 'TESTdB', 'TESTdB', 'TESTDV', 'Manager', 'EN', 0);
+(8, 'manager1', 'manager1', 'manager1', 'Manager', 'FR', 0),
+(10, 'manager2', 'manager2', 'manager2', 'Manager', 'EN', 0),
+(11, 'internal', 'internal', 'internal', 'Internal', 'EN', 0),
+(12, 'test2', 'test2', 'test2', 'Manager', 'FR', 0);
 
 --
 -- Contraintes pour les tables déchargées
