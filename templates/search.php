@@ -229,23 +229,7 @@ if(!empty($searchDatas)){
 
 
 	<div class="lead">
-		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
-		<div style="display:none" id="hiddenTab">
-			<table class="table table-hover">
-				<thead><tr>
-					<th><?php echo $translation["key"]?></th>
-					<th><?php echo $translation["version"]?></th>
-					<th><?php echo $translation["language"]?></th>
-					<th><?php echo $translation["reference"]?></th>
-					<th><?php echo $translation["object"]?></th>
-					<th><?php echo $translation["site"]?></th>
-					<th><?php echo $translation["pic"]?></th>
-					<th><?php echo $translation["status"]?></th>
-					<th><?php echo $translation["component"]?></th>
-					<th><?php echo $translation["product"]?></th>
-				</tr></thead>
-			</table>
-		</div>
+		
 		<div id="resultsPage">
 			<div class="page-header">
 				<center><h1><?php echo $translation["result"]?></h1></center>
@@ -256,6 +240,23 @@ if(!empty($searchDatas)){
 			</form>
 			<br>
 			<div id="results">
+				<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+				<div style="display:none" id="hiddenTab">
+					<table class="table table-hover">
+						<thead><tr>
+							<th><?php echo $translation["key"]?></th>
+							<th><?php echo $translation["version"]?></th>
+							<th><?php echo $translation["language"]?></th>
+							<th><?php echo $translation["reference"]?></th>
+							<th><?php echo $translation["object"]?></th>
+							<th><?php echo $translation["site"]?></th>
+							<th><?php echo $translation["pic"]?></th>
+							<th><?php echo $translation["status"]?></th>
+							<th><?php echo $translation["component"]?></th>
+							<th><?php echo $translation["product"]?></th>
+						</tr></thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

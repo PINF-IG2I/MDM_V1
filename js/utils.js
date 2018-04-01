@@ -126,7 +126,9 @@
 				function(oRep){	
 					if(oRep.length!=0) {
 						tabDocs=oRep;
-						$("#hiddenTab table").append("<tbody id='tableResults'>");
+						console.log(oRep);
+						//$("#hiddenTab table").append("<tbody id='tableResults'>");
+						var oResult=$("<tbody id='tableResults'>");
 						$.each(oRep,function(i,val) {
 							var language=val["language"];
 							if(language=="") language=val["initial_language"];
@@ -135,11 +137,13 @@
 								+ language + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
 								+ val["site"] + "</th><th>" + val["pic"] + "</th><th>" + val["status"] + "</th><th>" 
 								+ val["component"] + "</th><th>" + val["product"] + "</th></tr>");
-							$("#hiddenTab table").append(oRow);
+							oResult.append(oRow);
 						});
-						$("#hiddenTab table").append("</tbody>");
-						var oTable = $("#hiddenTab").css("display","block");
-						$("#results").html(oTable);
+						oResult.append("</tbody>");
+						//var oTable = $("#hiddenTab").css("display","block");
+						$("#hiddenTab").show();
+						$("#hiddenTab table tbody").remove();
+						$("#hiddenTab table").append(oResult);
 						$("#exportButton").show();
 						$("#searchValues").attr("value",JSON.stringify(oRep));
 					}
