@@ -104,7 +104,7 @@ if(!empty($searchDatas)){
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
-				<label for="name"><?php echo $translation["doc_number"] ?></label>
+				<label for="name"><?php echo $translation["reference_or_title"] ?></label>
 				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
@@ -250,7 +250,7 @@ if(!empty($searchDatas)){
 			<div class="page-header">
 				<center><h1><?php echo $translation["result"]?></h1></center>
 			</div>
-			<form action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center" method="post">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
 			</form>
@@ -395,7 +395,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											<label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
 											<div class="col-md-8 inputGroupContainer">
 												<div class="input-group">
-													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
+													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="previousReference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
 												</div>
 											</div>
 										</div>
@@ -840,11 +840,11 @@ else {
     			if(tabDocs[index]["availability_ftp"]==1)
     				$("#availability_ftp").attr('checked',true);
     			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
-    			if(tabDocs[index]["availability_sharepoint_vbn_link"]==1)
-    				$("#availability_sharepoint_vbn_link").attr('checked',true);
+    			if(tabDocs[index]["availability_sharepoint_vbn"]==1)
+    				$("#availability_sharepoint_vbn").attr('checked',true);
     			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
-    			if(tabDocs[index]["availability_sharepoint_blq_link"]==1)
-    				$("#availability_sharepoint_blq_link").attr('checked',true);
+    			if(tabDocs[index]["availability_sharepoint_blq"]==1)
+    				$("#availability_sharepoint_blq").attr('checked',true);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -852,6 +852,7 @@ else {
     			$("#Work_4").val(tabDocs[index]["working_field_4"]);
     			$("#numberDeleteDoc").val(tabDocs[index]["id_doc"]);
     			$("#displayStatus").val(tabDocs[index]["status"]);
+    			$("#previousReference").val(tabDocs[index]["previous_doc"]);
     		}
 
     		$(document).ready( function() {
