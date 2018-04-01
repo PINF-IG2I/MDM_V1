@@ -39,27 +39,33 @@ if(secure("status","SESSION")=='Manager'){
 
 
 <?php
-foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
-$name = "[";
-for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
-	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+if(!empty($searchDatas)){
+	if(!empty($searchDatas["reference"])){
+		foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
+		$name = "[";
+		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+			$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+	}
 
-foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
-	[]= $value["previous_doc"];
-$previous_doc = "[";
-for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
-	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
-
-
-foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
-$version = "[";
-for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
-	$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
-
-foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
-$pic = "[";
-for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
-	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	if(!empty($searchDatas["previous_doc"])){
+		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc[]= $value["previous_doc"];
+		$previous_doc = "[";
+		for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+			$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+	}
+	if(!empty($searchDatas["version"])){
+		foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+		$version = "[";
+		for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+			$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+	}
+	if(!empty($searchDatas["pic"])){
+		foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+		$pic = "[";
+		for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+			$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	}
+}
 ?>
 
 
@@ -84,17 +90,17 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		<h1><?php echo $translation["titlePage"]?></h1>
 	</div>
 	<?php 
-		if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
+	if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
 		echo'
 		<form action="controleur.php" method="post" enctype="multipart/form-data">
 		<label for="file">'.$translation["import"].'</label>
 		<input type="file" name="file" id="file" />
 		<button type="submit" name="action" value="import" >'.$translation["import"].'</button>
 		</form>';
-		}
+	}
 	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
-				
+
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
@@ -124,11 +130,12 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		<!-- baseline select-->
 		<div class="form_search" id="content_search_3">
 			<label for="baseline"><?php echo $translation["baseline"] ?></label>
-		
+
 			<select multiple name="gatc_baseline">
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
-					echo "<div><option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option></div>";
+					if($value["GATC_baseline"]!='')
+						echo "<div><option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option></div>";
 				}
 
 				?>
@@ -153,7 +160,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
-					echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+					if($value["initial_language"]!='')
+						echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
 				}
 
 				?>
@@ -176,7 +184,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
+					if($value["product"]!='')
+						echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
@@ -189,7 +198,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
+					if($value["component"]!='')
+						echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
@@ -202,7 +212,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
-					echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+					if($value["site"]!='')
+						echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
 				}
 
 				?>
@@ -801,6 +812,23 @@ else {
     				$("#Installation").attr('checked',true);
     			if(tabDocs[index]["maintenance"]==1)
     				$("#Maintenance").attr('checked',true);
+    			$("#AEC").val(tabDocs[index]["aec_link"]);
+    			if(tabDocs[index]["availability_aec"]==1)
+    				$("#availability_aec").attr('checked',true);
+    			if(tabDocs[index]["different_aec"]==1)
+    				$("#aec_different").attr('checked',true);
+    			if(tabDocs[index]["availability_x"]==1)
+    				$("#availability_x").attr('checked',true);
+    			$("#x_link").val(tabDocs[index]["x_link"]);
+    			$("#ftp_link").val(tabDocs[index]["ftp_link"]);
+    			if(tabDocs[index]["availability_ftp"]==1)
+    				$("#availability_ftp").attr('checked',true);
+    			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
+    			if(tabDocs[index]["availability_sharepoint_vbn_link"]==1)
+    				$("#availability_sharepoint_vbn_link").attr('checked',true);
+    			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
+    			if(tabDocs[index]["availability_sharepoint_blq_link"]==1)
+    				$("#availability_sharepoint_blq_link").attr('checked',true);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -812,10 +840,10 @@ else {
 
     		$(document).ready( function() {
 
-    			var autocompleteName = <?php echo $name; ?>;
-    			var autopreviousDoc= <?php echo $previous_doc; ?>;
-    			var autoversion= <?php echo $version; ?>;
-    			var autopic= <?php echo $pic; ?>;
+    			var autocompleteName = <?php if (isset($name)) echo $name; else echo "''"; ?>;
+    			var autopreviousDoc= <?php if (isset($previous_doc)) echo $previous_doc; else echo "''" ?>;
+    			var autoversion= <?php if (isset($version)) echo $version; else echo "''"; ?>;
+    			var autopic= <?php if (isset($pic)) echo $pic; else echo "''"; ?>;
     			$( "#doc_number" ).autocomplete({ source: autocompleteName });
     			$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
     			$( "#version" ).autocomplete({ source: autoversion });
@@ -823,24 +851,24 @@ else {
     		});
 
     		jQuery.fn.multiselect = function() {
-			$(this).each(function() {
-			    var checkboxes = $(this).find("input:checkbox");
-			    checkboxes.each(function() {
-			        var checkbox = $(this);
+    			$(this).each(function() {
+    				var checkboxes = $(this).find("input:checkbox");
+    				checkboxes.each(function() {
+    					var checkbox = $(this);
 			        // Highlight pre-selected checkboxes
 			        if (checkbox.prop("checked"))
-			            checkbox.parent().addClass("multiselect-on");
+			        	checkbox.parent().addClass("multiselect-on");
 
 			        // Highlight checkboxes that the user selects
 			        checkbox.click(function() {
-			            if (checkbox.prop("checked"))
-			                checkbox.parent().addClass("multiselect-on");
-			            else
-			                checkbox.parent().removeClass("multiselect-on");
+			        	if (checkbox.prop("checked"))
+			        		checkbox.parent().addClass("multiselect-on");
+			        	else
+			        		checkbox.parent().removeClass("multiselect-on");
 			        });
 			    });
-			});
-			};
+    			});
+    		};
 
     		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
