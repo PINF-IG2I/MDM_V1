@@ -29,7 +29,12 @@ $languageList=array_keys($languages);
 	<script src="./js/jquery-ui.min.js"></script>
 	<script src="./js/utils.js"></script>
 	<script src="./bootstrap/js/bootstrap.min.js"></script>
-	
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
 	
 	
 	<script src="./bootstrap/js/popper.min.js"></script>

@@ -68,7 +68,10 @@ $languages= array(
 		"manager_not_in_charge" => "Another manager already has the possibility to update datas.",
 		"no result" => "No results found.",
 		"sure_edit_doc" => "Are you sure you want to edit the document ?",
-		"edit" => "Edit"
+		"edit" => "Edit",
+		"import_zone" => "Choose a file to import",
+		"import" => "Import",
+		"reference" => "Reference"
 
 		
 
@@ -141,7 +144,10 @@ $languages= array(
 		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base.",
 		"no_result" => "Aucun résultat.",
 		"sure_edit_doc" => "Êtes-vous sur de vouloir éditer le document ?",
-		"edit" => "Éditer"
+		"edit" => "Éditer",
+		"import_zone" => "Choisissez un fichier à importer",
+		"import" => "Importer",
+		"reference" => "Référence"
 	)
 
 );

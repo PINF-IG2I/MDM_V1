@@ -39,7 +39,7 @@ if(secure("status","SESSION")=='Manager'){
 
 
 <?php
-foreach ($searchDatas["name"] as $key => $value) $tab_name[]= $value["name"];
+foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
 $name = "[";
 for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
 	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
@@ -63,6 +63,38 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 ?>
 
 
+
+<!--
+  <script type="text/javascript">
+        $(document).ready(function () {
+            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3, selectAll:true, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.test = $('.testsel').SumoSelect({okCancelInMulti:true, captionFormatAllSelected: "Yeah, OK, so everything." });
+
+            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
+
+            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true});
+
+            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true, isClickAwayOk:true });
+
+            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
+            window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
+            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
+            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
+            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) {
+              var re = RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i');
+              return !haystack.match(re);
+            } });
+
+            window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
+
+
+            $('.SlectBox').on('sumo:opened', function(o) {
+              console.log("dropdown opened", o)
+            });
+
+        });
+    </script>
+ -->  
 <!-- Begin page content -->
 <main role="main" class="container">
 	<?php
@@ -81,16 +113,26 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 	}
 	?>
 	<div class="page-header">
-	<h1><?php echo $translation["titlePage"]?></h1>
+		<h1><?php echo $translation["titlePage"]?></h1>
 	</div>
-
+	<?php 
+		if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
+		echo'
+		<form id="form_import" action="controleur.php" method="post" enctype="multipart/form-data">
+		<label for="file" class="label-file">'.$translation["import_zone"].'</label>
+		<input type="file" name="file" id="file" class="input-file" />
+		<button class="btn btn-primary" id="import_button" type="submit" name="action" value="import" >'.$translation["import"].'</button>
+		<p id="change-file"></p>
+		</form>';
+		}
+	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
 				
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
 				<label for="name"><?php echo $translation["doc_number"] ?></label>
-				<input id="doc_number" type="text" name="name"/>
+				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
 			<div class="form_search">
@@ -112,36 +154,21 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			</div>
 		</div>
 
-		<!-- baseline select-->
+		<!-- baseline and language select-->
 		<div class="form_search" id="content_search_3">
 			<label for="baseline"><?php echo $translation["baseline"] ?></label>
-		
-			<select multiple name="gatc_baseline">
+	
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
-					echo "<div><option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option></div>";
+					echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
 				}
 
 				?>
 			</select>
 
-			<div class="multiselect"  multiple name="gatc_baseline" >
-
-				<?php
-					foreach ($searchDatas["baseline"] as $key => $value) {
-						echo "<label> <input type='checkbox' value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</label>";
-					}
-				?>
-			</div>
-
-
-
-		</div>
-
-		<!-- language select -->
-		<div class="form_search" id="content_search_4">
 			<label for="language"><?php echo $translation["language"]?></label>
-			<select multiple name="initial_language">
+			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
 					echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
@@ -151,46 +178,38 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			</select>
 		</div>
 
-		<!--  type select, only 2 options available : Installation and Maintenance -->
-		<div class="form_search" id="content_search_5">
+		<!--  type select, only 2 options available : Installation and Maintenance . Product select-->
+		<div class="form_search" id="content_search_4">
 			<label for="type"><?php echo $translation["type"]?></label>
-			<select multiple name="type">
+			<select  multiple="multiple" class="selectpicker"  multiple title='<?php echo $translation["type"] ?>' name="type">
 				<option value="installation"><?php echo $translation["installation"]?></option>
 				<option value="maintenance"><?php echo $translation["maintenance"]?></option>
 			</select>
-		</div>
-
-
-		<!-- product select-->
-		<div class="form_search" id="content_search_6">
 			<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
-			<select multiple name="etcs_subsystem.id">
+			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["product"] ?>' name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					echo "<option value='".$value["id"]."'>".$value["subsystem_name"]."</option>";
+					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
 			</select>
 		</div>
 
-		<!-- component select-->
-		<div class="form_search" id="content_search_7">
+		<!-- component and site select-->
+		<div class="form_search" id="content_search_5">
 			<label for="component"><?php echo $translation["component"]?></label>
-			<select multiple name="component">
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["component"] ?>' name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					echo "<option value='".$value["id"]."'>".$value["component_name"]."</option>";
+					echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
 			</select>
-		</div>
 
-		<!-- site select-->
-		<div class="form_search" id="content_search_8">
 			<label for="site"><?php echo $translation["site"]?></label>
-			<select multiple name="site">
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["site"] ?>' name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
 					echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
@@ -212,12 +231,12 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
 		<div id="resultsPage">
 			<div class="page-header">
-				<center><h1><?php echo $translation["result"]?></h1></center>
+				<h1><?php echo $translation["result"]?></h1>
 			</div>
-			<div action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
-			</div>
+			</form>
 			<br>
 			<div id="results">
 			</div>
@@ -241,6 +260,9 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 						<table class="table table-striped" id="editDoc">
 							<td>
 								<div class="well form-horizontal">
+									
+
+
 									<fieldset>
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
@@ -249,9 +271,15 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-4 control-label"><?php echo $translation["file"]?></label>
+											<label class="col-md-4 control-label"><?php echo $translation["reference"]?></label>
 											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="File" name="name" placeholder=<?php echo $translation["file"]?> class="form-control" value="" type="text"></div>
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span><input id="Reference" name="reference" placeholder=<?php echo $translation["reference"]?> class="form-control" value="" type="text"></div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
+											<div class="col-md-8 inputGroupContainer">
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="subject" placeholder=<?php echo $translation["object"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
 										<div class="form-group">
@@ -266,12 +294,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span><input id="Baseline" name="GATC_baseline" placeholder=<?php echo $translation["baseline"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="col-md-4 control-label"><?php echo $translation["object"]?></label>
-											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span><input id="Object" name="subject" placeholder=<?php echo $translation["object"]?> class="form-control" value="" type="text"></div>
-											</div>
-										</div>
+										
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["site"]?></label>
 											<div class="col-md-8 inputGroupContainer">
@@ -501,6 +524,9 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 												</div>
 											</div>
 										</div>
+
+
+
 									</fieldset>
 								</div>
 							</td>
@@ -766,9 +792,14 @@ else {
 
 
 
-    <!-- Bootstrap core JavaScript
-    	================================================== -->
-    	<!-- Placed at the end of the document so the pages load faster -->
+   
+
+
+
+
+
+
+
 
     	<script>
     		function editDocu() {
@@ -777,7 +808,7 @@ else {
     			$("#Key").val(tabDocs[index]["id_doc"]);
     			$("#initialLanguage").val(tabDocs[index]["initial_language"]);
     			$("#Version").val(tabDocs[index]["version"]);
-    			$("#File").val(tabDocs[index]["name"]);
+    			$("#Reference").val(tabDocs[index]["reference"]);
     			$("#Object").val(tabDocs[index]["subject"]);
     			$("#Baseline").val(tabDocs[index]["GATC_baseline"]);
     			$("#Site").val(tabDocs[index]["site"]);
@@ -811,28 +842,6 @@ else {
     			$( "#version" ).autocomplete({ source: autoversion });
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
-
-    		jQuery.fn.multiselect = function() {
-			$(this).each(function() {
-			    var checkboxes = $(this).find("input:checkbox");
-			    checkboxes.each(function() {
-			        var checkbox = $(this);
-			        // Highlight pre-selected checkboxes
-			        if (checkbox.prop("checked"))
-			            checkbox.parent().addClass("multiselect-on");
-
-			        // Highlight checkboxes that the user selects
-			        checkbox.click(function() {
-			            if (checkbox.prop("checked"))
-			                checkbox.parent().addClass("multiselect-on");
-			            else
-			                checkbox.parent().removeClass("multiselect-on");
-			        });
-			    });
-			});
-			};
-
-    		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
 
 

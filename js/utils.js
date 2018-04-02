@@ -127,12 +127,12 @@
 					if(oRep.length!=0) {
 						tabDocs=oRep;
 						var oTable = $("<table>").attr("class","table table-hover");
-						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Name</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead>");
+						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Reference</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead>");
 						oTable.append("<tbody id='tableResults'>");
 						$.each(oRep,function(i,val) {
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").attr({"data-toggle":"modal","data-target":"#editDoc"}).on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
-								+ val["language"] + "</th><th>" + val["name"] + "</th><th>" + val["subject"] + "</th><th>"
+								+ val["language"] + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
 								+ val["site"] + "</th><th>" + val["pic"] + "</th><th>" + val["status"] + "</th><th>" 
 								+ val["component"] + "</th><th>" + val["product"] + "</th></tr>");
 							oTable.append(oRow);
