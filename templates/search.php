@@ -39,62 +39,38 @@ if(secure("status","SESSION")=='Manager'){
 
 
 <?php
-foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
-$name = "[";
-for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
-	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
 
-foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
-	[]= $value["previous_doc"];
-$previous_doc = "[";
-for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
-	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+if(!empty($searchDatas)){
+	if(!empty($searchDatas["reference"])){
+		foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
+		$name = "[";
+		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+			$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+	}
 
-
-foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
-$version = "[";
-for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
-	$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
-
-foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
-$pic = "[";
-for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
-	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	if(!empty($searchDatas["previous_doc"])){
+		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc[]= $value["previous_doc"];
+		$previous_doc = "[";
+		for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+			$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+	}
+	if(!empty($searchDatas["version"])){
+		foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+		$version = "[";
+		for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+			$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+	}
+	if(!empty($searchDatas["pic"])){
+		foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+		$pic = "[";
+		for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+			$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	}
+}
 ?>
 
 
 
-<!--
-  <script type="text/javascript">
-        $(document).ready(function () {
-            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3, selectAll:true, captionFormatAllSelected: "Yeah, OK, so everything." });
-            window.test = $('.testsel').SumoSelect({okCancelInMulti:true, captionFormatAllSelected: "Yeah, OK, so everything." });
-
-            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
-
-            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true});
-
-            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true, isClickAwayOk:true });
-
-            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
-            window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
-            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
-            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
-            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) {
-              var re = RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i');
-              return !haystack.match(re);
-            } });
-
-            window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
-
-
-            $('.SlectBox').on('sumo:opened', function(o) {
-              console.log("dropdown opened", o)
-            });
-
-        });
-    </script>
- -->  
 <!-- Begin page content -->
 <main role="main" class="container">
 	<?php
@@ -127,11 +103,11 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		}
 	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
-				
+
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
-				<label for="name"><?php echo $translation["doc_number"] ?></label>
+				<label for="name"><?php echo $translation["reference_or_title"] ?></label>
 				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
@@ -156,22 +132,22 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 		<!-- baseline and language select-->
 		<div class="form_search" id="content_search_3">
-			<label for="baseline"><?php echo $translation["baseline"] ?></label>
-	
+			<label for="baseline"><?php echo $translation["baseline"] ?></label>	
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
 					echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+
 				}
 
 				?>
 			</select>
-
 			<label for="language"><?php echo $translation["language"]?></label>
 			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
-					echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+					if($value["initial_language"]!='')
+						echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
 				}
 
 				?>
@@ -202,7 +178,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["component"] ?>' name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
+					if($value["component"]!='')
+						echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
@@ -212,7 +189,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["site"] ?>' name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
-					echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+					if($value["site"]!='')
+						echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
 				}
 
 				?>
@@ -222,23 +200,40 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 		<br>
 		<div class="form_search" id="content_search_9">					
-			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
+			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 		</div>
 	</form>
 
 
 	<div class="lead">
-		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+		
 		<div id="resultsPage">
 			<div class="page-header">
 				<h1><?php echo $translation["result"]?></h1>
 			</div>
-			<form action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center" method="post">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
 			</form>
 			<br>
 			<div id="results">
+				<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+				<div style="display:none" id="hiddenTab">
+					<table class="table table-hover">
+						<thead><tr>
+							<th><?php echo $translation["key"]?></th>
+							<th><?php echo $translation["version"]?></th>
+							<th><?php echo $translation["language"]?></th>
+							<th><?php echo $translation["reference"]?></th>
+							<th><?php echo $translation["object"]?></th>
+							<th><?php echo $translation["site"]?></th>
+							<th><?php echo $translation["pic"]?></th>
+							<th><?php echo $translation["status"]?></th>
+							<th><?php echo $translation["component"]?></th>
+							<th><?php echo $translation["product"]?></th>
+						</tr></thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -381,7 +376,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											<label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
 											<div class="col-md-8 inputGroupContainer">
 												<div class="input-group">
-													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
+													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="previousReference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
 												</div>
 											</div>
 										</div>
@@ -822,6 +817,23 @@ else {
     				$("#Installation").attr('checked',true);
     			if(tabDocs[index]["maintenance"]==1)
     				$("#Maintenance").attr('checked',true);
+    			$("#AEC").val(tabDocs[index]["aec_link"]);
+    			if(tabDocs[index]["availability_aec"]==1)
+    				$("#availability_aec").attr('checked',true);
+    			if(tabDocs[index]["different_aec"]==1)
+    				$("#aec_different").attr('checked',true);
+    			if(tabDocs[index]["availability_x"]==1)
+    				$("#availability_x").attr('checked',true);
+    			$("#x_link").val(tabDocs[index]["x_link"]);
+    			$("#ftp_link").val(tabDocs[index]["ftp_link"]);
+    			if(tabDocs[index]["availability_ftp"]==1)
+    				$("#availability_ftp").attr('checked',true);
+    			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
+    			if(tabDocs[index]["availability_sharepoint_vbn"]==1)
+    				$("#availability_sharepoint_vbn").attr('checked',true);
+    			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
+    			if(tabDocs[index]["availability_sharepoint_blq"]==1)
+    				$("#availability_sharepoint_blq").attr('checked',true);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -829,19 +841,43 @@ else {
     			$("#Work_4").val(tabDocs[index]["working_field_4"]);
     			$("#numberDeleteDoc").val(tabDocs[index]["id_doc"]);
     			$("#displayStatus").val(tabDocs[index]["status"]);
+    			$("#previousReference").val(tabDocs[index]["previous_doc"]);
     		}
 
     		$(document).ready( function() {
 
-    			var autocompleteName = <?php echo $name; ?>;
-    			var autopreviousDoc= <?php echo $previous_doc; ?>;
-    			var autoversion= <?php echo $version; ?>;
-    			var autopic= <?php echo $pic; ?>;
+    			var autocompleteName = <?php if (isset($name)) echo $name; else echo "''"; ?>;
+    			var autopreviousDoc= <?php if (isset($previous_doc)) echo $previous_doc; else echo "''" ?>;
+    			var autoversion= <?php if (isset($version)) echo $version; else echo "''"; ?>;
+    			var autopic= <?php if (isset($pic)) echo $pic; else echo "''"; ?>;
     			$( "#doc_number" ).autocomplete({ source: autocompleteName });
     			$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
     			$( "#version" ).autocomplete({ source: autoversion });
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
+
+
+    		/*jQuery.fn.multiselect = function() {
+    			$(this).each(function() {
+    				var checkboxes = $(this).find("input:checkbox");
+    				checkboxes.each(function() {
+    					var checkbox = $(this);
+			        // Highlight pre-selected checkboxes
+			        if (checkbox.prop("checked"))
+			        	checkbox.parent().addClass("multiselect-on");
+
+			        // Highlight checkboxes that the user selects
+			        checkbox.click(function() {
+			        	if (checkbox.prop("checked"))
+			        		checkbox.parent().addClass("multiselect-on");
+			        	else
+			        		checkbox.parent().removeClass("multiselect-on");
+			        });
+			    });
+    			});
+    		};*/
+
+    		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
 
 

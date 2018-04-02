@@ -1,0 +1,9 @@
+﻿reference;subject;version;initial_language;language;project;translator;previous_doc;product;component;;UNISIG_baseline;site;GATC_baseline;pic;installation;maintenance;status;availability_x;availability_aec;availability_ftp;availability_sharepoint_vbn;availability_sharepoint_blq;x_link;aec_link;ftp_link;sharepoint_vbn_link;sharepoint_blq_link;remarks;working_field_1;working_field_2;working_field_3;working_field_4
+4RDUKP5396;TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR;A01;EN;EN;Sunshine;Lambert;;Tools;ODE;;2;VBN;5.7.0;M. Dem.;0;1;Public;0;0;0;0;0;;;;;;peuplé par défaut;uh;meh;;
+4RDUKP5396;TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR;A01;EN;FR;Umbrella;Med;;Tools;ODE;;2;VBN;5.7.0;M. Dem.;0;1;Public;0;0;0;0;0;;;;;;peuplé par défaut;uh;meh;;
+5.0300.091;TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION;10.2C;DE;NL;Mitsui;M. Dupont;;TRU;TELOC 1550;;2;CRL;5.6.0;C. Bac.;1;0;Draft;0;0;0;0;0;;;;;;Needs to be reviewed;Working;field;;
+5.0300.091;TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION;10.2C;DE;EN;Sunshine;Lambert;;TRU;TELOC 1550;;2;CRL;5.6.0;C. Bac.;1;0;Draft;0;0;0;0;0;;;;;;Needs to be reviewed;Working;field;;
+4RDUKP5396;TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR;A01;EN;DN;Illusion;Medor;;Tools;ODE;;2;VBN;5.7.0;M. Dem.;0;1;Public;0;0;0;0;0;;;;;;peuplé par défaut;uh;meh;;
+5.0300.091;TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION;;DE;NL;Mitsui;M. Dupont;;TRU;TELOC 1550;;2;CRL;5.6.0;C. Bac.;1;0;Draft;0;0;0;0;0;;;;;;Needs to be reviewed;Working;field;;
+5.0300.091;TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION;;DE;NL;Mitsui;M. Dupont;;TRU;TELOC 1550;;2;CRL;6.0;C. Bac.;1;0;Draft;0;0;0;0;0;;;;;;Needs to be reviewed;Working;field;;
+CMD_CRL_DESG_0056;Cold Movement Detector - Installation Constraints;1.0;JP;;;;;CMD;;;2;CRL;5.6.0;;1;0;Future;1;0;0;0;0;C:\Desktop;;;;;;;;;
