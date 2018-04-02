@@ -541,6 +541,7 @@ function findDelimiter($tempname){
 	return $delimiters[$first_key]; 
 }
 
+	
 
 //removes utf8 BOM from csv file
 function remove_utf8_bom($text){
@@ -580,5 +581,20 @@ function associationTableEntry($id_baseline,$id_doc){
 	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
 	return SQLSelect($SQL);
 }
+
+
+//removes utf8 BOM from csv file
+function remove_utf8_bom($text){
+	$bom=pack('H*','EFBBBF');
+	$text=preg_replace("/^$bom/",'', $text);
+	return $text;
+}
+
+//seeks if the baseline exists or not
+function unknownBaseline($baseline){
+	$SQL="SELECT gatc_baseline from gatc_baseline WHERE gatc_baseline='".protect(trim($baseline))."'";
+	return SQLGetChamp($SQL);
+}
+
 
 ?>

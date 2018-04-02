@@ -129,6 +129,7 @@
 						console.log(oRep);
 						//$("#hiddenTab table").append("<tbody id='tableResults'>");
 						var oResult=$("<tbody id='tableResults'>");
+
 						$.each(oRep,function(i,val) {
 							var language=val["language"];
 							if(language=="") language=val["initial_language"];
