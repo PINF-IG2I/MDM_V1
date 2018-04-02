@@ -40,7 +40,15 @@ CREATE TABLE IF NOT EXISTS `association_table` (
   KEY `id_baseline_2` (`id_baseline`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `association_table`
+--
 
+INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
+(2, 2, 2),
+(3, 3, 1),
+(5, 6, 1),
+(6, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -60,7 +68,15 @@ CREATE TABLE IF NOT EXISTS `document` (
   KEY `id_document_reference` (`id_document_reference`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `document`
+--
 
+INSERT INTO `document` (`id_doc`, `id_document_language`, `id_document_version`, `id_document_reference`) VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 3, 2, 2),
+(6, 2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -77,7 +93,14 @@ CREATE TABLE IF NOT EXISTS `document_language` (
   PRIMARY KEY (`id_entry`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `document_language`
+--
 
+INSERT INTO `document_language` (`id_entry`, `language`, `project`, `translator`) VALUES
+(1, 'FR', 'Umbrella', 'Med'),
+(2, 'EN', 'Sunshine', 'Lambert'),
+(3, 'NL', 'Mitsui', 'M. Dupont');
 
 -- --------------------------------------------------------
 
@@ -87,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `document_language` (
 
 DROP TABLE IF EXISTS `document_reference`;
 CREATE TABLE IF NOT EXISTS `document_reference` (
-  `id_ref` int(11) NOT NULL AUTO_INCREMENT,
+  `id_ref` int(11) NOT NULL DEFAULT '0',
   `reference` char(255) NOT NULL DEFAULT 'To be defined',
   `subject` char(255) NOT NULL DEFAULT 'To be defined',
   `initial_language` char(2) NOT NULL DEFAULT 'EN',
@@ -107,7 +130,13 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
   KEY `component` (`component`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `document_reference`
+--
 
+INSERT INTO `document_reference` (`id_ref`, `reference`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
+(1, '4RDUKP5396', 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 0),
+(2, '5.0300.091', 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'DE', '', 'TRU', 'TELOC 1550', 1, 0, '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -134,6 +163,16 @@ CREATE TABLE IF NOT EXISTS `document_version` (
   `status` enum('Public','Internal','Draft','Future','Obsolete') NOT NULL DEFAULT 'Draft',
   PRIMARY KEY (`id_version`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `document_version`
+--
+
+INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availability_x`, `availability_aec`, `availability_ftp`, `availability_sharepoint_vbn`, `availability_sharepoint_blq`, `remarks`, `working_field_1`, `working_field_2`, `working_field_3`, `working_field_4`, `status`) VALUES
+(1, 'A01', 'VBN', 'M. Dem.', 0, 0, 0, 0, 0, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
+(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be reviewed', 'Working', 'field', '', '', 'Draft');
+
+-- --------------------------------------------------------
 
 --
 -- Structure de la table `gatc_baseline`

@@ -92,7 +92,7 @@ function getResultsFromQuery($data,$status){
 		if(!is_array($value) && $key!="reference"){
 			$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
 		}else if ($key=="reference"){ //searching by document "reference" is a bit different, the user is allowed to perform a query on both a document reference and a document title.
-		$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."')";
+		$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."'";
 	}else {
 		if($key=="type"){
 			foreach ($value as $content) {
@@ -304,7 +304,7 @@ function importDatas($tempname){
 	//the aim of this function is to make the life of the user easier.
 	//when creating his excel file, he has the possiblity to move around all the columns
 	//also, he has the possibility to create new columns. as long as those new columns don't have the same name as an attribute in the database, this will work.
-	//a lot of the treatments in this function may seem redundant, but they're essential.
+	//a lot of the treatments in this function may be redundant, but they're not.
 	//as long as you keep in mind that this function must work with any disposition of the cells in the csv file, you'll understand how it works.
 
 
@@ -387,20 +387,7 @@ function importDatas($tempname){
     			case 'GATC_baseline':
     			$baselineColumn=$i;
     			break;
-    			case 'version':
-    			$versionColumn=$i;
-    			break;
-    			case 'language':
-    			$languageColumn=$i;
-    			break;
-    			case 'project':
-    			$projectColumn=$i;
-    			break;
-    			case 'translator':
-    			$translatorColumn=$i;
-    			break;
     			default:
-
     			break;
     		}
     	}	
@@ -408,8 +395,9 @@ function importDatas($tempname){
 
     echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
     print_r($ignoredColumns);
-    //$ignoredColumns contains the indexes of the columns that need to be avoided.
+    //$ignoredColumns contains the number of the column that needs to be avoided.
     echo "<br><br>";
+    // $SQL_doc_ref="INSERT INTO"
     //after all the ignored rows have been found, we build the different queries that will be used to insert datas into the database
     $SQL_doc_ref="INSERT INTO document_reference("; //doc reference
     for($i=0;$i<$size;$i++){
@@ -438,86 +426,39 @@ function importDatas($tempname){
     //checking data validity and insertion
     $sizeCsvArray=sizeof($csvAsArray);
     $ignoredRows=array();
-    $rowsInserted=0;
-    $docsInserted=0;
     for($j=1;$j<$sizeCsvArray;$j++){
-    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) ||  !($idBaseline =unknownBaseline($csvAsArray[$j][$baselineColumn]))){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
+    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) || unknownBaseline($csvAsArray[$j][$baselineColumn])==false){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
     		array_push($ignoredRows, $j);    		
     	}else{
-    		if(empty($csvAsArray[$j][$languageColumn])) {
-    			$csvAsArray[$j][$languageColumn]='';
-    			$csvAsArray[$j][$translatorColumn]='';
-    			$csvAsArray[$j][$projectColumn]='';
-    		}
-    		if($csvAsArray[$j][$versionColumn]=='') $csvAsArray[$j][$versionColumn]='TBD';
-    		echo $idBaseline;
-    		if($idRef=referenceExists($csvAsArray[$j][$referenceColumn]))
-    			$refQuery=false;
-    		else 
-    			$refQuery=$SQL_doc_ref;
-    		if($idRef!=false && $idVersion=versionExists($idRef,$csvAsArray[$j][$versionColumn]))
-    			$versionQuery=false;
-    		else{
-    			$versionQuery=$SQL_doc_version;
-    		}
-    		if($idLanguage=languageExists($csvAsArray[$j][$languageColumn],$csvAsArray[$j][$projectColumn],$csvAsArray[$j][$translatorColumn]))
-    			$languageQuery=false;
-    		else
-    			$languageQuery=$SQL_doc_language;
+    		$refQuery=$SQL_doc_ref;
+    		$languageQuery=$SQL_doc_language;
+    		$versionQuery=$SQL_doc_version;
     		for($k=0;$k<$size;$k++){
 
-    			if(!in_array($k, $ignoredColumns) || $k!=$baselineColumn){
-    				if($refQuery != false && in_array($fileColumns[$k],$referenceColumns)){
-    					$refQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
-    				} else if( $languageQuery!=false && in_array($fileColumns[$k],$languageColumns)){
-    					$languageQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
-    				} else if($versionQuery!=false && in_array($fileColumns[$k],$versionColumns)){
-    					$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
-    				}
+    			//if(!in_array($k, $ignoredColumns) || $k!=$baselineColumn){
+    			if(in_array($fileColumns[$k],$referenceColumns)){
+    				$refQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    			} else if(in_array($fileColumns[$k],$languageColumns)){
+    				$languageQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    			} else if(in_array($fileColumns[$k],$versionColumns)){
+    				$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
     			}
+    			//}
     		}
-    		if($refQuery){
-    			$refQuery=substr($refQuery, 0,-1);
-    			$refQuery.=");";
-    			$idRef=SQLInsert($refQuery);
-    			$rowsInserted++;
-    		}
-    		if($versionQuery){
-    			$versionQuery=substr($versionQuery, 0,-1);
-    			$versionQuery.=");";
-    			$idVersion=SQLInsert($versionQuery);
-    			$rowsInserted++;
-    		}
-    		if($languageQuery){
-    			$languageQuery=substr($languageQuery, 0,-1);
-    			$languageQuery.=");";
-    			$idLanguage=SQLInsert($languageQuery);
-    			$rowsInserted++;
-    		}
-    		echo"<br>Newdoc<hr>";
-    		echo "<br>".$refQuery." ".$idRef;
-    		echo "<br>".$versionQuery." ".$idVersion;
-    		echo "<br>".$languageQuery." ".$idLanguage;
+    		$refQuery=substr($refQuery, 0,-1);
+    		$refQuery.=");";
+    		$versionQuery=substr($versionQuery, 0,-1);
+    		$versionQuery.=");";
+    		$languageQuery=substr($languageQuery, 0,-1);
+    		$languageQuery.=");";
+    		echo "<br>".$refQuery;
+    		echo "<br>".$languageQuery;
+    		echo "<br>".$versionQuery;
     		echo "<br><br>";
-
-    		if(!($idDoc=docExists($idRef,$idVersion,$idLanguage))){
-    			$SQL="INSERT INTO document(`id_document_language`,`id_document_version`,`id_document_reference`) VALUES ('".$idLanguage."','".$idVersion."','".$idRef."');";
-    			$idDoc=SQLInsert($SQL);
-    			$docsInserted++;
-    		}
-    		echo "id_doc :".$idDoc;
-    		if(!($idAssociationTable = associationTableEntry($idBaseline,$idDoc))){
-    			$SQL="INSERT INTO association_table (`id_doc`,`id_baseline`) VALUES ('".$idDoc."','".$idBaseline."');";
-    			$res=SQLInsert($SQL);
-    			$rowsInserted++;
-    		}
     		
     	}
     }
-    echo "<br>";
     print_r($ignoredRows);
-    echo "<br>".$rowsInserted ." enregistrements<br>";
-    echo $docsInserted." documents ajoutés<br>";
 }
 
 //seeks for the delimiter used in the file format, this is done by searching the most occured delimiter in the file
@@ -539,47 +480,6 @@ function findDelimiter($tempname){
 	$first_key = key($res);
 
 	return $delimiters[$first_key]; 
-}
-
-	
-
-//removes utf8 BOM from csv file
-function remove_utf8_bom($text){
-	$bom=pack('H*','EFBBBF');
-	$text=preg_replace("/^$bom/",'', $text);
-	return $text;
-}
-
-//seeks if the baseline exists or not
-function unknownBaseline($baseline){
-	$SQL="SELECT id_baseline from gatc_baseline WHERE gatc_baseline='".protect(htmlspecialchars(trim($baseline)))."'";
-	echo $SQL;
-	return SQLGetChamp($SQL);
-}
-
-function referenceExists($reference){
-	$SQL="SELECT id_ref FROM document_reference WHERE reference='".protect(trim($reference))."'";
-	return SQLGetChamp($SQL);
-}
-
-function versionExists($idRef,$version){
-	$SQL="SELECT DISTINCT id_version FROM document_reference,document_version,document WHERE document.id_document_reference=id_ref AND document.id_document_version=id_version AND  id_ref='$idRef' AND version='".protect(htmlspecialchars(trim($version)))."'";
-	return SQLGetChamp($SQL);
-}
-
-function languageExists($language,$project,$translator){
-	$SQL="SELECT id_entry FROM document_language WHERE 	language='".protect(htmlspecialchars(trim($language)))."' AND project='".protect(htmlspecialchars(trim($project)))."'AND translator='".protect(htmlspecialchars(trim($translator)))."'";
-	return SQLGetChamp($SQL);
-}
-
-function docExists($idRef,$idVersion,$idLanguage){
-	$SQL="SELECT id_doc FROM document WHERE id_document_reference='$idRef' AND id_document_version='$idVersion' AND id_document_language='$idLanguage'";
-	return SQLGetChamp($SQL);
-}
-
-function associationTableEntry($id_baseline,$id_doc){
-	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
-	return SQLSelect($SQL);
 }
 
 
