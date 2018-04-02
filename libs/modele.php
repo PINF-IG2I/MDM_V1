@@ -582,11 +582,6 @@ function associationTableEntry($id_baseline,$id_doc){
 	return SQLSelect($SQL);
 }
 
-//seeks if the baseline exists or not
-function unknownBaseline($baseline){
-	$SQL="SELECT gatc_baseline from gatc_baseline WHERE gatc_baseline='".protect(trim($baseline))."'";
-	return SQLGetChamp($SQL);
-}
 
 
 ?>
