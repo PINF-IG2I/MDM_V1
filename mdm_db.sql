@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `association_table` (
 -- Déchargement des données de la table `association_table`
 --
 
+
 INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
 (16, 16, 4),
 (17, 17, 4),
@@ -54,7 +55,6 @@ INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
 (22, 22, 3),
 (23, 23, 3),
 (24, 24, 3);
-
 
 -- --------------------------------------------------------
 
@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `document` (
 --
 -- Déchargement des données de la table `document`
 --
+
 
 INSERT INTO `document` (`id_doc`, `id_document_language`, `id_document_version`, `id_document_reference`) VALUES
 
@@ -110,14 +111,12 @@ CREATE TABLE IF NOT EXISTS `document_language` (
 --
 
 INSERT INTO `document_language` (`id_entry`, `language`, `project`, `translator`) VALUES
-
 (10, 'EN', 'Sunshine', 'Lambert'),
 (11, 'FR', 'Umbrella', 'Med'),
 (12, 'NL', 'Mitsui', 'M. Dupont'),
 (13, 'DN', 'Illusion', 'Medor'),
 (14, '', '', ''),
 (15, 'EN', 'Mitsubishi', 'Roger');
-
 
 -- --------------------------------------------------------
 
@@ -147,17 +146,16 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
   KEY `component` (`component`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
+
 --
 -- Déchargement des données de la table `document_reference`
 --
 
 INSERT INTO `document_reference` (`id_ref`, `reference`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
-
 (5, '4RDUKP5396', 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 1),
 (6, '5.0300.091', 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'DE', '', 'TRU', 'TELOC 1550', 1, 1, '', '', '', '', '', 1),
 (7, 'CMD_CRL_DESG_0056', 'Cold Movement Detector - Installation Constraints', 'JP', '', 'CMD', '', 1, 0, 'C:\\Desktop', '', '', '', '', 1),
 (8, 'NEWDOC', 'Cold Movement Detector - Installation Constraints', 'JP', '', 'CMD', '', 0, 0, 'C:\\Desktop', '', '', '', '', 1);
-
 
 -- --------------------------------------------------------
 
@@ -199,15 +197,6 @@ INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availab
 
 -- --------------------------------------------------------
 
---
--- Déchargement des données de la table `document_version`
---
-
-INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availability_x`, `availability_aec`, `availability_ftp`, `availability_sharepoint_vbn`, `availability_sharepoint_blq`, `remarks`, `working_field_1`, `working_field_2`, `working_field_3`, `working_field_4`, `status`) VALUES
-(1, 'A01', 'VBN', 'M. Dem.', 0, 0, 0, 0, 0, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
-(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be reviewed', 'Working', 'field', '', '', 'Draft');
-
--- --------------------------------------------------------
 
 --
 -- Structure de la table `gatc_baseline`

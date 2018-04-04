@@ -72,13 +72,13 @@ class BackupMySQL extends mysqli {
 			return;
 		}
 		
-		// File constrol
-		$this->nom_fichier = $nom_fichier . date('Ymd-His') . '.sql.gz';
-		$this->gz_fichier = @gzopen($this->dossier . $this->nom_fichier, 'w');
-		if(!$this->gz_fichier) {
+		// File control
+		$this->nom_fichier = $nom_fichier . date('Ymd-His') . '.sql';
+		$this->gz_fichier = fopen($this->dossier . $this->nom_fichier, 'w');
+		/*if(!$this->gz_fichier) {
 			$this->message('Erreur de fichier &quot;' . htmlspecialchars($this->nom_fichier) . '&quot;');
 			return;
-		}
+		}*/
 		
 		// Process start
 		$this->sauvegarder();
@@ -109,7 +109,7 @@ class BackupMySQL extends mysqli {
 		
 		$sql  = '--' ."\n";
 		$sql .= '-- '. $this->nom_fichier ."\n";
-		gzwrite($this->gz_fichier, $sql);
+		fwrite($this->gz_fichier, $sql);
 		
 		// Tables list
 		$result_tables = $this->query('SHOW TABLE STATUS');
@@ -153,11 +153,11 @@ class BackupMySQL extends mysqli {
 					$result_insert->free_result();
 				}
 				
-				gzwrite($this->gz_fichier, $sql);
+				fwrite($this->gz_fichier, $sql);
 			} // while
 			$result_tables->free_result();
 		}
-		gzclose($this->gz_fichier);
+		fclose($this->gz_fichier);
 		$this->message('<strong style="color:green;">' . htmlspecialchars($this->nom_fichier) . '</strong>');
 		
 		$this->message('Sauvegarde termin&eacute;e !');

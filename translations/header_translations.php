@@ -4,7 +4,13 @@ $languages= array(
 		"language" => "Language",
 		"logout" => "Log out",
 		"administration" => "Administration",
-
+		"important" => "Important",
+		"addDoc" => "Add a document",
+		"addBaseline" => "Add a baseline",
+		"cancel" => "Cancel",
+		"add" => "Add",
+		"gatc" => "GATC Baseline",
+		"unisig" => "UNISIG Baseline",
 
 
 	),
@@ -12,7 +18,13 @@ $languages= array(
 		"language" => "Langue",
 		"logout" => "Déconnexion",
 		"administration" => "Administration",
-
+		"important" => "Important",
+		"addDoc" => "Ajouter un document",
+		"addBaseline" => "Ajouter une Baseline",
+		"cancel" => "Annuler",
+		"add" => "Ajouter",
+		"gatc" => "Baseline GATC",
+		"unisig" => "Baseline UNISIG",
 	)
 
 );
