@@ -39,6 +39,7 @@ if(secure("status","SESSION")=='Manager'){
 
 
 <?php
+
 if(!empty($searchDatas)){
 	if(!empty($searchDatas["reference"])){
 		foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
@@ -69,6 +70,7 @@ if(!empty($searchDatas)){
 ?>
 
 
+
 <!-- Begin page content -->
 <main role="main" class="container">
 	<?php
@@ -90,21 +92,22 @@ if(!empty($searchDatas)){
 		<h1><?php echo $translation["titlePage"]?></h1>
 	</div>
 	<?php 
-	if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
+		if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1)){
 		echo'
-		<form action="controleur.php" method="post" enctype="multipart/form-data">
-		<label for="file">'.$translation["import"].'</label>
-		<input type="file" name="file" id="file" />
-		<button type="submit" name="action" value="import" >'.$translation["import"].'</button>
+		<form id="form_import" action="controleur.php" method="post" enctype="multipart/form-data">
+		<label for="file" class="label-file">'.$translation["import_zone"].'</label>
+		<input type="file" name="file" id="file" class="input-file" />
+		<button class="btn btn-primary" id="import_button" type="submit" name="action" value="import" >'.$translation["import"].'</button>
+		<p id="change-file"></p>
 		</form>';
-	}
+		}
 	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
 
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
-				<label for="name"><?php echo $translation["doc_number"] ?></label>
+				<label for="name"><?php echo $translation["reference_or_title"] ?></label>
 				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
@@ -127,37 +130,20 @@ if(!empty($searchDatas)){
 			</div>
 		</div>
 
-		<!-- baseline select-->
+		<!-- baseline and language select-->
 		<div class="form_search" id="content_search_3">
-			<label for="baseline"><?php echo $translation["baseline"] ?></label>
-
-			<select multiple name="gatc_baseline">
+			<label for="baseline"><?php echo $translation["baseline"] ?></label>	
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
-					if($value["GATC_baseline"]!='')
-						echo "<div><option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option></div>";
+					echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+
 				}
 
 				?>
 			</select>
-
-			<!--<div class="multiselect"  multiple name="gatc_baseline" >
-
-				<?php
-					foreach ($searchDatas["baseline"] as $key => $value) {
-						echo "<label> <input type='checkbox' value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</label>";
-					}
-				?>
-			</div>-->
-
-
-
-		</div>
-
-		<!-- language select -->
-		<div class="form_search" id="content_search_4">
 			<label for="language"><?php echo $translation["language"]?></label>
-			<select multiple name="initial_language">
+			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
 					if($value["initial_language"]!='')
@@ -168,34 +154,28 @@ if(!empty($searchDatas)){
 			</select>
 		</div>
 
-		<!--  type select, only 2 options available : Installation and Maintenance -->
-		<div class="form_search" id="content_search_5">
+		<!--  type select, only 2 options available : Installation and Maintenance . Product select-->
+		<div class="form_search" id="content_search_4">
 			<label for="type"><?php echo $translation["type"]?></label>
-			<select multiple name="type">
+			<select  multiple="multiple" class="selectpicker"  multiple title='<?php echo $translation["type"] ?>' name="type">
 				<option value="installation"><?php echo $translation["installation"]?></option>
 				<option value="maintenance"><?php echo $translation["maintenance"]?></option>
 			</select>
-		</div>
-
-
-		<!-- product select-->
-		<div class="form_search" id="content_search_6">
 			<label for="etcs_subsystem"><?php echo $translation["product"]?></label>
-			<select multiple name="product">
+			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["product"] ?>' name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					if($value["product"]!='')
-						echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
+					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
 			</select>
 		</div>
 
-		<!-- component select-->
-		<div class="form_search" id="content_search_7">
+		<!-- component and site select-->
+		<div class="form_search" id="content_search_5">
 			<label for="component"><?php echo $translation["component"]?></label>
-			<select multiple name="component">
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["component"] ?>' name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
 					if($value["component"]!='')
@@ -204,12 +184,9 @@ if(!empty($searchDatas)){
 
 				?> 
 			</select>
-		</div>
 
-		<!-- site select-->
-		<div class="form_search" id="content_search_8">
 			<label for="site"><?php echo $translation["site"]?></label>
-			<select multiple name="site">
+			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["site"] ?>' name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
 					if($value["site"]!='')
@@ -223,23 +200,40 @@ if(!empty($searchDatas)){
 
 		<br>
 		<div class="form_search" id="content_search_9">					
-			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
+			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 		</div>
 	</form>
 
 
 	<div class="lead">
-		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+		
 		<div id="resultsPage">
 			<div class="page-header">
-				<center><h1><?php echo $translation["result"]?></h1></center>
+				<h1><?php echo $translation["result"]?></h1>
 			</div>
-			<form action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center" method="post">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
 			</form>
 			<br>
 			<div id="results">
+				<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+				<div style="display:none" id="hiddenTab">
+					<table class="table table-hover">
+						<thead><tr>
+							<th><?php echo $translation["key"]?></th>
+							<th><?php echo $translation["version"]?></th>
+							<th><?php echo $translation["language"]?></th>
+							<th><?php echo $translation["reference"]?></th>
+							<th><?php echo $translation["object"]?></th>
+							<th><?php echo $translation["site"]?></th>
+							<th><?php echo $translation["pic"]?></th>
+							<th><?php echo $translation["status"]?></th>
+							<th><?php echo $translation["component"]?></th>
+							<th><?php echo $translation["product"]?></th>
+						</tr></thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -261,6 +255,9 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 						<table class="table table-striped" id="editDoc">
 							<td>
 								<div class="well form-horizontal">
+									
+
+
 									<fieldset>
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["key"]?></label>
@@ -379,7 +376,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											<label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
 											<div class="col-md-8 inputGroupContainer">
 												<div class="input-group">
-													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
+													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="previousReference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
 												</div>
 											</div>
 										</div>
@@ -522,6 +519,9 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 												</div>
 											</div>
 										</div>
+
+
+
 									</fieldset>
 								</div>
 							</td>
@@ -787,9 +787,14 @@ else {
 
 
 
-    <!-- Bootstrap core JavaScript
-    	================================================== -->
-    	<!-- Placed at the end of the document so the pages load faster -->
+   
+
+
+
+
+
+
+
 
     	<script>
     		function editDocu() {
@@ -824,11 +829,11 @@ else {
     			if(tabDocs[index]["availability_ftp"]==1)
     				$("#availability_ftp").attr('checked',true);
     			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
-    			if(tabDocs[index]["availability_sharepoint_vbn_link"]==1)
-    				$("#availability_sharepoint_vbn_link").attr('checked',true);
+    			if(tabDocs[index]["availability_sharepoint_vbn"]==1)
+    				$("#availability_sharepoint_vbn").attr('checked',true);
     			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
-    			if(tabDocs[index]["availability_sharepoint_blq_link"]==1)
-    				$("#availability_sharepoint_blq_link").attr('checked',true);
+    			if(tabDocs[index]["availability_sharepoint_blq"]==1)
+    				$("#availability_sharepoint_blq").attr('checked',true);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -836,6 +841,7 @@ else {
     			$("#Work_4").val(tabDocs[index]["working_field_4"]);
     			$("#numberDeleteDoc").val(tabDocs[index]["id_doc"]);
     			$("#displayStatus").val(tabDocs[index]["status"]);
+    			$("#previousReference").val(tabDocs[index]["previous_doc"]);
     		}
 
     		$(document).ready( function() {
@@ -850,7 +856,8 @@ else {
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
 
-    		jQuery.fn.multiselect = function() {
+
+    		/*jQuery.fn.multiselect = function() {
     			$(this).each(function() {
     				var checkboxes = $(this).find("input:checkbox");
     				checkboxes.each(function() {
@@ -868,7 +875,7 @@ else {
 			        });
 			    });
     			});
-    		};
+    		};*/
 
     		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
