@@ -1,19 +1,14 @@
 <?php
 include_once "config.php";
 include_once "maLibUtils.php";
-
 session_start();
-
 if (secure("status","SESSION")!="Administrator")
 {
 	header("Location:../index.php?view=search&message=".urlencode("You need to be Administrator."));
 	die("");
 }
-
 error_reporting(E_ALL);
 ini_set('display_errors', true);
-
-
 /**
  * Save MySQL
  */
@@ -73,12 +68,12 @@ class BackupMySQL extends mysqli {
 		}
 		
 		// File constrol
-		$this->nom_fichier = $nom_fichier . date('Ymd-His') . '.sql.gz';
-		$this->gz_fichier = @gzopen($this->dossier . $this->nom_fichier, 'w');
-		if(!$this->gz_fichier) {
+		$this->nom_fichier = $nom_fichier . date('Ymd-His') . '.sql';
+		$this->gz_fichier = fopen($this->dossier . $this->nom_fichier, 'w');
+		/*if(!$this->gz_fichier) {
 			$this->message('Erreur de fichier &quot;' . htmlspecialchars($this->nom_fichier) . '&quot;');
 			return;
-		}
+		}*/
 		
 		// Process start
 		$this->sauvegarder();
@@ -109,7 +104,7 @@ class BackupMySQL extends mysqli {
 		
 		$sql  = '--' ."\n";
 		$sql .= '-- '. $this->nom_fichier ."\n";
-		gzwrite($this->gz_fichier, $sql);
+		fwrite($this->gz_fichier, $sql);
 		
 		// Tables list
 		$result_tables = $this->query('SHOW TABLE STATUS');
@@ -120,7 +115,6 @@ class BackupMySQL extends mysqli {
 				// DROP ...
 				$sql  = "\n\n";
 				$sql .= 'DROP TABLE IF EXISTS `'. $obj_table->{'Name'} .'`' .";\n";
-
 				// CREATE ...
 				$result_create = $this->query('SHOW CREATE TABLE `'. $obj_table->{'Name'} .'`');
 				if($result_create && $result_create->num_rows) {
@@ -128,7 +122,6 @@ class BackupMySQL extends mysqli {
 					$sql .= $obj_create->{'Create Table'} .";\n";
 					$result_create->free_result();
 				}
-
 				// INSERT ...
 				$result_insert = $this->query('SELECT * FROM `'. $obj_table->{'Name'} .'`');
 				if($result_insert && $result_insert->num_rows) {
@@ -153,11 +146,11 @@ class BackupMySQL extends mysqli {
 					$result_insert->free_result();
 				}
 				
-				gzwrite($this->gz_fichier, $sql);
+				fwrite($this->gz_fichier, $sql);
 			} // while
 			$result_tables->free_result();
 		}
-		gzclose($this->gz_fichier);
+		fclose($this->gz_fichier);
 		$this->message('<strong style="color:green;">' . htmlspecialchars($this->nom_fichier) . '</strong>');
 		
 		$this->message('Sauvegarde termin&eacute;e !');
@@ -166,7 +159,6 @@ class BackupMySQL extends mysqli {
 		die();
 	}
 	
-
 	protected function purger_fichiers($nbr_fichiers_max) {
 		$this->message();
 		$this->message('Purge des anciens fichiers...');
@@ -205,9 +197,6 @@ class BackupMySQL extends mysqli {
 	}
 	
 }
-
-
-
 // Class instance 
 new BackupMySQL(array(
 	'host' => $BDD_host,
@@ -217,5 +206,4 @@ new BackupMySQL(array(
 	'dossier' => '../saves/',
 	'nom_fichier' => 'backup'
 	));
-
 ?>

@@ -8,8 +8,6 @@ include_once "libs/modele.php";
 
 	$addArgs = ""; //this variable is used to redirect the user after the action has been treated.
 	$action = secure("action");
-	if (!$action)
-		$action = secure("action", "POST");
 	if ($action)
 	{
 		ob_start ();
@@ -203,11 +201,17 @@ include_once "libs/modele.php";
 				break;
 
 				case 'importDB':
-					$addArgs="?view=administration&fail=true";
-					if (secure("status","SESSION")=="Administrator")
+					$addArgs="?view=administration&failDB=true";
+					if (secure("status","SESSION")=="Administrator" && isset($_FILES["sqlFile"]))
 					{
-						$addArgs="?view=administration";
-						die();
+						if (file_exists("./libs/" . $_FILES["sqlFile"]["name"]))
+							$addArgs="?view=administration&failDB=true";
+						else
+						{
+							move_uploaded_file($_FILES["sqlFile"]["tmp_name"], "./libs/" . $_FILES["sqlFile"]["name"]);
+							importSQL($_FILES["sqlFile"]["name"]);
+							$addArgs="?view=administration&successDB=true";
+						}
 					}
 				break;
 				//Import datas
@@ -222,13 +226,17 @@ include_once "libs/modele.php";
 				break;
 
 				case 'lockDB':
-					$addArgs="?view=administration&fail=true";
+					$addArgs="?view=administration&failLock=true";
 					if(secure("status","SESSION")=="Administrator"){
-						if($lockedDatabase=="1")
+						if($lockedDatabase=="1") {
 							changeDatabaseStatus("unlock");
-						else
+							$addArgs="?view=administration&successUnlock=true";
+						}
+						else {
 							changeDatabaseStatus("lock");
-						$addArgs="?view=administration";
+							$addArgs="?view=administration&successLock=true";
+						}
+						
 					}
 				break;
 
