@@ -1,31 +1,58 @@
-/* Sticky footer styles
-Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer 
--------------------------------------------------- */
-@font-face {
-  font-family: "Alstom";
-  src: url('./fonts/Alstom_Regular.ttf');
-}
-
-@font-face {
-  font-family: "Alstom";
-  font-style: bold;
-  src: url('./fonts/Alstom_Black.ttf');
-}
-@font-face {
-  font-family: "Alstom";
-  font-weight: lighter;
-  src: url('./fonts/Alstom_Light.ttf');
-}
-
-html,
-body {
-  font-family: "Alstom";
-}
+/******************** CSS ******************************/
+/****************** SUMMARY ****************************/
+/*
+1. General (templates,body,fonts style)
+2. Header  (navbar)
+3. Footer
+4. Bootstap select
+5. Search template
+6. Results template
+7. Administration template
 
 
-select{
- font-weight: lighter;
-}
+
+
+
+
+
+
+
+*/
+
+
+
+/**********************************************************/
+/********************** General****************************/
+/**********************************************************/
+
+/*fonts*/
+  @font-face {
+    font-family: "Alstom";
+    src: url('./fonts/Alstom_Regular.ttf');
+  }
+
+  @font-face {
+    font-family: "Alstom";
+    font-style: bold;
+    src: url('./fonts/Alstom_Black.ttf');
+  }
+  @font-face {
+    font-family: "Alstom";
+    font-weight: lighter;
+    src: url('./fonts/Alstom_Light.ttf');
+  }
+
+  html,
+  body 
+  {
+    font-family: "Alstom";
+     margin: 0; padding: 0;
+  }
+
+
+  select{
+   font-weight: lighter;
+  }
 
 
 /* commons */
@@ -33,72 +60,93 @@ select{
 h1 {
   margin : 0;
   text-align: left;
-  font-size: 3vw;
+  font-size: 2.4vw;
 }
 
 
 label
 {
-  font-size: 1.3vw;
+  font-size: 1vw;
   margin : 0 !important;
 }
 
 
+/**** templates css *****/
+
 .page-header
 {
+  display : inline-block;
+  margin: 1vw 0;
+  float: left;
   width: 100%;
   padding-bottom: 0 !important;
-  font-size: 100%;
+  border-bottom: 0.1vw solid lightgrey !important;
 }
 
 
 
-
-/* Header */ 
-
-
-/* Bootstrap modifications */
-.bg-dark {
-  background-color: rgb(12, 65, 173) !important; 
-}
-
-
-.navbar
+ 
+/*templates container*/
+.container
 {
-  border-color: transparent;
-  border-radius :0;
-  min-height: 4vw !important;
+  padding : 0 !important;
+  width : 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
 
 
+/**********************************************************/
+/********************** HEADER ****************************/
+/**********************************************************/
+
+
+/*navbar color*/
+.bg-dark 
+  {
+    background-color: rgb(12, 65, 173) !important; 
+  }
+
+/*navbar size and positon*/
+.navbar
+  {
+    border: none;
+    border-radius :0;
+    height: 4vw !important;
+    min-height: 4vw !important;
+    margin-bottom: 3vw;
+  }
 
 /* Header content (logout, administration , language...*/
   #content_header{
     display : inline-block;
     position: absolute;
     right : 2vw;
+    top : 0;
     float : right;
-    height: 4vw;
+    height: 100%;
+    vertical-align: middle;
   }
 
   /* logout button */
-  #logoutBtn, #administrationBtn {
+  #logoutBtn, #administrationBtn
+  {
+    display :inline-block;    
+    vertical-align:middle;
+    float: left;
     color:white;
     text-decoration: none;
     padding-right: 2vw; 
-    font-size: 1.5vw;
+    font-size: 1.1vw;
     font-weight: lighter;
-    display :inline-block;
-    margin-top: 0.6vw;
+      
+    margin-top: 1.2vw;
+
+
+
   }
 
-  #logoutBtn:hover
-  {
-    font-weight: 900;
-  }
-
-
-  #administrationBtn:hover
+  #logoutBtn:hover, #administrationBtn:hover
   {
     font-weight: 900;
   }
@@ -106,128 +154,288 @@ label
   /* language option*/
   #form_language
   {
-    border-color: transparent;
+    vertical-align:middle;
     display :inline-block;
-    margin: 0.3vw;
-    font-size: 1.5vw;
-    top : 0;
+    float: left;    
+    vertical-align:middle;
+    text-decoration: none;
+    padding-right: 2vw; 
+    font-size: 1.1vw;
+    font-weight: lighter;
+    width: 10vw;
+    margin-top: 1vw;
+    outline: none !important;
   }
 
-  #form_language select
+  #selectLanguage
   {
-    border-radius: 6vw;
+   vertical-align:middle;
+    border-radius: 4vw;
     text-decoration : none;
+    border: none;
+    width: 100%;
+
   }
 
+
+
+#form_language  .bootstrap-select
+{
+  height: 2vw;
+  width: 100%;
+  vertical-align: middle;
+  font-weight : lighter;
+  border-radius : 0.9vw;
+  box-shadow: none;
+  border : none;
+  padding-left: 0.3vw; 
+  background-color: white;
+}
 
 /* Wrapper for page content to push down footer */
   #wrap {
     min-height: 100%;
     height: auto !important;
-    height: 100%;
-    /* Negative indent footer by its height */
-    /* Pad bottom by footer height */
     padding: 0 0 5vw;
   }
 
-  /* Set the fixed height of the footer here */
-  #footer {
-    background-color: #f5f5f5;
-    position : absolute;
-    margin-bottom: 0;
+
+
+/**********************************************************/
+/********************** FOOTER ****************************/
+/**********************************************************/
+
+  #footer 
+  {
+   background-color: #f5f5f5;
+   font-size: 1vw;
+   height: 5vw;
+   position: absolute;
+   bottom: 0;
   }
 
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-
- 
-
-.container
-{
-  padding : 0 !important;
-  width : 80vw;
-  margin-left: 10vw;
-  margin-right: 15vw;
-}
-
-.container .credit {
-  margin:0;
-}
-
-#footer > .container {
+#footer > .container
+ {
   padding-left: 15vw;
   padding-right: 15vw;
+  position: relative;
+  height: 100%;
+  float: left;
+  top: 0%;
+  line-height: 1vw;
 }
+
+#footer > .container > span {
+  margin-top: 1vw;
+  width: 100%;
+  float : left;
+  height: 5vw;
+  display: inline-block;
+}
+/**********************************************************/
 
 #logo_header {
   background-color: #fff;
-  border-radius : 15px;
+  border-radius : 1vw;
   position : absolute;
   left: 1vw;
   height: 3.4vw;
   margin : 0.3vw;
+  vertical-align: middle;
 
 }
 
 
 
 
-/* Search css*/
 
+/**********************************************************/
+/********************** BOOTSRAP SELECT********************/
+/**********************************************************/
 
-
-
+/* Select Arrow */
 .caret
 {
     border-top: 0.5vw dashed;
     border-top: 0.5vw solid\9;
     border-right: 0.5vw solid transparent;
     border-left: 0.5vw solid transparent;
-    right: 0.2vw !important;
+    right: 1vw !important;
+    top: 0% !important;
+    margin-top: 0.6vw !important;
+    vertical-align: middle;
+
 }
-
-
 
 
 .bootstrap-select.btn-group .dropdown-toggle .filter-option
 {
 padding-right: 1vw;
+float: left;
 }
 
 
-
+/* placeholder select*/
 .bootstrap-select>.dropdown-toggle.bs-placeholder
 {
   color: black !important;
 }
-
 
 .bootstrap-select
 {
   height: 2vw;
   width: 100% !important;
   font-weight : lighter;
-  border-radius : 0.3vw !important;
+  border-radius : 0.3vw ;
   box-shadow: none;
   border : none;
-  background-color: rgb(230,230,230) !important;
+  background-color: rgb(230,230,230) ;
   padding-left: 0.3vw; 
 }
 
+.bootstrap-select button
+{
+  height: 100%;
+  vertical-align: middle;
+  float: left;
+  border: none;
+}
 .btn-default
 {
   background-color: transparent !important;
   border-color : transparent !important;
-  font-size : 1.2vw !important;
+  font-size : 1vw !important;
+}
+
+
+.bs-actionsbox, .bs-donebutton, .bs-searchbox
+{
+  padding: 0.4vw 0.8vw !important;
+  height: 3vw !important;
+}
+
+.dropdown-menu 
+{
+  padding: 0.4vw 0.8vw !important;
+  font-size : 1vw !important;
+  max-height: 10vw !important;
+  max-width: 14vw !important;
+  min-height: 2vw !important;
+  overflow: auto !important;
+  margin: 0 !important;
+  border-radius : 0.4vw !important;
+}
+
+div.dropdown-menu.open
+{
+  border: 0.05vw solid lightgrey !important;
+
+}
+
+.dropdown-menu>li>a
+{
+  padding: 0.1vw 0.8vw !important;
+  height: 1.8vw !important;
+}
+
+.glyphicon-ok
+{
+    right: 1vw !important;
+    top: 0% !important;
+    margin-top: 0.6vw !important;
+    vertical-align: middle;
+
+}
+
+.table
+{
+  margin-bottom: 5vw !important;
+}
+
+
+/* search bar select*/
+.form-control
+{
+  font-size: 1vw; 
+  height: 2vw;
+  padding:0!important;
+}
+
+
+/********************************************************/
+/********************************************************/
+
+/********************************************************/
+/******************* Search template*********************/
+/********************************************************/
+
+
+/* XLS importation option */
+#form_import
+{
+  width: 100%;
+  height: 2.4vw;
+  margin-bottom: 1vw;
+  margin-left: 1vw;
+  float: left;
+}
+
+
+/* Drag & Drop Zone*/
+.label-file {
+  cursor: pointer;
+  color:  #004493;
+  font-weight: bold;
+  font-size: 1.2vw;
+  float: left;
+}
+
+.label-file:hover {
+    color: #09A6C5;
+}
+
+.input-file {
+    display: none !important;
+}
+
+#import_button
+{
+  font-size: 1.3vw;
+  width: 5vw;
+  height: 2.5vw;
+  margin-left: 1vw;
+  padding: 0 !important;
+  background-color : rgb(3,70,148) ;
+  float: left;
+}
+#import_button:hover
+{
+  background-color : #09A6C5; 
+  border :  #09A6C5;
+}
+#change-file
+{
+   font-size: 1vw; 
+   margin: 0;
+   margin-top: -1vw; 
+   color: darkgrey;
+}
+
+
+
+
+
+#headerSearch
+{
+  height: 15vw;
+  width: 100%;
+  float: left;
 }
 
 .form_search{
   display :inline-block !important;
-  font-size : 1.2vw;
+  font-size : 1vw;
+  float: left;
 }
 
 .form_search label 
@@ -253,61 +461,53 @@ padding-right: 1vw;
 
 
 #content_search_1{
-  width: 14vw;
-  margin-left: 1.2vw;
+  float: left;
+  width: 12vw;
+  margin-left: 3vw;
   height: 10vw;
   display :inline-block;
 }
 
 #content_search_2{
-  width: 12vw;
+  float: left;
+  width: 10vw;
   display :inline-block;
-  padding: 1.2vw;
+  margin-left: 3.5vw;
   height: 10vw; 
+
 }
 
-#content_search_3{
-  width : 14vw;
+#content_search_3, #content_search_4, #content_search_5{
+  float: left;
+  width : 12vw;
   display :inline-block;
-  margin-left: 1.2vw;
+  margin-left: 3.5vw;
   height: 10vw;
 }
 
-
-#content_search_4
-{
-  width : 14vw;
-  display :inline-block;
-  margin-left: 1.2vw;
-  height: 10vw;
-}
-
-
-#content_search_5
-{
-  width : 14vw;
-  height: 10vw;
-  display :inline-block;
-  margin-left: 1.2vw;
-}
 
 #content_search_9 {
+  float: left;
   width : 100%;
-  display :inline-block;
   padding: 0.5vw;
+  height: 3vw;
+  display :inline-block;
 }
 
 
-
+.ui-autocomplete
+{
+  font-size : 1vw;
+}
 
 
 /* search button*/
 #send {
   border-radius : 0.4vw !important;
-  border-color: transparent;
-  font-size: 1.2vw;
-  width: 10vw;
-  height: 3vw;
+  border: none;
+  font-size: 1vw;
+  width: 6vw;
+  height: 2vw;
   margin-left: 35vw;
   margin-right: 25vw;
   background-color : rgb(3,70,148) ;
@@ -317,13 +517,32 @@ padding-right: 1vw;
   background-color : #09A6C5; 
 }
 
+
 /*****************************************************************/
+/*****************Results template ***********************/
 /*****************************************************************/
 
-/*****************results page***********************************/
-th
+
+
+.table>thead>tr th
 {
-  font-size: 1.2vw !important;  
+  border-bottom: none !important;
+  padding: 0.5vw !important;
+  min-width: 5vw !important;
+  max-width: 30vw !important;
+  height: 2vw !important;
+  font-size: 1vw !important;
+  background-color: rgb(235,235,235) ;
+}
+
+.table>tbody>tr th
+{
+  padding: 0.2vw !important;
+  min-width: 5vw !important;
+  max-width: 30vw !important;
+  height: 2vw !important;
+  font-size: 1vw !important;
+  border-top: 0.1vw solid lightgrey !important; 
 }
 .btn
 {
@@ -331,7 +550,7 @@ th
 }
 .lead
 {
-   font-size : 1.2vw !important; 
+   font-size : 1vw !important; 
 }
 
 
@@ -339,7 +558,7 @@ th
 {
   border-radius : 0.4vw !important;
   border-color: transparent !important;
-  font-size: 1.2vw !important;
+  font-size: 1vw !important;
   width: 20vw !important;
   height: 3vw !important;
   margin-left: 30vw !important;
@@ -351,58 +570,159 @@ th
   background-color : #09A6C5; 
 }
 
-
-/****************************************************************/
-/* manager options */
-
-
-
-
-
-/* XLS importation option */
-#form_import
+#results
 {
   width: 100%;
-  height: 2.4vw;
-  margin-bottom: 1vw;
-  margin-left: 1vw;
 }
 
+/****************************************************************/
+/****************************************************************/
 
-/* Drag & Drop Zone*/
-.label-file {
-  cursor: pointer;
-  color:  #004493;
-  font-weight: bold;
-  font-size: 1.2vw;
-}
+/****************** Document modification ***********************/
 
-.label-file:hover {
-    color: #09A6C5;
-}
-
-.input-file {
-    display: none !important;
-}
-
-#import_button
+.modal-dialog
 {
-  font-size: 1.3vw;
-  width: 5vw;
-  height: 2.5vw;
-  margin-left: 1vw;
-  padding: 0 !important;
+  padding : 0 !important;
+  width : 80vw !important;
+  margin-top: 5vw !important;
+  margin-left: 10vw !important;
+  margin-right: 10vw !important;
+  border: none !important;
+  border-radius: 0.2vw !important;
+}
+
+.modal-header
+{
+  padding: 2vw !important;
+
+}
+.modal-title
+{
+  font-size: 1.2vw !important; 
+}
+
+
+.glyphicon-file
+{
+  width: 1vw !important;
+}
+
+/* button close */
+.close
+{
+  width: 1vw !important;
+}
+
+
+.modal-body
+{
+  padding: 2vw !important;
+}
+.table>tbody>tr>td
+{
+  padding: 1vw !important;
+  height: 20vw !important;
+  width: 13vw !important;
+  font-size: 1vw !important;
+}
+
+.well
+{
+  float: left !important;
+  margin-bottom: 2vw !important;
+  border-radius: 0.2vw !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding: 1vw !important;
+}
+
+.form-group
+{
+  width: 100%;
+  float: left;
+  max-height: 6vw;
+  display :inline-block !important;
+  margin: 0.5vw 0 !important;
+  border:none;
+
+}
+
+.btn-group>.btn
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  width: 6vw;
+  height: 2vw;
+  margin-left: 0.2vw;
+  margin-right: 0.2vw;
   background-color : rgb(3,70,148) ;
 }
-#import_button:hover
+
+.btn-group>.btn:first-child
 {
-  background-color : #09A6C5; 
-  border :  #09A6C5;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  margin-right: 0.2vw !important;
 }
-#change-file
+.input-group-addon
 {
-   font-size: 1vw; 
-   margin: 0;
-   margin-top: -1vw; 
-   color: darkgrey;
+  width: 3vw !important;
+  padding: 0.2vw !important;
+  border: none  !important;
+}
+
+.inputGroupContainer
+{
+  padding: 0 0.2vw;
+}
+
+#editBloc > .col-md-4 .control-label
+{
+  padding: 0.2vw 0.2vw !important;
+  width: 10vw !important;
+}
+
+#commentaries
+{
+  display: inline-block;
+}
+/***************************************************************/
+/******************* Administration template *******************/
+/***************************************************************/
+#usersResult
+{
+  font-size: 1vw;
+}
+
+#usersResult td
+{
+  padding: 0.2vw !important;
+  min-width: 5vw !important;
+  max-width: 30vw !important;
+  height: 2vw !important;
+  font-size: 1vw !important;
+  border-top: 0.1vw solid lightgrey !important; 
+}
+
+#searchUser
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  width: 6vw;
+  height: 2vw;
+  background-color : rgb(3,70,148) ;  
+}
+
+#userName
+{
+  display :inline-block !important;
+  width: 10vw;
+  height: 2vw;
+  font-weight : lighter;
+  border-radius : 0.3vw !important;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(230,230,230) !important;  
 }

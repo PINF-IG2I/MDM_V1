@@ -55,6 +55,7 @@ INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
 (23, 23, 3),
 (24, 24, 3);
 
+
 -- --------------------------------------------------------
 
 --
@@ -78,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `document` (
 --
 
 INSERT INTO `document` (`id_doc`, `id_document_language`, `id_document_version`, `id_document_reference`) VALUES
+
 (16, 10, 10, 5),
 (17, 11, 10, 5),
 (18, 12, 11, 6),
@@ -108,12 +110,14 @@ CREATE TABLE IF NOT EXISTS `document_language` (
 --
 
 INSERT INTO `document_language` (`id_entry`, `language`, `project`, `translator`) VALUES
+
 (10, 'EN', 'Sunshine', 'Lambert'),
 (11, 'FR', 'Umbrella', 'Med'),
 (12, 'NL', 'Mitsui', 'M. Dupont'),
 (13, 'DN', 'Illusion', 'Medor'),
 (14, '', '', ''),
 (15, 'EN', 'Mitsubishi', 'Roger');
+
 
 -- --------------------------------------------------------
 
@@ -148,10 +152,12 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
 --
 
 INSERT INTO `document_reference` (`id_ref`, `reference`, `subject`, `initial_language`, `previous_doc`, `product`, `component`, `installation`, `maintenance`, `x_link`, `aec_link`, `ftp_link`, `sharepoint_vbn_link`, `sharepoint_blq_link`, `different_AEC`) VALUES
+
 (5, '4RDUKP5396', 'TRAINBORNE MAINTENANCE BOX - MANUEL UTILISATEUR', 'EN', '', 'Tools', 'ODE', 0, 1, '', '', '', '', '', 1),
 (6, '5.0300.091', 'TRU SEHERON TELOC 1550 SYSTEM DESCRIPTION', 'DE', '', 'TRU', 'TELOC 1550', 1, 1, '', '', '', '', '', 1),
 (7, 'CMD_CRL_DESG_0056', 'Cold Movement Detector - Installation Constraints', 'JP', '', 'CMD', '', 1, 0, 'C:\\Desktop', '', '', '', '', 1),
 (8, 'NEWDOC', 'Cold Movement Detector - Installation Constraints', 'JP', '', 'CMD', '', 0, 0, 'C:\\Desktop', '', '', '', '', 1);
+
 
 -- --------------------------------------------------------
 
@@ -190,6 +196,16 @@ INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availab
 (13, '1.0', 'CRL', '', 1, 0, 0, 0, 0, 'peuplé par défaut', '', '', '', '', 'Future'),
 (14, 'TBD', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be reviewed', 'Working', 'field', '', '', 'Draft'),
 (15, '3.0', 'CRL', 'C. Bac.', 1, 0, 0, 0, 0, 'peuplé par défaut', '', '', '', '', 'Draft');
+
+-- --------------------------------------------------------
+
+--
+-- Déchargement des données de la table `document_version`
+--
+
+INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availability_x`, `availability_aec`, `availability_ftp`, `availability_sharepoint_vbn`, `availability_sharepoint_blq`, `remarks`, `working_field_1`, `working_field_2`, `working_field_3`, `working_field_4`, `status`) VALUES
+(1, 'A01', 'VBN', 'M. Dem.', 0, 0, 0, 0, 0, 'peuplé par défaut', 'uh', 'meh', '', '', 'Public'),
+(2, '10.2C', 'CRL', 'C. Bac.', 0, 0, 0, 0, 0, 'Needs to be reviewed', 'Working', 'field', '', '', 'Draft');
 
 -- --------------------------------------------------------
 

@@ -71,9 +71,7 @@ $languages= array(
 		"edit" => "Edit",
 		"import_zone" => "Choose a file to import",
 		"import" => "Import",
-		"reference" => "Reference",
-		"reference_or_title" => "Reference or document title"
-
+		"reference" => "Reference"
 
 		
 
@@ -146,10 +144,10 @@ $languages= array(
 		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base.",
 		"no_result" => "Aucun résultat.",
 		"sure_edit_doc" => "Êtes-vous sur de vouloir éditer le document ?",
+		"edit" => "Éditer",
 		"import_zone" => "Choisissez un fichier à importer",
 		"import" => "Importer",
-		"reference" => "Référence",
-		"reference_or_title" => "Référence ou titre du document"
+		"reference" => "Référence"
 	)
 
 );
