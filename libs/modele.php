@@ -14,13 +14,6 @@ function listUsers()
 
 }
 
-// Collect informations from every document
-function listerDocs() {
-	$SQL = "SELECT document.id_doc,version,initial_language,reference,subject,site,PIC,document_version.status,component_name,subsystem_name,GATC_baseline,language,project,translator,previous_doc,installation,maintenance,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4 FROM document,document_version,document_language,document_reference,gatc_baseline,association_table, components, etcs_subsystem WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_document=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document_reference.product=etcs_subsystem.id AND document_reference.component=components.id  ";
-	return parcoursRs(SQLSelect($SQL));
-}
-
-
 
 function checkUserDB($login,$password)
 {
@@ -32,7 +25,6 @@ function checkUserDB($login,$password)
 	$SQL="SELECT * FROM users WHERE last_name='$login'  AND password='$password'";
 	return parcoursRs(SQLSelect($SQL));
 }
-
 
 /**
 * Fonction permettant d'update l'attribut isConnected dans la table
@@ -87,56 +79,86 @@ function getSearchDatas(){
 }
 
 function getResultsFromQuery($data,$status){
-	$SQL="SELECT reference,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
+	global $BDD_base;
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	$finalColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($finalColumns, strtolower($value["COLUMN_NAME"]));
+
+	}
+	$SQL="SELECT reference,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,different_aec,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
 	foreach ($data as $key => $value) {
-		if(!is_array($value) && $key!="reference"){
-			$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
-		}else if ($key=="reference"){ //searching by document "reference" is a bit different, the user is allowed to perform a query on both a document reference and a document title.
-		$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."')";
-	}else {
-		if($key=="type"){
-			foreach ($value as $content) {
-				$SQL.= " AND `".protect(trim($content)) ."` = '1' ";
-			}
-			} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
-				$SQL.=" AND (`initial_language` IN(";
-				foreach($value as $content){
-					$SQL.="'".protect(trim($content))."',";
-				}
-				$SQL=substr($SQL,0,-1);
-				$SQL.=") ";
-				$SQL.="OR `language` IN(";
-				foreach($value as $content){
-					$SQL.="'".protect(trim($content))."',";
-
-				}
-				$SQL=substr($SQL,0,-1);
-				$SQL.=") )";
-			} else {
-				$SQL.= " AND `".protect(trim($key))."` IN (";
+		if(in_array($key, $finalColumns)){
+			if(!is_array($value) && $key!="reference"){//if the data is not an array, it is not necessary to loop through it.
+				$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
+			}else if ($key=="reference"){ //searching by document "reference" is a bit different, the user is allowed to perform a query on both a document reference and a document title.
+			$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."')"; 
+		}else {
+			if($key=="type"){
 				foreach ($value as $content) {
-					$SQL.="'".protect(trim($content))."',";
+					$SQL.= " AND `".protect(trim($content)) ."` = '1' ";
 				}
-				$SQL=substr($SQL,0,-1);
-				$SQL.=") ";
+				} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
+					$SQL.=" AND (`initial_language` IN(";
+					foreach($value as $content){
+						$SQL.="'".protect(trim($content))."',";
+					}
+					$SQL=substr($SQL,0,-1);
+					$SQL.=") ";
+					$SQL.="OR `language` IN(";
+					foreach($value as $content){
+						$SQL.="'".protect(trim($content))."',";
 
+					}
+					$SQL=substr($SQL,0,-1);
+					$SQL.=") )";
+				} else {
+					$SQL.= " AND `".protect(trim($key))."` IN (";
+					foreach ($value as $content) {
+						$SQL.="'".protect(trim($content))."',";
+					}
+					$SQL=substr($SQL,0,-1);
+					$SQL.=") ";
+
+				}
 			}
-		}
+		} else echo $key;
 	}
 	if($status == "External") //if the user has the status "external", only public documents are displayed.
 	$SQL.= " AND status = 'Public'";
+	$SQL.=" ORDER BY reference ASC";
 	return parcoursRs(SQLSelect($SQL));
 
 }
 
 function editDocument($data) {
-	$SQL="SET foreign_key_checks = 0;
-	UPDATE document,document_version,document_language,document_reference,gatc_baseline,association_table  SET ";
+
+	global $BDD_base;
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	$finalColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($finalColumns, $value["COLUMN_NAME"]);
+
+	}
+	$SQL="UPDATE document,document_version,document_language,document_reference,gatc_baseline,association_table  SET ";
 	foreach($data as $key=>$value) {
-		$SQL.=protect(trim($key))."='".protect(trim($value))."',";
+		if(in_array($key, $columns)){
+			if($value!='')
+				$SQL.=protect(trim($key))."='".protect(htmlspecialchars(trim($value)))."',";
+			else
+				$SQL.=protect(trim($key))."= DEFAULT,";
+		}
 	}
 	$SQL=substr($SQL,0,-1);
-	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc=".protect($data["document.id_doc"]).";SET foreign_key_checks = 1;";
+	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc='".protect($data["document.id_doc"])."'";
 	return SQLUpdate($SQL);
 }
 
@@ -182,10 +204,8 @@ function deleteDatabase() {
 	DELETE FROM document; 
 	DELETE FROM document_language; 
 	DELETE FROM association_table; 
-	DELETE FROM components; 
 	DELETE FROM document_reference; 
 	DELETE FROM document_version; 
-	DELETE FROM etcs_subsystem; 
 	DELETE FROM gatc_baseline; 
 	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
 	SET FOREIGN_KEY_CHECKS = 1;";
@@ -449,7 +469,6 @@ function importDatas($tempname){
     			$csvAsArray[$j][$translatorColumn]='';
     			$csvAsArray[$j][$projectColumn]='';
     		}
-    		if($csvAsArray[$j][$versionColumn]=='') $csvAsArray[$j][$versionColumn]='TBD';
     		echo $idBaseline;
     		if($idRef=referenceExists($csvAsArray[$j][$referenceColumn]))
     			$refQuery=false;
@@ -468,11 +487,17 @@ function importDatas($tempname){
 
     			if(!in_array($k, $ignoredColumns) || $k!=$baselineColumn){
     				if($refQuery != false && in_array($fileColumns[$k],$referenceColumns)){
-    					$refQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    					if($csvAsArray[$j][$k]!='')
+    						$refQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    					else
+    						$refQuery.="DEFAULT,";
     				} else if( $languageQuery!=false && in_array($fileColumns[$k],$languageColumns)){
     					$languageQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
     				} else if($versionQuery!=false && in_array($fileColumns[$k],$versionColumns)){
-    					$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    					if($csvAsArray[$j][$k]!='')
+    						$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
+    					else 
+    						$versionQuery.="DEFAULT,";
     				}
     			}
     		}
@@ -541,7 +566,7 @@ function findDelimiter($tempname){
 	return $delimiters[$first_key]; 
 }
 
-	
+
 
 //removes utf8 BOM from csv file
 function remove_utf8_bom($text){
@@ -553,12 +578,11 @@ function remove_utf8_bom($text){
 //seeks if the baseline exists or not
 function unknownBaseline($baseline){
 	$SQL="SELECT id_baseline from gatc_baseline WHERE gatc_baseline='".protect(htmlspecialchars(trim($baseline)))."'";
-	echo $SQL;
 	return SQLGetChamp($SQL);
 }
 
 function referenceExists($reference){
-	$SQL="SELECT id_ref FROM document_reference WHERE reference='".protect(trim($reference))."'";
+	$SQL="SELECT id_ref FROM document_reference WHERE reference='".protect(htmlspecialchars(trim($reference)))."'";
 	return SQLGetChamp($SQL);
 }
 
@@ -581,7 +605,5 @@ function associationTableEntry($id_baseline,$id_doc){
 	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
 	return SQLSelect($SQL);
 }
-
-
 
 ?>
