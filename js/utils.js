@@ -60,10 +60,7 @@
 				url:'controleur.php',
 				data:formData,
 				dataType:'json',
-				encode:true,
-				success:function(data){
-					console.log("oui");
-				}
+				encode:true
 			});
 		});
 
@@ -112,11 +109,13 @@
 			$("#headerSearch select").each(function(){
 				var key= $(this).attr("name");
 				var value=$(this).val();
+				console.log(value);
 				if(value!=null){
 					oQuery[key]=value;
 
 				}
 			});
+			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON( "controleur.php",
 				{
@@ -131,8 +130,9 @@
 						var oResult=$("<tbody id='tableResults'>");
 
 						$.each(oRep,function(i,val) {
-							var language=val["language"];
-							if(language=="") language=val["initial_language"];
+							var language="";
+							if(val["language"]!="") language=val["language"];
+							else language= val ["initial_language"];
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").attr({"data-toggle":"modal","data-target":"#editDoc"}).on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
 								+ language + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
