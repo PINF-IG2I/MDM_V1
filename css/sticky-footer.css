@@ -8,15 +8,6 @@
 5. Search template
 6. Results template
 7. Administration template
-
-
-
-
-
-
-
-
-
 */
 
 
@@ -70,7 +61,6 @@ label
   margin : 0 !important;
 }
 
-
 /**** templates css *****/
 
 .page-header
@@ -85,7 +75,6 @@ label
 
 
 
- 
 /*templates container*/
 .container
 {
@@ -141,8 +130,6 @@ label
     font-weight: lighter;
       
     margin-top: 1.2vw;
-
-
 
   }
 
@@ -247,6 +234,7 @@ label
 
 
 
+ 
 
 
 /**********************************************************/
@@ -266,6 +254,7 @@ label
     vertical-align: middle;
 
 }
+
 
 
 .bootstrap-select.btn-group .dropdown-toggle .filter-option
@@ -438,6 +427,7 @@ div.dropdown-menu.open
   float: left;
 }
 
+
 .form_search label 
 {
   font-weight: bold;
@@ -459,6 +449,13 @@ div.dropdown-menu.open
   background-color: rgb(230,230,230) !important;
 }
 
+.btn-default
+{
+  background-color: transparent !important;
+  border-color : transparent !important;
+  font-size : 1.2vw !important;
+}
+
 
 #content_search_1{
   float: left;
@@ -474,8 +471,20 @@ div.dropdown-menu.open
   display :inline-block;
   margin-left: 3.5vw;
   height: 10vw; 
-
 }
+
+.form_search input 
+{
+  display :inline-block !important;
+  width: 100%;
+  height: 2vw;
+  font-weight : lighter;
+  border-radius : 0.3vw !important;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(230,230,230) !important;
+}
+
 
 #content_search_3, #content_search_4, #content_search_5{
   float: left;
@@ -486,12 +495,14 @@ div.dropdown-menu.open
 }
 
 
+
 #content_search_9 {
   float: left;
   width : 100%;
   padding: 0.5vw;
   height: 3vw;
   display :inline-block;
+
 }
 
 
@@ -570,6 +581,7 @@ div.dropdown-menu.open
   background-color : #09A6C5; 
 }
 
+
 #results
 {
   width: 100%;
@@ -644,7 +656,6 @@ div.dropdown-menu.open
   display :inline-block !important;
   margin: 0.5vw 0 !important;
   border:none;
-
 }
 
 .btn-group>.btn
@@ -676,6 +687,7 @@ div.dropdown-menu.open
 {
   padding: 0 0.2vw;
 }
+
 
 #editBloc > .col-md-4 .control-label
 {

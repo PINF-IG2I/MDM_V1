@@ -525,6 +525,7 @@ function findDelimiter($tempname){
 }
 
 
+
 //removes utf8 BOM from csv file
 function remove_utf8_bom($text){
 	$bom=pack('H*','EFBBBF');
