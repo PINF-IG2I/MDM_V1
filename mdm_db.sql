@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `association_table` (
 -- Déchargement des données de la table `association_table`
 --
 
-
 INSERT INTO `association_table` (`id`, `id_doc`, `id_baseline`) VALUES
 (16, 16, 4),
 (17, 17, 4),
@@ -78,9 +77,7 @@ CREATE TABLE IF NOT EXISTS `document` (
 -- Déchargement des données de la table `document`
 --
 
-
 INSERT INTO `document` (`id_doc`, `id_document_language`, `id_document_version`, `id_document_reference`) VALUES
-
 (16, 10, 10, 5),
 (17, 11, 10, 5),
 (18, 12, 11, 6),
@@ -146,7 +143,6 @@ CREATE TABLE IF NOT EXISTS `document_reference` (
   KEY `component` (`component`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-
 --
 -- Déchargement des données de la table `document_reference`
 --
@@ -196,7 +192,6 @@ INSERT INTO `document_version` (`id_version`, `version`, `site`, `pic`, `availab
 (15, '3.0', 'CRL', 'C. Bac.', 1, 0, 0, 0, 0, 'peuplé par défaut', '', '', '', '', 'Draft');
 
 -- --------------------------------------------------------
-
 
 --
 -- Structure de la table `gatc_baseline`

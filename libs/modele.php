@@ -88,6 +88,7 @@ function getResultsFromQuery($data,$status){
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, strtolower($value["COLUMN_NAME"]));
+
 	}
 	$SQL="SELECT reference,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,different_aec,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
 	foreach ($data as $key => $value) {
@@ -323,7 +324,7 @@ function importDatas($tempname){
 	//the aim of this function is to make the life of the user easier.
 	//when creating his excel file, he has the possiblity to move around all the columns
 	//also, he has the possibility to create new columns. as long as those new columns don't have the same name as an attribute in the database, this will work.
-	//a lot of the treatments in this function may be redundant, but they're not.
+	//a lot of the treatments in this function may seem redundant, but they're essential.
 	//as long as you keep in mind that this function must work with any disposition of the cells in the csv file, you'll understand how it works.
 
 
@@ -406,7 +407,20 @@ function importDatas($tempname){
     			case 'GATC_baseline':
     			$baselineColumn=$i;
     			break;
+    			case 'version':
+    			$versionColumn=$i;
+    			break;
+    			case 'language':
+    			$languageColumn=$i;
+    			break;
+    			case 'project':
+    			$projectColumn=$i;
+    			break;
+    			case 'translator':
+    			$translatorColumn=$i;
+    			break;
     			default:
+
     			break;
     		}
     	}	
@@ -414,9 +428,8 @@ function importDatas($tempname){
 
     echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
     print_r($ignoredColumns);
-    //$ignoredColumns contains the number of the column that needs to be avoided.
+    //$ignoredColumns contains the indexes of the columns that need to be avoided.
     echo "<br><br>";
-    // $SQL_doc_ref="INSERT INTO"
     //after all the ignored rows have been found, we build the different queries that will be used to insert datas into the database
     $SQL_doc_ref="INSERT INTO document_reference("; //doc reference
     for($i=0;$i<$size;$i++){
@@ -445,8 +458,10 @@ function importDatas($tempname){
     //checking data validity and insertion
     $sizeCsvArray=sizeof($csvAsArray);
     $ignoredRows=array();
+    $rowsInserted=0;
+    $docsInserted=0;
     for($j=1;$j<$sizeCsvArray;$j++){
-    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) || unknownBaseline($csvAsArray[$j][$baselineColumn])==false){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
+    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) ||  !($idBaseline =unknownBaseline($csvAsArray[$j][$baselineColumn]))){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
     		array_push($ignoredRows, $j);    		
     	}else{
     		if(empty($csvAsArray[$j][$languageColumn])) {
@@ -483,24 +498,51 @@ function importDatas($tempname){
     						$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
     					else 
     						$versionQuery.="DEFAULT,";
-            }
+    				}
     			}
-    			//}
     		}
-    		$refQuery=substr($refQuery, 0,-1);
-    		$refQuery.=");";
-    		$versionQuery=substr($versionQuery, 0,-1);
-    		$versionQuery.=");";
-    		$languageQuery=substr($languageQuery, 0,-1);
-    		$languageQuery.=");";
-    		echo "<br>".$refQuery;
-    		echo "<br>".$languageQuery;
-    		echo "<br>".$versionQuery;
+    		if($refQuery){
+    			$refQuery=substr($refQuery, 0,-1);
+    			$refQuery.=");";
+    			$idRef=SQLInsert($refQuery);
+    			$rowsInserted++;
+    		}
+    		if($versionQuery){
+    			$versionQuery=substr($versionQuery, 0,-1);
+    			$versionQuery.=");";
+    			$idVersion=SQLInsert($versionQuery);
+    			$rowsInserted++;
+    		}
+    		if($languageQuery){
+    			$languageQuery=substr($languageQuery, 0,-1);
+    			$languageQuery.=");";
+    			$idLanguage=SQLInsert($languageQuery);
+    			$rowsInserted++;
+    		}
+    		echo"<br>Newdoc<hr>";
+    		echo "<br>".$refQuery." ".$idRef;
+    		echo "<br>".$versionQuery." ".$idVersion;
+    		echo "<br>".$languageQuery." ".$idLanguage;
     		echo "<br><br>";
+
+    		if(!($idDoc=docExists($idRef,$idVersion,$idLanguage))){
+    			$SQL="INSERT INTO document(`id_document_language`,`id_document_version`,`id_document_reference`) VALUES ('".$idLanguage."','".$idVersion."','".$idRef."');";
+    			$idDoc=SQLInsert($SQL);
+    			$docsInserted++;
+    		}
+    		echo "id_doc :".$idDoc;
+    		if(!($idAssociationTable = associationTableEntry($idBaseline,$idDoc))){
+    			$SQL="INSERT INTO association_table (`id_doc`,`id_baseline`) VALUES ('".$idDoc."','".$idBaseline."');";
+    			$res=SQLInsert($SQL);
+    			$rowsInserted++;
+    		}
     		
     	}
     }
+    echo "<br>";
     print_r($ignoredRows);
+    echo "<br>".$rowsInserted ." enregistrements<br>";
+    echo $docsInserted." documents ajoutés<br>";
 }
 
 //seeks for the delimiter used in the file format, this is done by searching the most occured delimiter in the file
@@ -563,6 +605,5 @@ function associationTableEntry($id_baseline,$id_doc){
 	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
 	return SQLSelect($SQL);
 }
-
 
 ?>
