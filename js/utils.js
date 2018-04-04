@@ -131,9 +131,11 @@
 						var oResult=$("<tbody id='tableResults'>");
 
 						$.each(oRep,function(i,val) {
+							var language=val["language"];
+							if(language=="") language=val["initial_language"];
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").attr({"data-toggle":"modal","data-target":"#editDoc"}).on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
-								+ val["language"] + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
+								+ language + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
 								+ val["site"] + "</th><th>" + val["pic"] + "</th><th>" + val["status"] + "</th><th>" 
 								+ val["component"] + "</th><th>" + val["product"] + "</th></tr>");
 							oResult.append(oRow);
