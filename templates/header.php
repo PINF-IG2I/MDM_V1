@@ -65,7 +65,7 @@ $languageList=array_keys($languages);
 					}?>
 
 					<form id="form_language" class="form-inline mt-2 mt-md-0" >
-						<select id="selectLanguage"  multiple="multiple" class="selectpicker"  data-live-search="true" >
+						<select id="selectLanguage" class="selectpicker">
 							<option value="" disabled selected><?php echo $translation["language"]?></option>
 							<?php 
 
