@@ -231,84 +231,86 @@ $lockedDatabase=lockedDatabase();
 
 
 <!-- DATABASE MANAGEMENT -->
-<div class="page-header">
-	<center><h1><?php echo $translation["db_management"]?></h1></center>
-</div>
-<div id="db_management" >
-	<center>
-		<button class="btn btn-info" onclick="saveDB();" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-		<form id="db_management_form" style="display: inline-block;" action="controleur.php" method="POST" >
-			
-			<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' onchange="importSave();" hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
-			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
-			<input type="submit" name="action" value="importDB" style="display: none" />
-			<?php
-
-			if($lockedDatabase=="1")
-				echo $translation["unlockDB"];
-			else 
-				echo $translation["lockDB"];
-			?> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></button>
-		</form>
-	</center>
-</div>
-
-<!-- END DATABASE MANAGEMENT -->
-
-<!-- HIDDEN DIALOG TO DELETE DATABASE -->
-<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
-			</div>
-			<div class="modal-body">
-				<p><?php echo $translation["sure_delete_database"] ?>?</p>
-			</div>
-			<div class="modal-footer">
-				<form action="controleur.php">
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
-					<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
-				</form>
-			</div>
-		</div>
+<div class="container">
+	<div class="page-header">
+		<center><h1><?php echo $translation["db_management"]?></h1></center>
 	</div>
-</div>
-<!-- END HIDDEN DIALOG TO DELETE DATABASE -->
+	<div id="db_management" >
+		<center>
+			<button class="btn btn-info" onclick="saveDB();" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+			<form id="db_management_form" style="display: inline-block;" action="controleur.php" method="POST" >
+				
+				<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' onchange="importSave();" hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
+				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
+				<input type="submit" name="action" value="importDB" style="display: none" />
+				<?php
 
-<!-- HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
-<div class="modal fade" id="lockDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
-			</div>
-			<div class="modal-body">
-				<p><?php
 				if($lockedDatabase=="1")
-					echo $translation["sure_unlock_database"];
-				else if($lockedDatabase=="0")
-					echo $translation["sure_lock_database"];
-				?> ?</p>
-			</div>
-			<div class="modal-footer">
-				<form action="controleur.php">
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
-					<button type="submit" name="action" value="lockDB" class="btn btn-danger"><?php 
-					if($lockedDatabase=="1")
-						echo $translation["unlockDB"];
-					else 
-						echo $translation["lockDB"];
-					?></button>
-				</form>
+					echo $translation["unlockDB"];
+				else 
+					echo $translation["lockDB"];
+				?> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></button>
+			</form>
+		</center>
+	</div>
+
+	<!-- END DATABASE MANAGEMENT -->
+
+	<!-- HIDDEN DIALOG TO DELETE DATABASE -->
+	<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
+				</div>
+				<div class="modal-body">
+					<p><?php echo $translation["sure_delete_database"] ?>?</p>
+				</div>
+				<div class="modal-footer">
+					<form action="controleur.php">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+						<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- END HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
+	<!-- END HIDDEN DIALOG TO DELETE DATABASE -->
+
+	<!-- HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
+	<div class="modal fade" id="lockDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
+				</div>
+				<div class="modal-body">
+					<p><?php
+					if($lockedDatabase=="1")
+						echo $translation["sure_unlock_database"];
+					else if($lockedDatabase=="0")
+						echo $translation["sure_lock_database"];
+					?> ?</p>
+				</div>
+				<div class="modal-footer">
+					<form action="controleur.php">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+						<button type="submit" name="action" value="lockDB" class="btn btn-danger"><?php 
+						if($lockedDatabase=="1")
+							echo $translation["unlockDB"];
+						else 
+							echo $translation["lockDB"];
+						?></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
+	</div>
 </div>
 
 <script>

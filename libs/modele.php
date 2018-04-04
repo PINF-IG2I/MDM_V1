@@ -88,30 +88,29 @@ function getResultsFromQuery($data,$status){
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, strtolower($value["COLUMN_NAME"]));
-
 	}
 	$SQL="SELECT reference,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,different_aec,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
 	foreach ($data as $key => $value) {
-		if(in_array($key, $finalColumns)){
+		if(in_array($key, $finalColumns) || $key='type'){
 			if(!is_array($value) && $key!="reference"){//if the data is not an array, it is not necessary to loop through it.
-				$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
+				$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(htmlspecialchars(trim($value)))."'";	
 			}else if ($key=="reference"){ //searching by document "reference" is a bit different, the user is allowed to perform a query on both a document reference and a document title.
-			$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."')"; 
+			$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(htmlspecialchars(trim($value)))."' OR `subject` LIKE '".protect(htmlspecialchars(trim($value)))."')"; 
 		}else {
 			if($key=="type"){
 				foreach ($value as $content) {
-					$SQL.= " AND `".protect(trim($content)) ."` = '1' ";
+					$SQL.= " AND `".protect(htmlspecialchars(trim($content))) ."` = '1' ";
 				}
 				} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
 					$SQL.=" AND (`initial_language` IN(";
 					foreach($value as $content){
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 					}
 					$SQL=substr($SQL,0,-1);
 					$SQL.=") ";
 					$SQL.="OR `language` IN(";
 					foreach($value as $content){
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 
 					}
 					$SQL=substr($SQL,0,-1);
@@ -119,7 +118,7 @@ function getResultsFromQuery($data,$status){
 				} else {
 					$SQL.= " AND `".protect(trim($key))."` IN (";
 					foreach ($value as $content) {
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 					}
 					$SQL=substr($SQL,0,-1);
 					$SQL.=") ";
@@ -141,29 +140,61 @@ function editDocument($data) {
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
-	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
+	AND `TABLE_NAME` IN('document_reference','document_version','gatc_baseline');";
 	$columns=parcoursRs(SQLSelect($SQL));
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, $value["COLUMN_NAME"]);
 
 	}
-	$SQL="UPDATE document,document_version,document_language,document_reference,gatc_baseline,association_table  SET ";
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	$languageColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($languageColumns, $value["COLUMN_NAME"]);
+
+	}
+
+	$languageArray=array();
+	$SQL="UPDATE document,document_version,document_reference,gatc_baseline,association_table  SET ";
 	foreach($data as $key=>$value) {
-		if(in_array($key, $columns)){
+		if(in_array($key, $finalColumns)){
 			if($value!='')
-				$SQL.=protect(trim($key))."='".protect(htmlspecialchars(trim($value)))."',";
+				$SQL.=$key."='".protect(htmlspecialchars(trim($value)))."',";
 			else
-				$SQL.=protect(trim($key))."= DEFAULT,";
+				$SQL.=$key."= DEFAULT,";
+		} else if(in_array($key, $languageColumns)){
+			$languageArray[$key]=protect(htmlspecialchars(trim($value)));
 		}
 	}
+	$SQL_language_select = "SELECT id_entry FROM document_language WHERE ";	
+	$SQL_language_insert="INSERT INTO document_language(";
+	foreach ($languageArray as $key => $value) {
+		$SQL_language_select.= " $key='$value' AND";
+		$SQL_language_insert.=$key.",";
+	}
+	$SQL_language_select=substr($SQL_language_select, 0,-3);
+	if(!($idLanguage=SQLGetChamp($SQL_language_select))){
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=") VALUES (";
+		foreach ($languageArray as $key => $value) {
+			$SQL_language_insert.= "'$value',";
+
+		}
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=")";
+		$idLanguage=SQLInsert($SQL_language_insert);
+	}
 	$SQL=substr($SQL,0,-1);
-	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc='".protect($data["document.id_doc"])."'";
+	$SQL.=",id_document_language='".$idLanguage."' WHERE document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc='".protect($data["document.id_doc"])."'";
 	return SQLUpdate($SQL);
 }
 
 function getUsersFromQuery($data){
-	$SQL="SELECT * FROM users WHERE last_name LIKE '%$data%' OR first_name LIKE '%$data%'";
+	$SQL="SELECT * FROM users WHERE last_name LIKE '$data%' OR first_name LIKE '$data%'";
 	return parcoursRs(SQLSelect($SQL));
 }
 
@@ -214,7 +245,7 @@ function deleteDatabase() {
 
 function exportResults($data){
 	$file=fopen("php://output","w");
-	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+ 	fputs( $file, "\xEF\xBB\xBF" ); // UTF-8 BOM !!!!!
 	foreach ($data as $key => $value) {
 		foreach ($data[$key] as $insideKey=> $insideValue) {
 			if(substr($insideKey,0,2)=="id")
@@ -605,5 +636,6 @@ function associationTableEntry($id_baseline,$id_doc){
 	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
 	return SQLSelect($SQL);
 }
+
 
 ?>

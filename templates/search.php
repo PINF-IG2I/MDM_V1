@@ -40,6 +40,7 @@ if(secure("status","SESSION")=='Manager'){
 
 <?php
 
+
 if(!empty($searchDatas)){
 	if(!empty($searchDatas["reference"])){
 		foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
@@ -68,6 +69,7 @@ if(!empty($searchDatas)){
 	}
 }
 ?>
+
 
 
 
@@ -103,7 +105,7 @@ if(!empty($searchDatas)){
 		}
 	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
-
+				
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
@@ -137,17 +139,17 @@ if(!empty($searchDatas)){
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
 					echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
-
 				}
 
 				?>
 			</select>
+
 			<label for="language"><?php echo $translation["language"]?></label>
 			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
-					if($value["initial_language"]!='')
-						echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+          			if($value["initial_language"]!="")
+					  echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
 				}
 
 				?>
@@ -165,7 +167,8 @@ if(!empty($searchDatas)){
 			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["product"] ?>' name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
+					 if($value["product"]!="")
+            echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
@@ -178,8 +181,8 @@ if(!empty($searchDatas)){
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["component"] ?>' name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					if($value["component"]!='')
-						echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
+          if($value["component"]!="")
+					  echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
@@ -189,8 +192,8 @@ if(!empty($searchDatas)){
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["site"] ?>' name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
-					if($value["site"]!='')
-						echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+					if($value["site"]!="")
+            echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
 				}
 
 				?>
@@ -357,7 +360,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["translation"]?></label>
 											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translation" name="document_language.language" placeholder=<?php echo $translation["translation"]?> class="form-control" value="" type="text"></div>
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translation" name="language" placeholder=<?php echo $translation["translation"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
 										<div class="form-group">
@@ -775,11 +778,11 @@ else {
 				<p><?php echo $translation["sure_edit_doc"] ?></p>
 			</div>
 			<div class="modal-footer">
-				<form action="controleur.php">
+				<form action="controleur.php"> 
 					<input id="numberDeleteDoc" type="hidden" name="id_doc" value="" />
 					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 					<button type="submit" name="action" value="changeDoc" class="btn btn-success"><?php echo $translation["edit"]?></button>
-				</form>
+ 				</form>
 			</div>
 		</div>
 	</div>
@@ -814,26 +817,34 @@ else {
     			$("#Translation").val(tabDocs[index]["language"]);
     			$("#Translator").val(tabDocs[index]["translator"]);
     			if(tabDocs[index]["installation"]==1)
-    				$("#Installation").attr('checked',true);
+    				$("#Installation").prop('checked',true);
+    			else $("#Installation").prop('checked',false);
     			if(tabDocs[index]["maintenance"]==1)
-    				$("#Maintenance").attr('checked',true);
+    				$("#Maintenance").prop('checked',true);
+    			else $("#Maintenance").prop('checked',false);
     			$("#AEC").val(tabDocs[index]["aec_link"]);
     			if(tabDocs[index]["availability_aec"]==1)
-    				$("#availability_aec").attr('checked',true);
+    				$("#availability_aec").prop('checked',true);
+    			else $("#availability_aec").prop('checked',false);
     			if(tabDocs[index]["different_aec"]==1)
-    				$("#aec_different").attr('checked',true);
+    				$("#aec_different").prop('checked',true);
+    			else $("#aec_different").prop('checked',false);
     			if(tabDocs[index]["availability_x"]==1)
-    				$("#availability_x").attr('checked',true);
+    				$("#availability_x").prop('checked',true);
+    			else $("#availability_x").prop('checked',false);
     			$("#x_link").val(tabDocs[index]["x_link"]);
     			$("#ftp_link").val(tabDocs[index]["ftp_link"]);
     			if(tabDocs[index]["availability_ftp"]==1)
-    				$("#availability_ftp").attr('checked',true);
+    				$("#availability_ftp").prop('checked',true);
+    			else $("#availability_ftp").prop('checked',false);
     			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
     			if(tabDocs[index]["availability_sharepoint_vbn"]==1)
-    				$("#availability_sharepoint_vbn").attr('checked',true);
+    				$("#availability_sharepoint_vbn").prop('checked',true);
+    			else $("#availability_sharepoint_vbn").prop('checked',false);
     			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
     			if(tabDocs[index]["availability_sharepoint_blq"]==1)
-    				$("#availability_sharepoint_blq").attr('checked',true);
+    				$("#availability_sharepoint_blq").prop('checked',true);
+    			else $("#availability_sharepoint_blq").prop('checked',false);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -846,38 +857,16 @@ else {
 
     		$(document).ready( function() {
 
-    			var autocompleteName = <?php if (isset($name)) echo $name; else echo "''"; ?>;
-    			var autopreviousDoc= <?php if (isset($previous_doc)) echo $previous_doc; else echo "''" ?>;
-    			var autoversion= <?php if (isset($version)) echo $version; else echo "''"; ?>;
-    			var autopic= <?php if (isset($pic)) echo $pic; else echo "''"; ?>;
+    			var autocompleteName = <?php echo $name; ?>;
+    			var autopreviousDoc= <?php echo $previous_doc; ?>;
+    			var autoversion= <?php echo $version; ?>;
+    			var autopic= <?php echo $pic; ?>;
     			$( "#doc_number" ).autocomplete({ source: autocompleteName });
     			$( "#previous_ref" ).autocomplete({ source: autopreviousDoc });
     			$( "#version" ).autocomplete({ source: autoversion });
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
 
-
-    		/*jQuery.fn.multiselect = function() {
-    			$(this).each(function() {
-    				var checkboxes = $(this).find("input:checkbox");
-    				checkboxes.each(function() {
-    					var checkbox = $(this);
-			        // Highlight pre-selected checkboxes
-			        if (checkbox.prop("checked"))
-			        	checkbox.parent().addClass("multiselect-on");
-
-			        // Highlight checkboxes that the user selects
-			        checkbox.click(function() {
-			        	if (checkbox.prop("checked"))
-			        		checkbox.parent().addClass("multiselect-on");
-			        	else
-			        		checkbox.parent().removeClass("multiselect-on");
-			        });
-			    });
-    			});
-    		};*/
-
-    		//window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     	</script>
 
 

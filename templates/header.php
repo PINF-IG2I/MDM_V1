@@ -22,7 +22,7 @@ $languageList=array_keys($languages);
 
 	<!-- Custom styles for this template -->
 
-	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>
+
 	<link rel="stylesheet" href="./css/jquery-ui.min.css">
 	<link href="./css/sticky-footer.css" rel="stylesheet"/>
 	<script src="./js/jquery.js"></script>
@@ -35,9 +35,12 @@ $languageList=array_keys($languages);
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
-	
-	
 	<script src="./bootstrap/js/popper.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>	
+	
+
 </head>
 
 
@@ -68,7 +71,7 @@ $languageList=array_keys($languages);
 					}?>
 
 					<form id="form_language" class="form-inline mt-2 mt-md-0" >
-						<select id="selectLanguage" class="custom-select">
+						<select id="selectLanguage"  multiple="multiple" class="selectpicker"  data-live-search="true" >
 							<option value="" disabled selected><?php echo $translation["language"]?></option>
 							<?php 
 
