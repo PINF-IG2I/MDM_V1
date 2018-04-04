@@ -8,6 +8,15 @@
 5. Search template
 6. Results template
 7. Administration template
+
+
+
+
+
+
+
+
+
 */
 
 
@@ -61,6 +70,11 @@ label
   margin : 0 !important;
 }
 
+button
+{
+  outline : none !important;
+}
+
 /**** templates css *****/
 
 .page-header
@@ -75,6 +89,7 @@ label
 
 
 
+ 
 /*templates container*/
 .container
 {
@@ -84,6 +99,17 @@ label
   margin-right: 10vw;
 }
 
+.selcls { 
+  padding: 9px; 
+  border: solid 1px #517B97 !important; 
+  outline: 0; 
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e2f3ff), to(#FFFFFF)); 
+  background: -moz-linear-gradient(top, #FFFFFF, #e2f3ff 1px, #FFFFFF 25px); 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+
+} 
 
 /**********************************************************/
 /********************** HEADER ****************************/
@@ -118,7 +144,7 @@ label
   }
 
   /* logout button */
-  #logoutBtn, #administrationBtn
+  #logoutBtn, #administrationBtn,#addDoc,#addBaseline
   {
     display :inline-block;    
     vertical-align:middle;
@@ -128,14 +154,13 @@ label
     padding-right: 2vw; 
     font-size: 1.1vw;
     font-weight: lighter;
-      
     margin-top: 1.2vw;
-
   }
 
-  #logoutBtn:hover, #administrationBtn:hover
+  #logoutBtn:hover, #administrationBtn:hover,#addDoc:hover,#addBaseline:hover
   {
     font-weight: 900;
+    cursor:pointer;
   }
 
   /* language option*/
@@ -195,6 +220,7 @@ label
   #footer 
   {
    background-color: #f5f5f5;
+   margin-top: 1vw;
    font-size: 1vw;
    height: 5vw;
    position: absolute;
@@ -216,7 +242,7 @@ label
   margin-top: 1vw;
   width: 100%;
   float : left;
-  height: 5vw;
+  height: 3vw;
   display: inline-block;
 }
 /**********************************************************/
@@ -234,7 +260,6 @@ label
 
 
 
- 
 
 
 /**********************************************************/
@@ -255,12 +280,16 @@ label
 
 }
 
-
+.filter-option .pull-left span
+{
+  outline: none !important;
+}
 
 .bootstrap-select.btn-group .dropdown-toggle .filter-option
 {
 padding-right: 1vw;
 float: left;
+outline: none !important;
 }
 
 
@@ -313,6 +342,26 @@ float: left;
   overflow: auto !important;
   margin: 0 !important;
   border-radius : 0.4vw !important;
+  transition: none !important;
+}
+.form-control:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;
+}
+
+div > .bootstrap-select .dropdown-toggle:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;  
+}
+
+.dropdown-menu .inner
+{
+  overflow: visible !important;
+  box-shadow: 0 1vw 2vw rgba(0,0,0,.175);
 }
 
 div.dropdown-menu.open
@@ -325,6 +374,7 @@ div.dropdown-menu.open
 {
   padding: 0.1vw 0.8vw !important;
   height: 1.8vw !important;
+  outline: none !important;
 }
 
 .glyphicon-ok
@@ -347,7 +397,10 @@ div.dropdown-menu.open
 {
   font-size: 1vw; 
   height: 2vw;
-  padding:0!important;
+  padding:0 0.2vw!important;
+  outline : none !important;
+  border: 0.05vw solid #ccc;
+  border-radius: 0.4vw;
 }
 
 
@@ -427,7 +480,6 @@ div.dropdown-menu.open
   float: left;
 }
 
-
 .form_search label 
 {
   font-weight: bold;
@@ -449,13 +501,6 @@ div.dropdown-menu.open
   background-color: rgb(230,230,230) !important;
 }
 
-.btn-default
-{
-  background-color: transparent !important;
-  border-color : transparent !important;
-  font-size : 1.2vw !important;
-}
-
 
 #content_search_1{
   float: left;
@@ -471,20 +516,8 @@ div.dropdown-menu.open
   display :inline-block;
   margin-left: 3.5vw;
   height: 10vw; 
-}
 
-.form_search input 
-{
-  display :inline-block !important;
-  width: 100%;
-  height: 2vw;
-  font-weight : lighter;
-  border-radius : 0.3vw !important;
-  box-shadow: none;
-  border : none;
-  background-color: rgb(230,230,230) !important;
 }
-
 
 #content_search_3, #content_search_4, #content_search_5{
   float: left;
@@ -495,14 +528,12 @@ div.dropdown-menu.open
 }
 
 
-
 #content_search_9 {
   float: left;
   width : 100%;
   padding: 0.5vw;
   height: 3vw;
   display :inline-block;
-
 }
 
 
@@ -558,6 +589,8 @@ div.dropdown-menu.open
 .btn
 {
   padding: 0 !important;
+  border : none !important;
+  outline: none !important;
 }
 .lead
 {
@@ -580,7 +613,6 @@ div.dropdown-menu.open
 {
   background-color : #09A6C5; 
 }
-
 
 #results
 {
@@ -606,6 +638,7 @@ div.dropdown-menu.open
 .modal-header
 {
   padding: 2vw !important;
+  height: 4vw !important;
 
 }
 .modal-title
@@ -640,12 +673,14 @@ div.dropdown-menu.open
 
 .well
 {
-  float: left !important;
+  display: inline-block !important;
   margin-bottom: 2vw !important;
   border-radius: 0.2vw !important;
   height: 100% !important;
   width: 100% !important;
   padding: 1vw !important;
+  box-shadow : inset 0 0.2vw 0.2vw rgba(0,0,0,.05);
+  border: 0.1vw solid #e3e3e3
 }
 
 .form-group
@@ -656,6 +691,7 @@ div.dropdown-menu.open
   display :inline-block !important;
   margin: 0.5vw 0 !important;
   border:none;
+
 }
 
 .btn-group>.btn
@@ -670,24 +706,38 @@ div.dropdown-menu.open
   background-color : rgb(3,70,148) ;
 }
 
-.btn-group>.btn:first-child
+#displayStatus + .input-group-btn>.btn-group button
+ {
+   border-top-left-radius: 0 !important;
+   border-bottom-left-radius: 0 !important;
+   margin-right: 0.2vw !important;
+ }
+
+#displayStatus + .input-group-btn>.btn-group button .caret
 {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  margin-right: 0.2vw !important;
+  margin: 0 !important;
 }
+
 .input-group-addon
 {
-  width: 3vw !important;
+  height: 2vw;
+  width: 2vw !important;
   padding: 0.2vw !important;
-  border: none  !important;
+  border: 0.1vw solid #ccc  !important;
+  border-right: 0 !important;
+  border-radius: 0.4vw;
+  border-top-left-radius: 0.4vw;
+  border-top-right-radius: 0.4vw;
+  border-bottom-right-radius: 0.4vw;
+  border-bottom-left-radius: 0.4vw;
 }
 
-.inputGroupContainer
+.input-group-addon i
 {
-  padding: 0 0.2vw;
+  float: left;
+  width: 2vw !important;
+  font-size: 1.2vw;
 }
-
 
 #editBloc > .col-md-4 .control-label
 {
@@ -699,6 +749,113 @@ div.dropdown-menu.open
 {
   display: inline-block;
 }
+
+
+.form-horizontal .control-label
+{
+  display: inline-block;
+  padding: 0.6vw 0.2vw !important;
+}
+
+.control-label+.inputGroupeContainer
+{
+  padding: 0.6vw 0.2vw !important;
+  display: inline-block;
+}
+
+/* checkboxes*/
+#Instalation, #Maintenance, 
+#availability_aec,#availability_x,
+#availability_ftp, #aec_differentn,
+#availability_sharepoint_vbn,#availability_sharepoint_blq  input[type=checkbox]
+{
+  margin: 0.5vw !important
+  padding : 0 !important;
+
+}
+
+
+input[type="checkbox" i]
+{
+  width: 1vw !important;
+  height: 1vw !important;  
+}
+
+.checkbox-inline
+{
+  padding: 0.4vw 1vw !important;
+}
+
+.control-label+.inputGroupeContainer
+{
+  border : red solid 2vw;
+}
+
+.control-label+.inputGroupeContainer>#number , 
+.control-label+.inputGroupeContainer>#password ,
+.control-label+.inputGroupeContainer>#lastname , 
+.control-label+.inputGroupeContainer> #first-name,
+.control-label+.inputGroupeContainer>#language,
+.control-label+.inputGroupeContainer>#status
+{
+  width: 35vw;
+  border-radius: 0.4vw;
+  display: inline-block;
+}
+
+#changeUser , .btn-danger
+{
+  width: 8vw;
+  height: 2.2vw;
+  font-size: 1.2vw;
+  border-radius: 0.4vw;
+  border: none;
+  padding: 0.2vw 0.6vw;
+  margin: 0.2vw 0.6vw;
+}
+
+
+#disconnect
+{
+  width: 2vw;
+  padding: 0;
+}
+
+#disconnect >.glyphicon-remove
+{
+  width: 100%;
+  padding-top: 0.2vw;
+}
+
+
+#db_management .btn
+{
+  border-radius: 0.4vw;
+  padding: 1vw;
+  width: 10vw;
+  font-size: 1.2vw;
+  height: 2vw;
+  vertical-align: middle;
+}
+
+.form-inline > #userName
+{
+  float: left;
+  width: 12vw;
+  margin-left: 1vw;
+  height: 2vw;
+  display :inline-block;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important; 
+}
+
+#userName+#searchUser
+{
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important; 
+  display: block;
+}
+
 /***************************************************************/
 /******************* Administration template *******************/
 /***************************************************************/

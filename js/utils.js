@@ -97,6 +97,74 @@
 			}
 		});
 
+
+		//When the manager or administrator wants to add a baseline
+		$("#baseline").click(function() {
+			var oQuery={};
+			$("#newBaseline input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newBaseline select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			JSON.stringify(oQuery);
+			console.log(oQuery);
+			
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addBaseline",
+					"data":oQuery
+
+				},
+				function(){
+					success : location.reload()
+				});
+				$("#newBaseline").modal('toggle');
+			}
+		});
+
+		//When the manager or administrator wants to add a baseline
+		$("#document").click(function() {
+			var oQuery={};
+			$("#newDocument input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newDocument select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addDocument",
+					"data":oQuery
+
+				},
+				function(){
+					
+				});
+				$("#newDocument").modal('toggle');
+			}
+		});
+
 		//When the user wants to display results of the search
 		$("#send").click(function(){
 			var oQuery={};

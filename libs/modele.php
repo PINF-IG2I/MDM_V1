@@ -347,7 +347,39 @@ function writeInFile($propertyName,$value){
 
 //Execute queries from an SQL file
 function importSQL($filesql) {
-	deleteDatabase();
+	deleteDatabase();	
+	global $BDD_host;
+	global $BDD_user;
+	global $BDD_password;
+	global $BDD_base;
+	
+	// Connect to MySQL server
+	$connection = mysqli_connect($BDD_host, $BDD_user, $BDD_password, $BDD_base);
+
+	// Temporary variable, used to store current query
+	$templine = '';
+	// Read in entire file
+	$lines = file("libs/".$filesql);
+	
+	// Loop through each line
+	foreach ($lines as $line)
+	{
+		// Skip it if it's a comment
+		if (substr($line, 0, 2) == '--' || $line == '')
+			continue;
+
+		// Add this line to the current segment
+		$templine .= $line;
+		// If it has a semicolon at the end, it's the end of the query
+		if (substr(trim($line), -1, 1) == ';')
+		{
+			// Perform the query
+			mysqli_query($connection, $templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+			// Reset temp variable to empty
+			$templine = '';
+		}
+	}
+	unlink("libs/" . $filesql);
 }
 
 //import datas
@@ -637,5 +669,31 @@ function associationTableEntry($id_baseline,$id_doc){
 	return SQLSelect($SQL);
 }
 
+//adds a baseline
+function addBaseline($data) {
+	$SQL="SELECT id_baseline FROM gatc_baseline WHERE ";
+	foreach ($data as $key => $value) {
+		$SQL.= " `".protect(trim($key))."`='".protect(htmlspecialchars(trim($value)))."' AND";
+	}
+	$SQL=substr($SQL, 0,-3);
+	$res=SQLGetChamp($SQL);
+	if(!$res){
+		$SQL="INSERT INTO gatc_baseline (GATC_baseline,UNISIG_baseline) VALUES ('";
+		foreach($data as $value) {
+			$SQL.=protect(htmlspecialchars(trim($value)))."','";
+		}
+		$SQL=substr($SQL,0,-2);
+		$SQL.=")";
+		return SQLInsert($SQL);
+	}
+}
+
+
+
+//lists all the baselines
+function listBaselines() {
+	$SQL="SELECT DISTINCT GATC_baseline FROM gatc_baseline";
+	return parcoursRs(SQLSelect($SQL));
+}
 
 ?>
