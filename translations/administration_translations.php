@@ -23,7 +23,7 @@ $languages= array(
 		'delete' => 'Delete',
 		'internal' => 'Internal',
 		'external' => 'External',
-		'inhibited' => 'Inhibited',
+		'forbidden' => 'Forbidden',
 		'manager' => 'Manager',
 		'administrator' => 'Administrator',
 		'disconnect' => 'Disconnect User',
@@ -35,7 +35,16 @@ $languages= array(
 		'sure_delete_database' => 'Are you sure you want to delete the database ',
 		'sure_unlock_database' => 'Are you sure you want to unlock the database ',
 		'sure_lock_database' => 'Are you sure you want to lock the database ',
-		'close' => 'Close'
+		'close' => 'Close',
+		'success' => 'Sucess!',
+		'fail' => 'Error...',
+		'successDB_message' => 'The database was successfully changed!',
+		'successLock_message' => 'The database was successfully locked!',
+		'successUnlock_message' => 'The database was successfully unlocked!',
+		'failDB_message' => 'There was an error during the file transfert, please try again...',
+		'failLock_message' => 'There was an error during the locking of the database, please try again...',
+		'failUnlock_message' => 'There was an error during the unlocking of the database, please try again...',
+		'failCreateUser_message' => 'A user already has this last name.'
 
 
 	),
@@ -62,7 +71,7 @@ $languages= array(
 		'delete' => 'Supprimer',
 		'internal' => 'Interne',
 		'external' => 'Externe',
-		'inhibited' => 'Inhibé',
+		'forbidden' => 'Inhibé',
 		'manager' => 'Gestionnaire',
 		'administrator' => 'Administrateur',
 		'disconnect' => 'Déconnecter l\'Utilisateur',
@@ -74,7 +83,16 @@ $languages= array(
 		'sure_delete_database' => 'Êtes-vous sûr de vraiment vouloir supprimer la base ',
 		'sure_unlock_database' => 'Êtes-vous sûr de vraiment vouloir déverrouiller la base ',
 		'sure_lock_database' => 'Êtes-vous sûr de vraiment vouloir verrouiller la base ',
-		'close' => 'Fermer'
+		'close' => 'Fermer',
+		'successDB' => 'Succès !',
+		'fail' => 'Erreur...',
+		'successDB_message' => 'La base de données a été changée avec succès !',
+		'successLock_message' => 'La base de données a été verouillée avec succès !',
+		'successUnlock_message' => 'La base de données a été déverrouillée avec succès !',
+		'failDB_message' => 'Il y a eu une erreur dans le transfert de fichier, merci de réessayer...',
+		'failLock_message' => 'Il y a eu une erreur dans le verrouillage de la base de données, merci de réessayer...',
+		'failUnlock_message' => 'Il y a eu une erreur dans le déverrouillage de la base de données, merci de réessayer...',
+		'failCreateUser_message' => 'Un utilisateur possède déjà ce nom.'
 
 
 

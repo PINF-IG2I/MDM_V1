@@ -35,7 +35,7 @@
 						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
 						+ val["language"] + "</td>");
 					if(val["isConnected"]==1)
-						 oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
+						oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
 					else
 						oRow.append("<td>"+val["isConnected"]);
 					oRow.append("</td>");
@@ -97,6 +97,74 @@
 			}
 		});
 
+
+		//When the manager or administrator wants to add a baseline
+		$("#baseline").click(function() {
+			var oQuery={};
+			$("#newBaseline input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newBaseline select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			JSON.stringify(oQuery);
+			console.log(oQuery);
+			
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addBaseline",
+					"data":oQuery
+
+				},
+				function(){
+				});
+				$("#newBaseline").modal('toggle');
+			location.reload();
+			}
+		});
+
+		//When the manager or administrator wants to add a baseline
+		$("#document").click(function() {
+			var oQuery={};
+			$("#newDocument input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newDocument select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addDocument",
+					"data":oQuery
+
+				},
+				function(){
+					
+				});
+				$("#newDocument").modal('toggle');
+			}
+		});
+
 		//When the user wants to display results of the search
 		$("#send").click(function(){
 			var oQuery={};
@@ -122,7 +190,8 @@
 					"action":"Search",
 					"data":oQuery
 				},
-				function(oRep){	
+				function(oRep){
+					$("#hiddenTab table tbody").remove();	
 					if(oRep.length!=0) {
 						tabDocs=oRep;
 						console.log(oRep);
@@ -142,14 +211,16 @@
 						});
 						oResult.append("</tbody>");
 						//var oTable = $("#hiddenTab").css("display","block");
+						$("#hiddenDiv").hide();
 						$("#hiddenTab").show();
-						$("#hiddenTab table tbody").remove();
 						$("#hiddenTab table").append(oResult);
 						$("#exportButton").show();
 						$("#searchValues").attr("value",JSON.stringify(oRep));
 					}
-					else 
-						$("#results").html($("#hiddenDiv").html());
+					else{ 
+						$("#hiddenDiv").show();
+						$("#hiddenTab").hide();
+					}
 				}
 				);
 			}

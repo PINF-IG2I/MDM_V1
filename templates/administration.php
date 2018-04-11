@@ -19,8 +19,65 @@ include_once "libs/modele.php";
 $users=listUsers();
 $userJSON=json_encode($users);
 $lockedDatabase=lockedDatabase();
-
+$failDB=secure("failDB");
+$failLock=secure("failLock");
+$failUnlock=secure("failUnlock");
+$successDB=secure("successDB");
+$successLock=secure("successLock");
+$successUnlock=secure("successUnlock");
+$failUser=secure("failUser");
 ?>
+<!-- ALL SUCCESS AND FAIL MESSAGES -->
+<?php if($successDB): ?>
+	<div class="alert alert-success alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successDB_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($successLock): ?>
+	<div class="alert alert-success alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successLock_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($successUnlock): ?>
+	<div class="alert alert-success alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successUnlock_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($failDB): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failDB_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($failLock): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failLock_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($failUnlock): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failUnlock_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($failUser): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failCreateUser_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<!-- END OF SUCCESS AND FAIL MESSAGES -->
 
 <div class="container">
 	<!-- USER MANAGEMENT -->
@@ -118,7 +175,7 @@ $lockedDatabase=lockedDatabase();
 										<option value="" disabled selected><?php echo $translation["status"]?></option>
 										<option value="Internal"><?php echo $translation["internal"]?></option>
 										<option value="External"><?php echo $translation["external"]?></option>
-										<option value="Forbidden"><?php echo $translation["inhibited"]?></option>
+										<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 										<option value="Manager"><?php echo $translation["manager"]?></option>
 										<option value="Administrator"><?php echo $translation["administrator"]?></option>
 									</select>
@@ -185,7 +242,7 @@ $lockedDatabase=lockedDatabase();
 									<option value="" disabled selected><?php echo $translation["status"]?></option>
 									<option value="Internal"><?php echo $translation["internal"]?></option>
 									<option value="External"><?php echo $translation["external"]?></option>
-									<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+									<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 									<option value="Manager"><?php echo $translation["manager"]?></option>
 									<option value="Administrator"><?php echo $translation["administrator"]?></option>
 								</select>
@@ -238,12 +295,13 @@ $lockedDatabase=lockedDatabase();
 	<div id="db_management" >
 		<center>
 			<button class="btn btn-info" onclick="saveDB();" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-			<form id="db_management_form" style="display: inline-block;" action="controleur.php" method="POST" >
-				
-				<label class="btn btn-success" id="upload"><input type='file' name='file' id='file' class='form-control' onchange="importSave();" hidden style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
-				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
-				<input type="submit" name="action" value="importDB" style="display: none" />
+			<form id="db_management_form" enctype="multipart/form-data" style="display: inline-block;" action="controleur.php" method="POST" >
+
+				<label class="btn btn-success" id="upload"><input type='file' accept=".sql" name='sqlFile' class='form-control' onchange="importSave()" style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
+				<input type="submit" id="submitFile" name="action" value="importDB" style="display:none;" />
+			</form>
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
 				<?php
 
 				if($lockedDatabase=="1")
@@ -251,7 +309,6 @@ $lockedDatabase=lockedDatabase();
 				else 
 					echo $translation["lockDB"];
 				?> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span></button>
-			</form>
 		</center>
 	</div>
 
@@ -310,7 +367,7 @@ $lockedDatabase=lockedDatabase();
 		</div>
 	</div>
 	<!-- END HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
-	</div>
+</div>
 </div>
 
 <script>
@@ -330,7 +387,7 @@ $lockedDatabase=lockedDatabase();
 			$("#numberDeleteUser").val(tabUsers[index]["id_user"]);
 			$("#messageDelete").html("<?php echo $translation["sure_delete_user"]?> <strong>"+tabUsers[index]['first_name']+" "+tabUsers[index]['last_name']+"</strong>?");
 		}
-	
+
 		function saveDB()
 		{
 			document.location.href="./libs/backup.php"; 
@@ -338,7 +395,7 @@ $lockedDatabase=lockedDatabase();
 		
 		function importSave()
 		{
-			$("#db_management_form").submit();
+			$("#submitFile").click();
 		}
 		
 	</script>
