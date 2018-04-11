@@ -135,7 +135,7 @@ function getResultsFromQuery($data,$status){
 }
 
 function editDocument($data) {
-
+	//searching for attributes names in the database
 	global $BDD_base;
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
@@ -225,8 +225,13 @@ function managerConnected(){
 
 // Create a user
 function createUser($lastName, $firstName, $password, $status, $language) {
-	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
-	return SQLInsert($SQL);
+	$SQL="SELECT id_user FROM users WHERE last_name='$lastName'";
+	if(!($res=SQLGetChamp($SQL))){
+		$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+		return SQLInsert($SQL);
+	} else {
+		return "failure";
+	}
 }
 
 // Delete all the data from the database
@@ -237,9 +242,9 @@ function deleteDatabase() {
 	DELETE FROM association_table; 
 	DELETE FROM document_reference; 
 	DELETE FROM document_version; 
-	DELETE FROM gatc_baseline; 
-	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
-	SET FOREIGN_KEY_CHECKS = 1;";
+	DELETE FROM gatc_baseline;";
+	//DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
+	$SQL.="SET FOREIGN_KEY_CHECKS = 1;";
 	return SQLUpdate($SQL);
 }
 
@@ -395,7 +400,7 @@ function importDatas($tempname){
 	//find csv delimiter
 	$delimiter=findDelimiter($tempname); //we accept all kind of csv delimiters, tabs, commas or semicolons
 	$csvAsArray=array_map(function($v) use($delimiter){return str_getcsv($v, $delimiter);}, file($tempname)); //anonymous function, we need to use the delimiter previously found
-	print_r($csvAsArray);
+	//print_r($csvAsArray);
 	//checking if all columns name are in the database
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
@@ -403,20 +408,20 @@ function importDatas($tempname){
 	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
 	echo "<br>";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, $value["COLUMN_NAME"]);
 
 	}
-	print_r($finalColumns);
+	//print_r($finalColumns);
 	//in this part, we build the different queries that will be used to insert datas
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_language');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$languageColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($languageColumns, $value["COLUMN_NAME"]);
@@ -427,7 +432,7 @@ function importDatas($tempname){
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_version');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$versionColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($versionColumns, $value["COLUMN_NAME"]);
@@ -438,17 +443,17 @@ function importDatas($tempname){
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_reference');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$referenceColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($referenceColumns, $value["COLUMN_NAME"]);
 
 	}
 	echo "<br><br>";
-	print_r($referenceColumns);
-	print_r($languageColumns);
-	print_r($versionColumns);
-	echo "<br><br>";
+	//print_r($referenceColumns);
+	//print_r($languageColumns);
+	//print_r($versionColumns);
+	// echo "<br><br>";
 	$fileColumns=$csvAsArray[0];
 	foreach ($fileColumns as $key=>$value) { //avoid white spaces
 		$fileColumns[$key]=trim($fileColumns[$key]);
@@ -456,8 +461,8 @@ function importDatas($tempname){
 	$size=sizeof($fileColumns);
 	$ignoredColumns=array();
     $fileColumns[0]=remove_utf8_bom($fileColumns[0]); //first character of the first data may contain utf_8 BOM, we have to remove it to make it work as intended.
-    echo "<br><br>";
-    print_r($fileColumns);
+    //echo "<br><br>";
+    //print_r($fileColumns);
     for($i=0;$i<$size;$i++){
     	if(!in_array($fileColumns[$i],$finalColumns)){ //if one of the column name is unknown in the database, we just ignore this.
     		array_push($ignoredColumns, $i);
@@ -489,7 +494,8 @@ function importDatas($tempname){
     	}	
     }
 
-    echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
+    //echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
+   	echo "<br> Colonnes ignorées :";
     print_r($ignoredColumns);
     //$ignoredColumns contains the indexes of the columns that need to be avoided.
     echo "<br><br>";
@@ -525,7 +531,7 @@ function importDatas($tempname){
     $docsInserted=0;
     for($j=1;$j<$sizeCsvArray;$j++){
     	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) ||  !($idBaseline =unknownBaseline($csvAsArray[$j][$baselineColumn]))){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
-    		array_push($ignoredRows, $j);    		
+    		array_push($ignoredRows, $j+1);    		
     	}else{
     		if(empty($csvAsArray[$j][$languageColumn])) {
     			$csvAsArray[$j][$languageColumn]='';
@@ -602,7 +608,7 @@ function importDatas($tempname){
     		
     	}
     }
-    echo "<br>";
+    echo "<br> Documents ignorés :";
     print_r($ignoredRows);
     echo "<br>".$rowsInserted ." enregistrements<br>";
     echo $docsInserted." documents ajoutés<br>";

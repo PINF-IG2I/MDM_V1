@@ -21,7 +21,7 @@ if(secure('status',"SESSION"=='Administrator'))
 	<!-- Bootstrap core CSS -->
 	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
-
+	<link rel="shortcut icon" type="image/x-icon" href="http://www.alstom.com/Templates/ui/img/icon/favicon.ico">
 	<!-- Custom styles for this template -->
 
 

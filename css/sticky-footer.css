@@ -175,6 +175,7 @@ button
     font-size: 1.1vw;
     font-weight: lighter;
     width: 10vw;
+    max-width: 15vw;
     margin-top: 1vw;
     outline: none !important;
   }
@@ -444,7 +445,8 @@ div.dropdown-menu.open
 {
   font-size: 1.3vw;
   width: 5vw;
-  height: 2.5vw;
+  max-width: 10vw
+  height: 2vw;
   margin-left: 1vw;
   padding: 0 !important;
   background-color : rgb(3,70,148) ;
@@ -505,6 +507,7 @@ div.dropdown-menu.open
 #content_search_1{
   float: left;
   width: 12vw;
+  max-width: 15vw
   margin-left: 3vw;
   height: 10vw;
   display :inline-block;
@@ -513,6 +516,7 @@ div.dropdown-menu.open
 #content_search_2{
   float: left;
   width: 10vw;
+  max-width: 15vw
   display :inline-block;
   margin-left: 3.5vw;
   height: 10vw; 
@@ -522,6 +526,7 @@ div.dropdown-menu.open
 #content_search_3, #content_search_4, #content_search_5{
   float: left;
   width : 12vw;
+  max-width: 15vw
   display :inline-block;
   margin-left: 3.5vw;
   height: 10vw;
@@ -548,18 +553,26 @@ div.dropdown-menu.open
   border-radius : 0.4vw !important;
   border: none;
   font-size: 1vw;
-  width: 6vw;
   height: 2vw;
   margin-left: 35vw;
   margin-right: 25vw;
   background-color : rgb(3,70,148) ;
+  padding: 0.2vw 0.5vw !important;
 }
 #send:hover
 {
   background-color : #09A6C5; 
 }
 
-
+#baseline
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  height: 2vw;
+  background-color : rgb(3,70,148) ;
+  padding: 0.2vw 0.5vw !important;
+}
 /*****************************************************************/
 /*****************Results template ***********************/
 /*****************************************************************/
@@ -668,6 +681,7 @@ div.dropdown-menu.open
   padding: 1vw !important;
   height: 20vw !important;
   width: 13vw !important;
+  max-width: 15vw !important;
   font-size: 1vw !important;
 }
 
@@ -699,11 +713,11 @@ div.dropdown-menu.open
   border-radius : 0.4vw !important;
   border: none;
   font-size: 1vw;
-  width: 6vw;
   height: 2vw;
   margin-left: 0.2vw;
   margin-right: 0.2vw;
   background-color : rgb(3,70,148) ;
+  padding: 0.2vw 0.5vw;
 }
 
 #displayStatus + .input-group-btn>.btn-group button
@@ -743,6 +757,7 @@ div.dropdown-menu.open
 {
   padding: 0.2vw 0.2vw !important;
   width: 10vw !important;
+  max-width: 14vw;
 }
 
 #commentaries
@@ -805,12 +820,11 @@ input[type="checkbox" i]
 
 #changeUser , .btn-danger
 {
-  width: 8vw;
   height: 2.2vw;
   font-size: 1.2vw;
   border-radius: 0.4vw;
   border: none;
-  padding: 0.2vw 0.6vw;
+  padding: 0.2vw 0.2vw !important;
   margin: 0.2vw 0.6vw;
 }
 
@@ -818,30 +832,45 @@ input[type="checkbox" i]
 #disconnect
 {
   width: 2vw;
+  height: 2vw;
   padding: 0;
 }
 
 #disconnect >.glyphicon-remove
 {
   width: 100%;
-  padding-top: 0.2vw;
+  height: 100%;
 }
 
 
 #db_management .btn
 {
   border-radius: 0.4vw;
-  padding: 1vw;
-  width: 10vw;
+  padding: 0.5vw 1vw !important;
   font-size: 1.2vw;
-  height: 2vw;
+  height: 2.5vw;
   vertical-align: middle;
 }
+
+.glyphicon
+{
+  top: 0.2vw !important;
+  padding: 0 0.2vw;
+}
+
+#db_management .glyphicon-remove:before
+{
+  margin : 0 !important;
+  float: left;
+  display: inline-block;
+}
+
 
 .form-inline > #userName
 {
   float: left;
   width: 12vw;
+  max-width: 15vw;
   margin-left: 1vw;
   height: 2vw;
   display :inline-block;
@@ -880,6 +909,7 @@ input[type="checkbox" i]
   border: none;
   font-size: 1vw;
   width: 6vw;
+  max-width: 10vw;
   height: 2vw;
   background-color : rgb(3,70,148) ;  
 }
@@ -888,6 +918,7 @@ input[type="checkbox" i]
 {
   display :inline-block !important;
   width: 10vw;
+  max-width: 15vw;
   height: 2vw;
   font-weight : lighter;
   border-radius : 0.3vw !important;
