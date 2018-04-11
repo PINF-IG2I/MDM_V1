@@ -47,6 +47,7 @@ $languages= array(
 		'failCreateUser_message' => 'A user already has this last name.'
 
 
+
 	),
 	"FR" => array(
 		'user_management' => "Gestion des Utilisateurs",
