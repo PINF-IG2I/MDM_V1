@@ -137,8 +137,15 @@
 		$("#document").click(function() {
 			var oQuery={};
 			$("#newDocument input").each(function(){
+				if($(this).is(':checkbox')){
+					if($(this).prop('checked')== true)
+						var value=1;
+					else
+						var value=0;
+				}
+				else 
+					var value=$(this).val();
 				var key= $(this).attr("name");
-				var value=$(this).val();
 				if(value!="")
 					oQuery[key]=value;
 			});
@@ -160,6 +167,9 @@
 				},
 				function(){
 					
+				});
+				$("#newDocument input").each(function(){
+				$(this).val("");
 				});
 				$("#newDocument").modal('toggle');
 			}
@@ -210,7 +220,6 @@
 							oResult.append(oRow);
 						});
 						oResult.append("</tbody>");
-						//var oTable = $("#hiddenTab").css("display","block");
 						$("#hiddenDiv").hide();
 						$("#hiddenTab").show();
 						$("#hiddenTab table").append(oResult);
