@@ -35,7 +35,7 @@
 						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
 						+ val["language"] + "</td>");
 					if(val["isConnected"]==1)
-						 oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
+						oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
 					else
 						oRow.append("<td>"+val["isConnected"]);
 					oRow.append("</td>");
@@ -127,9 +127,9 @@
 
 				},
 				function(){
-					success : location.reload()
 				});
 				$("#newBaseline").modal('toggle');
+			location.reload();
 			}
 		});
 
@@ -168,6 +168,9 @@
 				function(){
 					
 				});
+				$("#newDocument input").each(function(){
+				$(this).val("");
+				});
 				$("#newDocument").modal('toggle');
 			}
 		});
@@ -197,7 +200,8 @@
 					"action":"Search",
 					"data":oQuery
 				},
-				function(oRep){	
+				function(oRep){
+					$("#hiddenTab table tbody").remove();	
 					if(oRep.length!=0) {
 						tabDocs=oRep;
 						console.log(oRep);
@@ -216,15 +220,16 @@
 							oResult.append(oRow);
 						});
 						oResult.append("</tbody>");
-						//var oTable = $("#hiddenTab").css("display","block");
+						$("#hiddenDiv").hide();
 						$("#hiddenTab").show();
-						$("#hiddenTab table tbody").remove();
 						$("#hiddenTab table").append(oResult);
 						$("#exportButton").show();
 						$("#searchValues").attr("value",JSON.stringify(oRep));
 					}
-					else 
-						$("#results").html($("#hiddenDiv").html());
+					else{ 
+						$("#hiddenDiv").show();
+						$("#hiddenTab").hide();
+					}
 				}
 				);
 			}

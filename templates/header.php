@@ -4,10 +4,9 @@
 $languageList=array_keys($languages);
 if(secure('status',"SESSION")=='Administrator') {
 	$baselineList=listBaselines();
-
 	$searchDatas=getSearchDatas();
 }
-
+	
 ?>
 <!DOCTYPE html>
 
@@ -24,7 +23,7 @@ if(secure('status',"SESSION")=='Administrator') {
 	<!-- Bootstrap core CSS -->
 	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
-
+	<link rel="shortcut icon" type="image/x-icon" href="http://www.alstom.com/Templates/ui/img/icon/favicon.ico">
 	<!-- Custom styles for this template -->
 
 
@@ -74,7 +73,7 @@ if(secure('status',"SESSION")=='Administrator') {
 						echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
 					}
 
-					// If the user is connected, a logout link is displayed
+						// If the user is connected, a logout link is displayed
 					if (secure("isConnected","SESSION"))
 					{
 						echo "<a id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
@@ -97,43 +96,45 @@ if(secure('status',"SESSION")=='Administrator') {
 			</div>
 		</nav>
 	</header>
+
+<?php if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1): ?>
+
 	<!-- MODAL TO ADD A BASELINE -->
-	<?php if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1): ?>
-		<div class="modal fade" id="newBaseline" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="modalLabel"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo $translation["addBaseline"]?></h4>
-					</div>
-					<div class="modal-body">
-						<form class="well form-horizontal">
-							<fieldset>
-								<div class="form-group">
-									<label for="gatc" class="col-md-4 control-label"><?php echo $translation["gatc"]?></label>
-									<div class="col-sm-7 inputGroupContainer">
-										<input required id="gatc" name="gatc_baseline" class="form-control" type="text" />
-									</div>
+	<div class="modal fade" id="newBaseline" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel"><?php echo $translation["addBaseline"]?></h4>
+				</div>
+				<div class="modal-body">
+					<form class="well form-horizontal">
+						<fieldset>
+							<div class="form-group">
+								<label for="gatc" class="col-md-4 control-label"><?php echo $translation["gatc"]?></label>
+								<div class="col-sm-7 inputGroupContainer">
+									<input required id="gatc" name="gatc_baseline" class="form-control" type="text" />
 								</div>
-								<div class="form-group">
-									<label for="unisig" class="col-md-4 control-label"><?php echo $translation["unisig"]?></label>
-									<div class="col-sm-7 inputGroupContainer">
-										<input required id="unisig" name="unisig_baseline" class="form-control" type="text" />
-									</div>
+							</div>
+							<div class="form-group">
+								<label for="unisig" class="col-md-4 control-label"><?php echo $translation["unisig"]?></label>
+								<div class="col-sm-7 inputGroupContainer">
+									<input required id="unisig" name="unisig_baseline" class="form-control" type="text" />
 								</div>
-								<br/>
-							</fieldset>
-						</div>
-						<div class="modal-footer">
-							<center><button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $translation["cancel"]?></button>
-							<button type="button" id="baseline" class="btn btn-success"><?php echo $translation["add"]?></button></center>
-						</form>
+							</div>
+							<br/>
+						</fieldset>
 					</div>
+					<div class="modal-footer" style="text-align:center">
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $translation["cancel"]?></button>
+						<button type="button" id="baseline" class="btn btn-success"><?php echo $translation["add"]?></button>
+					</form>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- MODAL TO ADD A DOCUMENT -->
+	<!-- MODAL TO ADD A DOCUMENT -->
 		<div class="modal fade" id="newDocument" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
 			<div class="modal-dialog" role="document" style="">
 				<div class="modal-content" style="">
@@ -261,4 +262,6 @@ if(secure('status',"SESSION")=='Administrator') {
 			</div>
 		</div>
 
-	<?php endif; ?>
+
+
+<?php endif; ?>

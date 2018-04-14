@@ -23,7 +23,7 @@ $languages= array(
 		'delete' => 'Delete',
 		'internal' => 'Internal',
 		'external' => 'External',
-		'inhibited' => 'Inhibited',
+		'forbidden' => 'Forbidden',
 		'manager' => 'Manager',
 		'administrator' => 'Administrator',
 		'disconnect' => 'Disconnect User',
@@ -43,7 +43,9 @@ $languages= array(
 		'successUnlock_message' => 'The database was successfully unlocked!',
 		'failDB_message' => 'There was an error during the file transfert, please try again...',
 		'failLock_message' => 'There was an error during the locking of the database, please try again...',
-		'failUnlock_message' => 'There was an error during the unlocking of the database, please try again...'
+		'failUnlock_message' => 'There was an error during the unlocking of the database, please try again...',
+		'failCreateUser_message' => 'A user already has this last name.'
+
 
 
 	),
@@ -70,7 +72,7 @@ $languages= array(
 		'delete' => 'Supprimer',
 		'internal' => 'Interne',
 		'external' => 'Externe',
-		'inhibited' => 'Inhibé',
+		'forbidden' => 'Inhibé',
 		'manager' => 'Gestionnaire',
 		'administrator' => 'Administrateur',
 		'disconnect' => 'Déconnecter l\'Utilisateur',
@@ -90,7 +92,8 @@ $languages= array(
 		'successUnlock_message' => 'La base de données a été déverrouillée avec succès !',
 		'failDB_message' => 'Il y a eu une erreur dans le transfert de fichier, merci de réessayer...',
 		'failLock_message' => 'Il y a eu une erreur dans le verrouillage de la base de données, merci de réessayer...',
-		'failUnlock_message' => 'Il y a eu une erreur dans le déverrouillage de la base de données, merci de réessayer...'
+		'failUnlock_message' => 'Il y a eu une erreur dans le déverrouillage de la base de données, merci de réessayer...',
+		'failCreateUser_message' => 'Un utilisateur possède déjà ce nom.'
 
 
 
