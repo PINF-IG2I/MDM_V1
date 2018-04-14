@@ -25,7 +25,6 @@ $failUnlock=secure("failUnlock");
 $successDB=secure("successDB");
 $successLock=secure("successLock");
 $successUnlock=secure("successUnlock");
-$failUser=secure("failUser");
 ?>
 <!-- ALL SUCCESS AND FAIL MESSAGES -->
 <?php if($successDB): ?>
@@ -67,14 +66,6 @@ $failUser=secure("failUser");
 	<div class="alert alert-danger alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failUnlock_message"]?></center>
-	</div>
-<?php endif; ?>
-
-
-<?php if($failUser): ?>
-	<div class="alert alert-danger alert-dismissible fade in">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failCreateUser_message"]?></center>
 	</div>
 <?php endif; ?>
 
@@ -176,7 +167,7 @@ $failUser=secure("failUser");
 										<option value="" disabled selected><?php echo $translation["status"]?></option>
 										<option value="Internal"><?php echo $translation["internal"]?></option>
 										<option value="External"><?php echo $translation["external"]?></option>
-										<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
+										<option value="Forbidden"><?php echo $translation["inhibited"]?></option>
 										<option value="Manager"><?php echo $translation["manager"]?></option>
 										<option value="Administrator"><?php echo $translation["administrator"]?></option>
 									</select>
@@ -243,7 +234,7 @@ $failUser=secure("failUser");
 									<option value="" disabled selected><?php echo $translation["status"]?></option>
 									<option value="Internal"><?php echo $translation["internal"]?></option>
 									<option value="External"><?php echo $translation["external"]?></option>
-									<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
+									<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
 									<option value="Manager"><?php echo $translation["manager"]?></option>
 									<option value="Administrator"><?php echo $translation["administrator"]?></option>
 								</select>

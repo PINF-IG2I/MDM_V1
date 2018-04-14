@@ -152,11 +152,8 @@ include_once "libs/modele.php";
 						$language=secure("language");
 						if ($lastName && $firstName && $password && $status && $language)
 						{
-							$res=createUser($lastName,$firstName,$password,$status,$language);
-							if($res!="failure")
-								$addArgs="?view=administration";
-							else
-								$addArgs="?view=administration&failUser=true";
+							createUser($lastName,$firstName,$password,$status,$language);
+							$addArgs="?view=administration";
 						}
 					}
 				break;

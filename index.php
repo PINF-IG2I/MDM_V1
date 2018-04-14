@@ -37,16 +37,7 @@ $view = secure("view");
 			updateStatus($_SESSION["id_user"],0);
 			session_destroy();
 		}
-		$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
-	}
-	if(secure("status","SESSION")=='Manager'){
-		$id_manager=connectedManager();
-		if($id_manager==secure("id_user","SESSION")){
-			$_SESSION["authorized"]=1;
-		} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
-			writeInFile("manager",secure("id_user","SESSION"));
-			$_SESSION["authorized"]=1;
-		} else $_SESSION["authorized"]=0;
+			$addArgs="?view=login&msg=".urlencode("The database is locked. Please try again later.");
 	} 
 	if (!$view) {
 		if(secure("isConnected","SESSION"))
@@ -54,19 +45,21 @@ $view = secure("view");
 		else
 			$view="login"; 
 	}	
+
+
 	// The template linked to its view is displayed
 	switch($view)
 	{		
 
 		default : // if the template corresponding to the view exists, it is displayed
 		if (file_exists("templates/$view.php")){
-			if($view!="login"){
-				include_once("./translations/header_translations.php");
-				include("templates/header.php");
-			}
-			if(file_exists("./translations/".$view."_translations.php"))
-				include("./translations/".$view."_translations.php");
-			include("./templates/$view.php");
+				if($view!="login"){
+					include_once("./translations/header_translations.php");
+					include("templates/header.php");
+				}
+				if(file_exists("./translations/".$view."_translations.php"))
+					include("./translations/".$view."_translations.php");
+				include("./templates/$view.php");
 			
 
 		}
@@ -79,12 +72,12 @@ $view = secure("view");
 		include("templates/footer.php");
 
 
-	ob_flush();	
-	?>
+ob_flush();	
+?>
 
 
 
-	</html>
+</html>
 
 
 
