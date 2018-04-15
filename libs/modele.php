@@ -91,26 +91,26 @@ function getResultsFromQuery($data,$status){
 	}
 	$SQL="SELECT reference,subject,version,initial_language,language,project,translator,previous_doc,product,component,GATC_baseline,UNISIG_baseline,site,pic,installation,maintenance,status,availability_x,availability_aec,availability_ftp,availability_sharepoint_vbn,availability_sharepoint_blq,x_link,aec_link,different_aec,ftp_link,sharepoint_vbn_link,sharepoint_blq_link,remarks,working_field_1,working_field_2,working_field_3,working_field_4,document.id_doc,id_document_language,id_document_version,id_document_reference,association_table.id,gatc_baseline.id_baseline  FROM document,document_version,document_language,document_reference,gatc_baseline,association_table WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline   ";
 	foreach ($data as $key => $value) {
-		if(in_array($key, $finalColumns)){
+		if(in_array($key, $finalColumns) || $key='type'){
 			if(!is_array($value) && $key!="reference"){//if the data is not an array, it is not necessary to loop through it.
-				$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(trim($value))."'";	
+				$SQL.=" AND `".protect(trim($key))."` LIKE '".protect(htmlspecialchars(trim($value)))."'";	
 			}else if ($key=="reference"){ //searching by document "reference" is a bit different, the user is allowed to perform a query on both a document reference and a document title.
-			$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(trim($value))."' OR `subject` LIKE '".protect(trim($value))."')"; 
+			$SQL.=" AND (`".protect(trim($key))."` LIKE  '".protect(htmlspecialchars(trim($value)))."' OR `subject` LIKE '".protect(htmlspecialchars(trim($value)))."')"; 
 		}else {
 			if($key=="type"){
 				foreach ($value as $content) {
-					$SQL.= " AND `".protect(trim($content)) ."` = '1' ";
+					$SQL.= " AND `".protect(htmlspecialchars(trim($content))) ."` = '1' ";
 				}
 				} else if ($key=="initial_language"){ //filtering by language is a bit different, the query must search in both document_reference and document_language tables
 					$SQL.=" AND (`initial_language` IN(";
 					foreach($value as $content){
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 					}
 					$SQL=substr($SQL,0,-1);
 					$SQL.=") ";
 					$SQL.="OR `language` IN(";
 					foreach($value as $content){
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 
 					}
 					$SQL=substr($SQL,0,-1);
@@ -118,7 +118,7 @@ function getResultsFromQuery($data,$status){
 				} else {
 					$SQL.= " AND `".protect(trim($key))."` IN (";
 					foreach ($value as $content) {
-						$SQL.="'".protect(trim($content))."',";
+						$SQL.="'".protect(htmlspecialchars(trim($content)))."',";
 					}
 					$SQL=substr($SQL,0,-1);
 					$SQL.=") ";
@@ -135,34 +135,66 @@ function getResultsFromQuery($data,$status){
 }
 
 function editDocument($data) {
-
+	//searching for attributes names in the database
 	global $BDD_base;
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
-	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
+	AND `TABLE_NAME` IN('document_reference','document_version','gatc_baseline');";
 	$columns=parcoursRs(SQLSelect($SQL));
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, $value["COLUMN_NAME"]);
 
 	}
-	$SQL="UPDATE document,document_version,document_language,document_reference,gatc_baseline,association_table  SET ";
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	$languageColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($languageColumns, $value["COLUMN_NAME"]);
+
+	}
+
+	$languageArray=array();
+	$SQL="UPDATE document,document_version,document_reference,gatc_baseline,association_table  SET ";
 	foreach($data as $key=>$value) {
-		if(in_array($key, $columns)){
+		if(in_array($key, $finalColumns)){
 			if($value!='')
-				$SQL.=protect(trim($key))."='".protect(htmlspecialchars(trim($value)))."',";
+				$SQL.=$key."='".protect(htmlspecialchars(trim($value)))."',";
 			else
-				$SQL.=protect(trim($key))."= DEFAULT,";
+				$SQL.=$key."= DEFAULT,";
+		} else if(in_array($key, $languageColumns)){
+			$languageArray[$key]=protect(htmlspecialchars(trim($value)));
 		}
 	}
+	$SQL_language_select = "SELECT id_entry FROM document_language WHERE ";	
+	$SQL_language_insert="INSERT INTO document_language(";
+	foreach ($languageArray as $key => $value) {
+		$SQL_language_select.= " $key='$value' AND";
+		$SQL_language_insert.=$key.",";
+	}
+	$SQL_language_select=substr($SQL_language_select, 0,-3);
+	if(!($idLanguage=SQLGetChamp($SQL_language_select))){
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=") VALUES (";
+		foreach ($languageArray as $key => $value) {
+			$SQL_language_insert.= "'$value',";
+
+		}
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=")";
+		$idLanguage=SQLInsert($SQL_language_insert);
+	}
 	$SQL=substr($SQL,0,-1);
-	$SQL.=" WHERE document.id_document_language=document_language.id_entry AND document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc='".protect($data["document.id_doc"])."'";
+	$SQL.=",id_document_language='".$idLanguage."' WHERE document.id_document_version=document_version.id_version AND document.id_document_reference=document_reference.id_ref AND association_table.id_doc=document.id_doc AND association_table.id_baseline=gatc_baseline.id_baseline AND document.id_doc='".protect($data["document.id_doc"])."'";
 	return SQLUpdate($SQL);
 }
 
 function getUsersFromQuery($data){
-	$SQL="SELECT * FROM users WHERE last_name LIKE '%$data%' OR first_name LIKE '%$data%'";
+	$SQL="SELECT * FROM users WHERE last_name LIKE '$data%' OR first_name LIKE '$data%'";
 	return parcoursRs(SQLSelect($SQL));
 }
 
@@ -193,8 +225,13 @@ function managerConnected(){
 
 // Create a user
 function createUser($lastName, $firstName, $password, $status, $language) {
-	$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
-	return SQLInsert($SQL);
+	$SQL="SELECT id_user FROM users WHERE last_name='$lastName'";
+	if(!($res=SQLGetChamp($SQL))){
+		$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+		return SQLInsert($SQL);
+	} else {
+		return "failure";
+	}
 }
 
 // Delete all the data from the database
@@ -205,15 +242,15 @@ function deleteDatabase() {
 	DELETE FROM association_table; 
 	DELETE FROM document_reference; 
 	DELETE FROM document_version; 
-	DELETE FROM gatc_baseline; 
-	DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
-	SET FOREIGN_KEY_CHECKS = 1;";
+	DELETE FROM gatc_baseline;";
+	//DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
+	$SQL.="SET FOREIGN_KEY_CHECKS = 1;";
 	return SQLUpdate($SQL);
 }
 
 function exportResults($data){
 	$file=fopen("php://output","w");
-	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+ 	fputs( $file, "\xEF\xBB\xBF" ); // UTF-8 BOM !!!!!
 	foreach ($data as $key => $value) {
 		foreach ($data[$key] as $insideKey=> $insideValue) {
 			if(substr($insideKey,0,2)=="id")
@@ -315,8 +352,7 @@ function writeInFile($propertyName,$value){
 
 //Execute queries from an SQL file
 function importSQL($filesql) {
-	deleteDatabase();
-	
+
 	global $BDD_host;
 	global $BDD_user;
 	global $BDD_password;
@@ -324,12 +360,23 @@ function importSQL($filesql) {
 	
 	// Connect to MySQL server
 	$connection = mysqli_connect($BDD_host, $BDD_user, $BDD_password, $BDD_base);
-
+	
+	// Drop all tables
+	$connection->query('SET foreign_key_checks = 0');
+	if ($result = $connection->query("SHOW TABLES"))
+	{
+		while($row = $result->fetch_array(MYSQLI_NUM))
+		{
+			$connection->query('DROP TABLE IF EXISTS '.$row[0]);
+		}
+	}
+	$connection->query('SET foreign_key_checks = 1');
+	
 	// Temporary variable, used to store current query
 	$templine = '';
 	// Read in entire file
-	$lines = file("libs/".$filesql);
-	
+	$lines = file("./saves/".$filesql);
+
 	// Loop through each line
 	foreach ($lines as $line)
 	{
@@ -348,7 +395,6 @@ function importSQL($filesql) {
 			$templine = '';
 		}
 	}
-	unlink("libs/" . $filesql);
 }
 
 //import datas
@@ -356,7 +402,7 @@ function importDatas($tempname){
 	//the aim of this function is to make the life of the user easier.
 	//when creating his excel file, he has the possiblity to move around all the columns
 	//also, he has the possibility to create new columns. as long as those new columns don't have the same name as an attribute in the database, this will work.
-	//a lot of the treatments in this function may be redundant, but they're not.
+	//a lot of the treatments in this function may seem redundant, but they're essential.
 	//as long as you keep in mind that this function must work with any disposition of the cells in the csv file, you'll understand how it works.
 
 
@@ -364,7 +410,7 @@ function importDatas($tempname){
 	//find csv delimiter
 	$delimiter=findDelimiter($tempname); //we accept all kind of csv delimiters, tabs, commas or semicolons
 	$csvAsArray=array_map(function($v) use($delimiter){return str_getcsv($v, $delimiter);}, file($tempname)); //anonymous function, we need to use the delimiter previously found
-	print_r($csvAsArray);
+	//print_r($csvAsArray);
 	//checking if all columns name are in the database
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
@@ -372,20 +418,20 @@ function importDatas($tempname){
 	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
 	echo "<br>";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$finalColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($finalColumns, $value["COLUMN_NAME"]);
 
 	}
-	print_r($finalColumns);
+	//print_r($finalColumns);
 	//in this part, we build the different queries that will be used to insert datas
 	$SQL="SELECT `COLUMN_NAME` 	
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_language');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$languageColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($languageColumns, $value["COLUMN_NAME"]);
@@ -396,7 +442,7 @@ function importDatas($tempname){
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_version');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$versionColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($versionColumns, $value["COLUMN_NAME"]);
@@ -407,17 +453,17 @@ function importDatas($tempname){
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_reference');";
 	$columns=parcoursRs(SQLSelect($SQL));
-	print_r($columns);
+	//print_r($columns);
 	$referenceColumns=array();
 	foreach ($columns as $key => $value) {
 		array_push($referenceColumns, $value["COLUMN_NAME"]);
 
 	}
 	echo "<br><br>";
-	print_r($referenceColumns);
-	print_r($languageColumns);
-	print_r($versionColumns);
-	echo "<br><br>";
+	//print_r($referenceColumns);
+	//print_r($languageColumns);
+	//print_r($versionColumns);
+	// echo "<br><br>";
 	$fileColumns=$csvAsArray[0];
 	foreach ($fileColumns as $key=>$value) { //avoid white spaces
 		$fileColumns[$key]=trim($fileColumns[$key]);
@@ -425,8 +471,8 @@ function importDatas($tempname){
 	$size=sizeof($fileColumns);
 	$ignoredColumns=array();
     $fileColumns[0]=remove_utf8_bom($fileColumns[0]); //first character of the first data may contain utf_8 BOM, we have to remove it to make it work as intended.
-    echo "<br><br>";
-    print_r($fileColumns);
+    //echo "<br><br>";
+    //print_r($fileColumns);
     for($i=0;$i<$size;$i++){
     	if(!in_array($fileColumns[$i],$finalColumns)){ //if one of the column name is unknown in the database, we just ignore this.
     		array_push($ignoredColumns, $i);
@@ -439,17 +485,30 @@ function importDatas($tempname){
     			case 'GATC_baseline':
     			$baselineColumn=$i;
     			break;
+    			case 'version':
+    			$versionColumn=$i;
+    			break;
+    			case 'language':
+    			$languageColumn=$i;
+    			break;
+    			case 'project':
+    			$projectColumn=$i;
+    			break;
+    			case 'translator':
+    			$translatorColumn=$i;
+    			break;
     			default:
+
     			break;
     		}
     	}	
     }
 
-    echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
+    //echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
+   	echo "<br> Colonnes ignorées :";
     print_r($ignoredColumns);
-    //$ignoredColumns contains the number of the column that needs to be avoided.
+    //$ignoredColumns contains the indexes of the columns that need to be avoided.
     echo "<br><br>";
-    // $SQL_doc_ref="INSERT INTO"
     //after all the ignored rows have been found, we build the different queries that will be used to insert datas into the database
     $SQL_doc_ref="INSERT INTO document_reference("; //doc reference
     for($i=0;$i<$size;$i++){
@@ -478,9 +537,11 @@ function importDatas($tempname){
     //checking data validity and insertion
     $sizeCsvArray=sizeof($csvAsArray);
     $ignoredRows=array();
+    $rowsInserted=0;
+    $docsInserted=0;
     for($j=1;$j<$sizeCsvArray;$j++){
-    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) || unknownBaseline($csvAsArray[$j][$baselineColumn])==false){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
-    		array_push($ignoredRows, $j);    		
+    	if(empty($csvAsArray[$j][$referenceColumn]) || empty($csvAsArray[$j][$baselineColumn]) ||  !($idBaseline =unknownBaseline($csvAsArray[$j][$baselineColumn]))){ //if necessary informations are missing, we just ignore the row (the baseline is essential as well as the reference number of the document), also, if the baseline in the row doesnt exist in the database, the row is ignored. see specifications
+    		array_push($ignoredRows, $j+1);    		
     	}else{
     		if(empty($csvAsArray[$j][$languageColumn])) {
     			$csvAsArray[$j][$languageColumn]='';
@@ -516,24 +577,51 @@ function importDatas($tempname){
     						$versionQuery.="'".protect(htmlspecialchars(trim($csvAsArray[$j][$k])))."',";
     					else 
     						$versionQuery.="DEFAULT,";
-            }
+    				}
     			}
-    			//}
     		}
-    		$refQuery=substr($refQuery, 0,-1);
-    		$refQuery.=");";
-    		$versionQuery=substr($versionQuery, 0,-1);
-    		$versionQuery.=");";
-    		$languageQuery=substr($languageQuery, 0,-1);
-    		$languageQuery.=");";
-    		echo "<br>".$refQuery;
-    		echo "<br>".$languageQuery;
-    		echo "<br>".$versionQuery;
+    		if($refQuery){
+    			$refQuery=substr($refQuery, 0,-1);
+    			$refQuery.=");";
+    			$idRef=SQLInsert($refQuery);
+    			$rowsInserted++;
+    		}
+    		if($versionQuery){
+    			$versionQuery=substr($versionQuery, 0,-1);
+    			$versionQuery.=");";
+    			$idVersion=SQLInsert($versionQuery);
+    			$rowsInserted++;
+    		}
+    		if($languageQuery){
+    			$languageQuery=substr($languageQuery, 0,-1);
+    			$languageQuery.=");";
+    			$idLanguage=SQLInsert($languageQuery);
+    			$rowsInserted++;
+    		}
+    		echo"<br>Newdoc<hr>";
+    		echo "<br>".$refQuery." ".$idRef;
+    		echo "<br>".$versionQuery." ".$idVersion;
+    		echo "<br>".$languageQuery." ".$idLanguage;
     		echo "<br><br>";
+
+    		if(!($idDoc=docExists($idRef,$idVersion,$idLanguage))){
+    			$SQL="INSERT INTO document(`id_document_language`,`id_document_version`,`id_document_reference`) VALUES ('".$idLanguage."','".$idVersion."','".$idRef."');";
+    			$idDoc=SQLInsert($SQL);
+    			$docsInserted++;
+    		}
+    		echo "id_doc :".$idDoc;
+    		if(!($idAssociationTable = associationTableEntry($idBaseline,$idDoc))){
+    			$SQL="INSERT INTO association_table (`id_doc`,`id_baseline`) VALUES ('".$idDoc."','".$idBaseline."');";
+    			$res=SQLInsert($SQL);
+    			$rowsInserted++;
+    		}
     		
     	}
     }
+    echo "<br> Documents ignorés :";
     print_r($ignoredRows);
+    echo "<br>".$rowsInserted ." enregistrements<br>";
+    echo $docsInserted." documents ajoutés<br>";
 }
 
 //seeks for the delimiter used in the file format, this is done by searching the most occured delimiter in the file
@@ -556,6 +644,7 @@ function findDelimiter($tempname){
 
 	return $delimiters[$first_key]; 
 }
+
 
 
 //removes utf8 BOM from csv file
@@ -596,5 +685,31 @@ function associationTableEntry($id_baseline,$id_doc){
 	return SQLSelect($SQL);
 }
 
+//adds a baseline
+function addBaseline($data) {
+	$SQL="SELECT id_baseline FROM gatc_baseline WHERE ";
+	foreach ($data as $key => $value) {
+		$SQL.= " `".protect(trim($key))."`='".protect(htmlspecialchars(trim($value)))."' AND";
+	}
+	$SQL=substr($SQL, 0,-3);
+	$res=SQLGetChamp($SQL);
+	if(!$res){
+		$SQL="INSERT INTO gatc_baseline (GATC_baseline,UNISIG_baseline) VALUES ('";
+		foreach($data as $value) {
+			$SQL.=protect(htmlspecialchars(trim($value)))."','";
+		}
+		$SQL=substr($SQL,0,-2);
+		$SQL.=")";
+		return SQLInsert($SQL);
+	}
+}
+
+
+
+//lists all the baselines
+function listBaselines() {
+	$SQL="SELECT DISTINCT GATC_baseline FROM gatc_baseline";
+	return parcoursRs(SQLSelect($SQL));
+}
 
 ?>
