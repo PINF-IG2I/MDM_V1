@@ -152,8 +152,11 @@ include_once "libs/modele.php";
 						$language=secure("language");
 						if ($lastName && $firstName && $password && $status && $language)
 						{
-							createUser($lastName,$firstName,$password,$status,$language);
-							$addArgs="?view=administration";
+							$res=createUser($lastName,$firstName,$password,$status,$language);
+							if($res!="failure")
+								$addArgs="?view=administration";
+							else
+								$addArgs="?view=administration&failUser=true";
 						}
 					}
 				break;
@@ -192,7 +195,6 @@ include_once "libs/modele.php";
 
 				case 'resetDB':
 					$addArgs="?view=administration&fail=true";
-
 					if (secure("status","SESSION")=="Administrator")
 					{
 						deleteDatabase();
@@ -202,16 +204,11 @@ include_once "libs/modele.php";
 
 				case 'importDB':
 					$addArgs="?view=administration&failDB=true";
-					if (secure("status","SESSION")=="Administrator" && isset($_FILES["sqlFile"]))
+					$fileName=secure("filename");
+					if (secure("status","SESSION")=="Administrator" && $fileName)
 					{
-						if (file_exists("./libs/" . $_FILES["sqlFile"]["name"]))
-							$addArgs="?view=administration&failDB=true";
-						else
-						{
-							move_uploaded_file($_FILES["sqlFile"]["tmp_name"], "./libs/" . $_FILES["sqlFile"]["name"]);
-							importSQL($_FILES["sqlFile"]["name"]);
-							$addArgs="?view=administration&successDB=true";
-						}
+						importSQL($fileName);
+						$addArgs="?view=administration&successDB=true";
 					}
 				break;
 				//Import datas
@@ -228,17 +225,33 @@ include_once "libs/modele.php";
 				case 'lockDB':
 					$addArgs="?view=administration&failLock=true";
 					if(secure("status","SESSION")=="Administrator"){
-						if($lockedDatabase=="1") {
+						if($lockedDatabase=="1"){
 							changeDatabaseStatus("unlock");
 							$addArgs="?view=administration&successUnlock=true";
 						}
-						else {
+						else{
 							changeDatabaseStatus("lock");
 							$addArgs="?view=administration&successLock=true";
 						}
-						
 					}
 				break;
+
+				case 'addBaseline':
+					if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1)){
+						$data=$_REQUEST["data"];
+						addBaseline($data);
+						die("");	
+					}
+				break;
+
+				case 'addDocument':
+					if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1)){
+						$data=$_REQUEST["data"];
+						addDocument($data);
+						die("");	
+					}
+				break;
+
 
 			}
 		}
