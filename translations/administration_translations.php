@@ -23,12 +23,18 @@ $languages= array(
 		'delete' => 'Delete',
 		'internal' => 'Internal',
 		'external' => 'External',
-		'inhibited' => 'Inhibited',
+		'forbidden' => 'Forbidden',
 		'manager' => 'Manager',
 		'administrator' => 'Administrator',
 		'disconnect' => 'Disconnect User',
 		'create_user' => 'Create User',
 		'edit_user' => 'Edit user',
+		'importBackup' => 'Import Backup',
+		'import' => 'Import',
+		'name' => 'Name',
+		'date' => 'Date',
+		'time' => 'Time',
+		'sureImport' => 'Are you sure you want to import an older save? This is not reversible.',
 		'delete_user' => 'Delete User',
 		'delete_database' => 'Delete Database',
 		'sure_delete_user' => 'Are you sure you want to delete the user',
@@ -39,11 +45,14 @@ $languages= array(
 		'success' => 'Sucess!',
 		'fail' => 'Error...',
 		'successDB_message' => 'The database was successfully changed!',
+		'successSave_message' => 'The database was successfully saved!',
 		'successLock_message' => 'The database was successfully locked!',
 		'successUnlock_message' => 'The database was successfully unlocked!',
 		'failDB_message' => 'There was an error during the file transfert, please try again...',
 		'failLock_message' => 'There was an error during the locking of the database, please try again...',
-		'failUnlock_message' => 'There was an error during the unlocking of the database, please try again...'
+		'failUnlock_message' => 'There was an error during the unlocking of the database, please try again...',
+		'failCreateUser_message' => 'A user already has this last name.'
+
 
 
 	),
@@ -70,12 +79,18 @@ $languages= array(
 		'delete' => 'Supprimer',
 		'internal' => 'Interne',
 		'external' => 'Externe',
-		'inhibited' => 'Inhibé',
+		'forbidden' => 'Inhibé',
 		'manager' => 'Gestionnaire',
 		'administrator' => 'Administrateur',
 		'disconnect' => 'Déconnecter l\'Utilisateur',
 		'create_user' => 'Créer Utilisateur',
 		'edit_user' => 'Éditer l\'Utilisateur',
+		'importBackup' => 'Importer Sauvegarde',
+		'import' => 'Importer',
+		'name' => 'Nom',
+		'date' => 'Date',
+		'time' => 'Heure',
+		'sureImport' => 'Etes-vous sûr de vouloir importer une sauvegarde? Cette opération n\'est pas réversible.',
 		'delete_user' => 'Supprimer User',
 		'delete_database' => 'Supprimer les données de la base',
 		'sure_delete_user' => 'Êtes-vous sûr de vraiment vouloir supprimer l\'utilisateur',
@@ -86,11 +101,13 @@ $languages= array(
 		'successDB' => 'Succès !',
 		'fail' => 'Erreur...',
 		'successDB_message' => 'La base de données a été changée avec succès !',
+		'successSave_message' => 'La base de données a été sauvegardée avec succès !',
 		'successLock_message' => 'La base de données a été verouillée avec succès !',
 		'successUnlock_message' => 'La base de données a été déverrouillée avec succès !',
 		'failDB_message' => 'Il y a eu une erreur dans le transfert de fichier, merci de réessayer...',
 		'failLock_message' => 'Il y a eu une erreur dans le verrouillage de la base de données, merci de réessayer...',
-		'failUnlock_message' => 'Il y a eu une erreur dans le déverrouillage de la base de données, merci de réessayer...'
+		'failUnlock_message' => 'Il y a eu une erreur dans le déverrouillage de la base de données, merci de réessayer...',
+		'failCreateUser_message' => 'Un utilisateur possède déjà ce nom.'
 
 
 
