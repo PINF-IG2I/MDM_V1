@@ -35,33 +35,33 @@ a024def  10 days ago
 /**********************************************************/
 
 /*fonts*/
-  @font-face {
-    font-family: "Alstom";
-    src: url('./fonts/Alstom_Regular.ttf');
-  }
+@font-face {
+  font-family: "Alstom";
+  src: url('./fonts/Alstom_Regular.ttf');
+}
 
-  @font-face {
-    font-family: "Alstom";
-    font-style: bold;
-    src: url('./fonts/Alstom_Black.ttf');
-  }
-  @font-face {
-    font-family: "Alstom";
-    font-weight: lighter;
-    src: url('./fonts/Alstom_Light.ttf');
-  }
+@font-face {
+  font-family: "Alstom";
+  font-style: bold;
+  src: url('./fonts/Alstom_Black.ttf');
+}
+@font-face {
+  font-family: "Alstom";
+  font-weight: lighter;
+  src: url('./fonts/Alstom_Light.ttf');
+}
 
-  html,
-  body 
-  {
-    font-family: "Alstom";
-     margin: 0; padding: 0;
-  }
+html,
+body 
+{
+  font-family: "Alstom";
+  margin: 0; padding: 0;
+}
 
 
-  select{
-   font-weight: lighter;
-  }
+select{
+ font-weight: lighter;
+}
 
 
 /* commons */
@@ -98,7 +98,7 @@ button
 
 
 
- 
+
 /*templates container*/
 .container
 {
@@ -112,7 +112,6 @@ button
   padding: 1vw; 
   border: solid 0.2vw #517B97 !important; 
   outline: 0; 
-
   box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
   -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
   -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
@@ -141,21 +140,21 @@ button
 
 /*navbar color*/
 .bg-dark 
-  {
-    background-color: rgb(12, 65, 173) !important; 
-  }
+{
+  background-color: rgb(12, 65, 173) !important; 
+}
 
 /*navbar size and positon*/
 .navbar
-  {
-    border: none;
-    border-radius :0;
-    height: 4vw !important;
-    min-height: 4vw !important;
-    margin-bottom: 3vw;
-  }
+{
+  border: none;
+  border-radius :0;
+  height: 4vw !important;
+  min-height: 4vw !important;
+}
 
 /* Header content (logout, administration , language...*/
+
   #content_header{
     display : inline-block;
     position: absolute;
@@ -229,11 +228,11 @@ button
 }
 
 /* Wrapper for page content to push down footer */
-  #wrap {
-    min-height: 100%;
-    height: auto !important;
-    padding: 0 0 5vw;
-  }
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  padding: 0 0 5vw;
+}
 
 
 
@@ -252,7 +251,7 @@ button
   }
 
 #footer > .container
- {
+{
   padding-left: 15vw;
   padding-right: 15vw;
   position: relative;
@@ -293,14 +292,14 @@ button
 /* Select Arrow */
 .caret
 {
-    border-top: 0.5vw dashed;
-    border-top: 0.5vw solid\9;
-    border-right: 0.5vw solid transparent;
-    border-left: 0.5vw solid transparent;
-    right: 1vw !important;
-    top: 0% !important;
-    margin-top: 0.6vw !important;
-    vertical-align: middle;
+  border-top: 0.5vw dashed;
+  border-top: 0.5vw solid\9;
+  border-right: 0.5vw solid transparent;
+  border-left: 0.5vw solid transparent;
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
 
 }
 
@@ -403,10 +402,10 @@ div.dropdown-menu.open
 
 .glyphicon-ok
 {
-    right: 1vw !important;
-    top: 0% !important;
-    margin-top: 0.6vw !important;
-    vertical-align: middle;
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
 
 }
 
@@ -414,6 +413,7 @@ div.dropdown-menu.open
 {
   margin-bottom: 5vw !important;
 }
+
 
 
 /* search bar select*/
@@ -425,6 +425,7 @@ div.dropdown-menu.open
   outline : none !important;
   border: 0.05vw solid #ccc !important;
   border-radius: 0.4vw !important;
+
 }
 
 
@@ -457,11 +458,11 @@ div.dropdown-menu.open
 }
 
 .label-file:hover {
-    color: #09A6C5;
+  color: #09A6C5;
 }
 
 .input-file {
-    display: none !important;
+  display: none !important;
 }
 
 #import_button
@@ -482,10 +483,10 @@ div.dropdown-menu.open
 }
 #change-file
 {
-   font-size: 1vw; 
-   margin: 0;
-   margin-top: -1vw; 
-   color: darkgrey;
+ font-size: 1vw; 
+ margin: 0;
+ margin-top: -1vw; 
+ color: darkgrey;
 }
 
 
@@ -617,6 +618,7 @@ div.dropdown-menu.open
 }
 .btn
 {
+
   font-size: 1.2vw !important;
   padding: 0.5vw 1vw !important;
   border : none !important;
@@ -624,7 +626,7 @@ div.dropdown-menu.open
 }
 .lead
 {
-   font-size : 1vw !important; 
+ font-size : 1vw !important; 
 }
 
 
@@ -785,10 +787,12 @@ div.dropdown-menu.open
   padding: 0.6vw 0.2vw !important;
 }
 
+
 .inputGroupContainer
 {
   display: inline-block;
 }
+
 
 .control-label+.inputGroupeContainer
 {
@@ -849,6 +853,7 @@ input[type="checkbox" i]
   border-radius: 0.4vw;
   display: inline-block;
 }
+
 
 #changeUser , .btn-danger
 {
@@ -939,8 +944,6 @@ input[type="checkbox" i]
   border : none;
   background-color: rgb(230,230,230) !important;  
 }
-
-
 
 
 

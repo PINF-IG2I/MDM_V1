@@ -204,16 +204,11 @@ include_once "libs/modele.php";
 
 				case 'importDB':
 					$addArgs="?view=administration&failDB=true";
-					if (secure("status","SESSION")=="Administrator" && isset($_FILES["sqlFile"]))
+					$fileName=secure("filename");
+					if (secure("status","SESSION")=="Administrator" && $fileName)
 					{
-						if (file_exists("./libs/" . $_FILES["sqlFile"]["name"]))
-							$addArgs="?view=administration&failDB=true";
-						else
-						{
-							move_uploaded_file($_FILES["sqlFile"]["tmp_name"], "./libs/" . $_FILES["sqlFile"]["name"]);
-							importSQL($_FILES["sqlFile"]["name"]);
-							$addArgs="?view=administration&successDB=true";
-						}
+						importSQL($fileName);
+						$addArgs="?view=administration&successDB=true";
 					}
 				break;
 				//Import datas

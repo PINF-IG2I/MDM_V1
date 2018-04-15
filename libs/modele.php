@@ -182,6 +182,23 @@ function editDocument($data) {
 		$SQL_language_insert.=") VALUES (";
 		foreach ($languageArray as $key => $value) {
 			$SQL_language_insert.= "'$value',";
+		}
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=")";
+		$idLanguage=SQLInsert($SQL_language_insert);
+	}
+	$SQL_language_select = "SELECT id_entry FROM document_language WHERE ";	
+	$SQL_language_insert="INSERT INTO document_language(";
+	foreach ($languageArray as $key => $value) {
+		$SQL_language_select.= " $key='$value' AND";
+		$SQL_language_insert.=$key.",";
+	}
+	$SQL_language_select=substr($SQL_language_select, 0,-3);
+	if(!($idLanguage=SQLGetChamp($SQL_language_select))){
+		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
+		$SQL_language_insert.=") VALUES (";
+		foreach ($languageArray as $key => $value) {
+			$SQL_language_insert.= "'$value',";
 
 		}
 		$SQL_language_insert=substr($SQL_language_insert, 0,-1);
@@ -352,7 +369,6 @@ function writeInFile($propertyName,$value){
 
 //Execute queries from an SQL file
 function importSQL($filesql) {
-	deleteDatabase();	
 	global $BDD_host;
 	global $BDD_user;
 	global $BDD_password;
@@ -361,11 +377,23 @@ function importSQL($filesql) {
 	// Connect to MySQL server
 	$connection = mysqli_connect($BDD_host, $BDD_user, $BDD_password, $BDD_base);
 
+	
+	// Drop all tables
+	$connection->query('SET foreign_key_checks = 0');
+	if ($result = $connection->query("SHOW TABLES"))
+	{
+		while($row = $result->fetch_array(MYSQLI_NUM))
+		{
+			$connection->query('DROP TABLE IF EXISTS '.$row[0]);
+		}
+	}
+	$connection->query('SET foreign_key_checks = 1');
+	
 	// Temporary variable, used to store current query
 	$templine = '';
 	// Read in entire file
-	$lines = file("libs/".$filesql);
-	
+	$lines = file("./saves/".$filesql);
+
 	// Loop through each line
 	foreach ($lines as $line)
 	{
@@ -384,7 +412,6 @@ function importSQL($filesql) {
 			$templine = '';
 		}
 	}
-	unlink("libs/" . $filesql);
 }
 
 //import datas
@@ -693,6 +720,7 @@ function addBaseline($data) {
 		return SQLInsert($SQL);
 	}
 }
+
 
 //adds a document
 function addDocument($data) {
