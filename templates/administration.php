@@ -25,6 +25,7 @@ $failUnlock=secure("failUnlock");
 $successDB=secure("successDB");
 $successLock=secure("successLock");
 $successUnlock=secure("successUnlock");
+$failUser=secure("failUser");
 ?>
 <!-- ALL SUCCESS AND FAIL MESSAGES -->
 <?php if($successDB): ?>
@@ -66,6 +67,14 @@ $successUnlock=secure("successUnlock");
 	<div class="alert alert-danger alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failUnlock_message"]?></center>
+	</div>
+<?php endif; ?>
+
+
+<?php if($failUser): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failCreateUser_message"]?></center>
 	</div>
 <?php endif; ?>
 
@@ -167,7 +176,7 @@ $successUnlock=secure("successUnlock");
 										<option value="" disabled selected><?php echo $translation["status"]?></option>
 										<option value="Internal"><?php echo $translation["internal"]?></option>
 										<option value="External"><?php echo $translation["external"]?></option>
-										<option value="Forbidden"><?php echo $translation["inhibited"]?></option>
+										<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 										<option value="Manager"><?php echo $translation["manager"]?></option>
 										<option value="Administrator"><?php echo $translation["administrator"]?></option>
 									</select>
@@ -234,7 +243,7 @@ $successUnlock=secure("successUnlock");
 									<option value="" disabled selected><?php echo $translation["status"]?></option>
 									<option value="Internal"><?php echo $translation["internal"]?></option>
 									<option value="External"><?php echo $translation["external"]?></option>
-									<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+									<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 									<option value="Manager"><?php echo $translation["manager"]?></option>
 									<option value="Administrator"><?php echo $translation["administrator"]?></option>
 								</select>
@@ -266,7 +275,6 @@ $successUnlock=secure("successUnlock");
 			<div class="modal-footer">
 				<form action="controleur.php">
 					<input id="numberDeleteUser" type="hidden" name="number" value="" />
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 					<button type="submit" name="action" value="deleteUser" class="btn btn-danger"><?php echo $translation["delete_user"]?></button>
 				</form>
 			</div>
@@ -319,7 +327,6 @@ $successUnlock=secure("successUnlock");
 				</div>
 				<div class="modal-footer">
 					<form action="controleur.php">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 						<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
 					</form>
 				</div>
@@ -346,7 +353,6 @@ $successUnlock=secure("successUnlock");
 				</div>
 				<div class="modal-footer">
 					<form action="controleur.php">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 						<button type="submit" name="action" value="lockDB" class="btn btn-danger"><?php 
 						if($lockedDatabase=="1")
 							echo $translation["unlockDB"];

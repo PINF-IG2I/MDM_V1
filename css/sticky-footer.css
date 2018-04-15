@@ -1,3 +1,21 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Marketplace
+Explore
+ @Osgilia
+Sign out
+2
+1 0 PINF-IG2I/MDM_V1
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
+MDM_V1/css/sticky-footer.css
+a024def  10 days ago
+@Osgilia Osgilia Add files via upload
+@Osgilia @Extreion @RblRecon
+     
+927 lines (766 sloc)  15.7 KB
 /******************** CSS ******************************/
 /****************** SUMMARY ****************************/
 /*
@@ -8,15 +26,6 @@
 5. Search template
 6. Results template
 7. Administration template
-
-
-
-
-
-
-
-
-
 */
 
 
@@ -100,17 +109,31 @@ button
 }
 
 .selcls { 
-  padding: 9px; 
-  border: solid 1px #517B97 !important; 
+  padding: 1vw; 
+  border: solid 0.2vw #517B97 !important; 
   outline: 0; 
-  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e2f3ff), to(#FFFFFF)); 
-  background: -moz-linear-gradient(top, #FFFFFF, #e2f3ff 1px, #FFFFFF 25px); 
+
   box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
   -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
   -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
 
 } 
 
+.inlineBox
+{
+  display: block;
+}
+.btn-block
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  text-align: center;
+  margin-left: 50%;
+  margin-right: 50%;
+  background-color : rgb(3,70,148) ;
+  width: auto !important;
+}
 /**********************************************************/
 /********************** HEADER ****************************/
 /**********************************************************/
@@ -144,7 +167,7 @@ button
   }
 
   /* logout button */
-  #logoutBtn, #administrationBtn,#addDoc,#addBaseline
+  #logoutBtn, #administrationBtn,#addDoc,#addBaseline,#help
   {
     display :inline-block;    
     vertical-align:middle;
@@ -400,8 +423,8 @@ div.dropdown-menu.open
   height: 2vw;
   padding:0 0.2vw!important;
   outline : none !important;
-  border: 0.05vw solid #ccc;
-  border-radius: 0.4vw;
+  border: 0.05vw solid #ccc !important;
+  border-radius: 0.4vw !important;
 }
 
 
@@ -553,11 +576,11 @@ div.dropdown-menu.open
   border-radius : 0.4vw !important;
   border: none;
   font-size: 1vw;
-  height: 2vw;
-  margin-left: 35vw;
-  margin-right: 25vw;
+  text-align: center;
+  margin-left: 50%;
+  margin-right: 50%;
   background-color : rgb(3,70,148) ;
-  padding: 0.2vw 0.5vw !important;
+  padding: 0.5vw !important;
 }
 #send:hover
 {
@@ -568,10 +591,7 @@ div.dropdown-menu.open
 {
   border-radius : 0.4vw !important;
   border: none;
-  font-size: 1vw;
-  height: 2vw;
   background-color : rgb(3,70,148) ;
-  padding: 0.2vw 0.5vw !important;
 }
 /*****************************************************************/
 /*****************Results template ***********************/
@@ -585,7 +605,6 @@ div.dropdown-menu.open
   padding: 0.5vw !important;
   min-width: 5vw !important;
   max-width: 30vw !important;
-  height: 2vw !important;
   font-size: 1vw !important;
   background-color: rgb(235,235,235) ;
 }
@@ -593,15 +612,13 @@ div.dropdown-menu.open
 .table>tbody>tr th
 {
   padding: 0.2vw !important;
-  min-width: 5vw !important;
-  max-width: 30vw !important;
-  height: 2vw !important;
   font-size: 1vw !important;
   border-top: 0.1vw solid lightgrey !important; 
 }
 .btn
 {
-  padding: 0 !important;
+  font-size: 1.2vw !important;
+  padding: 0.5vw 1vw !important;
   border : none !important;
   outline: none !important;
 }
@@ -616,10 +633,10 @@ div.dropdown-menu.open
   border-radius : 0.4vw !important;
   border-color: transparent !important;
   font-size: 1vw !important;
-  width: 20vw !important;
-  height: 3vw !important;
-  margin-left: 30vw !important;
+  margin-left: auto;
+  margin-right: auto;
   background-color : rgb(3,70,148) ;  
+  width: auto !important;
 }
 
 #exportButton:hover
@@ -679,9 +696,6 @@ div.dropdown-menu.open
 .table>tbody>tr>td
 {
   padding: 1vw !important;
-  height: 20vw !important;
-  width: 13vw !important;
-  max-width: 15vw !important;
   font-size: 1vw !important;
 }
 
@@ -713,11 +727,11 @@ div.dropdown-menu.open
   border-radius : 0.4vw !important;
   border: none;
   font-size: 1vw;
-  height: 2vw;
-  margin-left: 0.2vw;
+  margin-left: 0.2vw !important;
   margin-right: 0.2vw;
   background-color : rgb(3,70,148) ;
-  padding: 0.2vw 0.5vw;
+  padding: 0.2vw 0.5vw !important;
+  float: none !important;
 }
 
 #displayStatus + .input-group-btn>.btn-group button
@@ -756,7 +770,6 @@ div.dropdown-menu.open
 #editBloc > .col-md-4 .control-label
 {
   padding: 0.2vw 0.2vw !important;
-  width: 10vw !important;
   max-width: 14vw;
 }
 
@@ -772,6 +785,11 @@ div.dropdown-menu.open
   padding: 0.6vw 0.2vw !important;
 }
 
+.inputGroupContainer
+{
+  display: inline-block;
+}
+
 .control-label+.inputGroupeContainer
 {
   padding: 0.6vw 0.2vw !important;
@@ -784,21 +802,35 @@ div.dropdown-menu.open
 #availability_ftp, #aec_differentn,
 #availability_sharepoint_vbn,#availability_sharepoint_blq  input[type=checkbox]
 {
-  margin: 0.5vw !important
-  padding : 0 !important;
+position: relative;
+display: inline-block;
 
 }
 
+.input-group b, .checkbox-inline b
+{
+  display: inline-block;
+  margin: 0 0.4vw;
+}
 
 input[type="checkbox" i]
 {
+  vertical-align: middle;
   width: 1vw !important;
   height: 1vw !important;  
+  display: inline-block !important;
+  margin-left: 0.2vw !important;
+  margin-right: 0.2vw !important;
+  margin-top: 0vw !important;
+  padding: 0.2vw;
+  position: relative !important;
+  border-radius: 0.2vw;
 }
 
 .checkbox-inline
 {
   padding: 0.4vw 1vw !important;
+  display: inline-block;
 }
 
 .control-label+.inputGroupeContainer
@@ -820,65 +852,54 @@ input[type="checkbox" i]
 
 #changeUser , .btn-danger
 {
-  height: 2.2vw;
   font-size: 1.2vw;
   border-radius: 0.4vw;
   border: none;
-  padding: 0.2vw 0.2vw !important;
-  margin: 0.2vw 0.6vw;
 }
 
+#disconnect a
+{
+  border: red solid 0.2vw;
+}
 
 #disconnect
 {
-  width: 2vw;
-  height: 2vw;
+  position: relative;
+  display: inline-block;
+  margin: 0 0.4vw;
+  width: 1.7vw;
+  height: 1.5vw;
   padding: 0;
 }
 
-#disconnect >.glyphicon-remove
-{
-  width: 100%;
-  height: 100%;
-}
-
-
 #db_management .btn
 {
+  margin: 0.2vw 0.6vw !important;
   border-radius: 0.4vw;
   padding: 0.5vw 1vw !important;
   font-size: 1.2vw;
-  height: 2.5vw;
   vertical-align: middle;
-}
-
-.glyphicon
-{
-  top: 0.2vw !important;
-  padding: 0 0.2vw;
 }
 
 #db_management .glyphicon-remove:before
 {
-  margin : 0 !important;
-  float: left;
+  margin-top: 0.2vw !important;
+  width: 100%;
+  height: 100%;
   display: inline-block;
 }
 
 .form-inline > #userName
 {
   float: left;
-  width: 12vw;
-  max-width: 15vw;
   margin-left: 1vw;
-  height: 2vw;
-  display :inline-block;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important; 
 }
 
 #userName+#searchUser
 {
+  height: 2.4vw;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important; 
   display: block;
@@ -895,9 +916,6 @@ input[type="checkbox" i]
 #usersResult td
 {
   padding: 0.2vw !important;
-  min-width: 5vw !important;
-  max-width: 30vw !important;
-  height: 2vw !important;
   font-size: 1vw !important;
   border-top: 0.1vw solid lightgrey !important; 
 }
@@ -907,21 +925,36 @@ input[type="checkbox" i]
   border-radius : 0.4vw !important;
   border: none;
   font-size: 1vw;
-  width: 6vw;
-  max-width: 10vw;
-  height: 2vw;
   background-color : rgb(3,70,148) ;  
 }
 
 #userName
 {
+  height: 2.4vw;
+  padding: 0.5vw !important;
   display :inline-block !important;
-  width: 10vw;
-  max-width: 15vw;
-  height: 2vw;
   font-weight : lighter;
   border-radius : 0.3vw !important;
   box-shadow: none;
   border : none;
   background-color: rgb(230,230,230) !important;  
+}
+
+
+
+
+
+/* bootstrap*/
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9
+{
+  padding: 0.5vw !important;
+}
+
+
+button.close span
+{
+  padding: 0.5vw;
+  width: 2vw;
+  height: 2vw;
 }

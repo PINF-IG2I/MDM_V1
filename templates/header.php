@@ -2,9 +2,11 @@
 
 
 $languageList=array_keys($languages);
-if(secure('status',"SESSION"=='Administrator'))
+if(secure('status',"SESSION")=='Administrator') {
 	$baselineList=listBaselines();
-
+	$searchDatas=getSearchDatas();
+}
+	
 ?>
 <!DOCTYPE html>
 
@@ -21,7 +23,7 @@ if(secure('status',"SESSION"=='Administrator'))
 	<!-- Bootstrap core CSS -->
 	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
-
+	<link rel="shortcut icon" type="image/x-icon" href="http://www.alstom.com/Templates/ui/img/icon/favicon.ico">
 	<!-- Custom styles for this template -->
 
 
@@ -74,6 +76,7 @@ if(secure('status',"SESSION"=='Administrator'))
 						// If the user is connected, a logout link is displayed
 					if (secure("isConnected","SESSION"))
 					{
+						echo "<a id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
 						echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
 					}?>
 
@@ -93,8 +96,10 @@ if(secure('status',"SESSION"=='Administrator'))
 			</div>
 		</nav>
 	</header>
-<!-- MODAL TO ADD A BASELINE -->
+
 <?php if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1): ?>
+
+	<!-- MODAL TO ADD A BASELINE -->
 	<div class="modal fade" id="newBaseline" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -120,13 +125,143 @@ if(secure('status',"SESSION"=='Administrator'))
 							<br/>
 						</fieldset>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["cancel"]?></button>
-						<button type="button" id="baseline" class="btn btn-primary"><?php echo $translation["add"]?></button>
+					<div class="modal-footer" style="text-align:center">
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $translation["cancel"]?></button>
+						<button type="button" id="baseline" class="btn btn-success"><?php echo $translation["add"]?></button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- MODAL TO ADD A DOCUMENT -->
+		<div class="modal fade" id="newDocument" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+			<div class="modal-dialog" role="document" style="">
+				<div class="modal-content" style="">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modalLabel"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo $translation["addDoc"]?></h4>
+					</div>
+					<div class="modal-body" style="overflow-x:auto">
+						<div class="form-group">
+							<label class="col-sm-1" for="name"><?php echo $translation["reference"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["reference"] ?>" name="reference"></div>
+							<label class="col-sm-1" for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" id="previous_ref" placeholder="<?php echo $translation["previous_ref"] ?>" name="previous_doc"></div>
+							<label class="col-sm-1" for="version"><?php echo $translation["version"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" id="version" placeholder="<?php echo $translation["version"] ?>" name="version"></div>
+							<label class="col-sm-1" for="inputPassword1"><?php echo $translation["pic"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" id="pic" placeholder="<?php echo $translation["pic"] ?>" name="pic"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1" for="baseline"><?php echo $translation["baseline"] ?></label>
+							<div class="col-sm-2">
+								<select class="form-control selcls"  data-live-search="true" name="GATC_baseline">
+									<?php
+									foreach ($searchDatas["baseline"] as $key => $value) {
+										echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+									}
+
+									?>
+								</select>
+							</div>
+							<label class="col-sm-1" for="language"><?php echo $translation["language"]?></label>
+							<div class="col-sm-2">
+								<select class="form-control selcls" data-live-search="true" name="language">
+									<?php
+									foreach ($searchDatas["language"] as $key => $value) {
+										echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+									}
+
+									?>
+								</select>
+							</div>
+							<label class="col-sm-1" for="type"><?php echo $translation["type"]?></label>
+							<div class="col-sm-2">
+								<div style="margin-top:-2vw ;display: inline-block;">
+									<label class="checkbox-inline"><input type="checkbox" name="installation" value="1"><b>&nbsp;<?php echo $translation["installation"]?></b></label>
+									<label class="checkbox-inline"><input type="checkbox" name="maintenance" value="1"><b>&nbsp;<?php echo $translation["maintenance"]?></b></label>
+								</div>
+							</div>
+							<label class="col-sm-1" for="type"><?php echo $translation["status"]?></label>
+							<div class="col-sm-2">
+								<select class="form-control selcls"  name="status">
+									<option value="Internal"><?php echo $translation["internal"]?></option>
+									<option value="Public"><?php echo $translation["public"]?></option>
+									<option value="Draft"><?php echo $translation["draft"]?></option>
+									<option value="Future"><?php echo $translation["future"]?></option>
+									<option value="Obsolete"><?php echo $translation["obsolete"]?></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1" for="site"><?php echo $translation["site"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["site"] ?>" name="site"></div>
+							<label class="col-sm-1" for="product"><?php echo $translation["product"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["product"] ?>" name="product"></div>
+							<label class="col-sm-1" for="component"><?php echo $translation["component"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["component"] ?>" name="component"></div>
+							<label class="col-sm-1" for="translation"><?php echo $translation["translation"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["translation"] ?>" name="translation"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1" for="project"><?php echo $translation["project"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["project"] ?>" name="project"></div>
+							<label class="col-sm-1" for="translator"><?php echo $translation["translator"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["translator"] ?>" name="translator"></div>
+							<label class="col-sm-1" for="aec_link"><?php echo $translation["aec"] ?></label>
+							<div class="col-sm-2">
+								<input type="text" style="margin:auto auto -2vw auto" class="form-control selcls" placeholder="<?php echo $translation["aec"] ?>" name="aec_link"><br>
+								<div class="inlineBox">
+									<label class="checkbox-inline" ><input type="checkbox" name="aec_different" value="1"><b>&nbsp;<?php echo $translation["up_to_date_aec"]?></b></label>
+									<label class="checkbox-inline"><input type="checkbox" name="availability_aec" value="1"><b>&nbsp;<?php echo $translation["availability_aec"]?></b></label>
+								</div>
+							</div>
+							<label class="col-sm-1" for="x_link"><?php echo $translation["x_link"] ?></label>
+							<div class="col-sm-2">
+								<input type="text" style="margin:auto auto -2vw auto" class="form-control selcls" placeholder="<?php echo $translation["x_link"] ?>" name="x_link"><br>
+								<label class="checkbox-inline" ><input type="checkbox" name="availability_x" value="1"><b>&nbsp;<?php echo $translation["availability_x"]?></b></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1" for="ftp_link"><?php echo $translation["ftp_link"] ?></label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control selcls" placeholder="<?php echo $translation["ftp_link"] ?>" name="ftp_link">
+								<label class="checkbox-inline" ><input type="checkbox" name="availability_ftp" value="1"><b>&nbsp;<?php echo $translation["availability_ftp"]?></b></label>
+							</div>
+							<label class="col-sm-1" for="sharepoint_vbn_link"><?php echo $translation["vbn"] ?></label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control selcls" placeholder="<?php echo $translation["vbn"] ?>" name="sharepoint_vbn_link">
+								<label class="checkbox-inline" ><input type="checkbox" name="availability_sharepoint_vbn" value="1"><b>&nbsp;<?php echo $translation["availability_sharepoint_vbn"]?></b></label>
+							</div>
+							<label class="col-sm-1" for="sharepoint_blq_link"><?php echo $translation["blq"] ?></label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control selcls" placeholder="<?php echo $translation["blq"] ?>" name="sharepoint_blq_link">
+								<label class="checkbox-inline" ><input type="checkbox" name="availability_sharepoint_blq" value="1"><b>&nbsp;<?php echo $translation["availability_sharepoint_blq"]?></b></label>
+							</div>
+							<label class="col-sm-1" for="remarks"><?php echo $translation["commentaries"] ?></label>
+							<div class="col-sm-2"><textarea class="form-control selcls z-depth-1"  name="remarks" rows="3" ></textarea></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1" for="working_field_1"><?php echo $translation["work1"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["work1"] ?>" name="working_field_1"></div>
+							<label class="col-sm-1" for="working_field_2"><?php echo $translation["work2"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["work2"] ?>" name="working_field_2"></div>
+							<label class="col-sm-1" for="working_field_3"><?php echo $translation["work3"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["work3"] ?>" name="working_field_3"></div>
+							<label class="col-sm-1" for="working_field_4"><?php echo $translation["work4"] ?></label>
+							<div class="col-sm-2"><input type="text" class="form-control selcls" placeholder="<?php echo $translation["work4"] ?>" name="working_field_4"></div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12">
+								<button type="button" id="document" class="btn btn-info btn-block" ><?php echo $translation["add"]?></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 
 <?php endif; ?>

@@ -13,26 +13,9 @@ $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
-if(secure("status","SESSION")=='Manager'){
-	$id_manager=connectedManager();
-	if($id_manager==secure("id_user","SESSION")){
-		$_SESSION["authorized"]=1;
-	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
-		writeInFile("manager",secure("id_user","SESSION"));
-		$_SESSION["authorized"]=1;
-	} else $_SESSION["authorized"]=0;
-}
 
 
-if(secure("status","SESSION")=='Manager'){
-	$id_manager=connectedManager();
-	if($id_manager==secure("id_user","SESSION")){
-		$_SESSION["authorized"]=1;
-	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
-		writeInFile("manager",secure("id_user","SESSION"));
-		$_SESSION["authorized"]=1;
-	} else $_SESSION["authorized"]=0;
-}
+
 
 
 ?>
@@ -216,7 +199,7 @@ if(!empty($searchDatas)){
 			</div>
 			<form action="controleur.php" class="text-center" method="post">
 				<input type="hidden" name="data"  id="searchValues">
-				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
+				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;"><?php echo $translation["export"]?></button>
 			</form>
 			<br>
 			<div id="results">
