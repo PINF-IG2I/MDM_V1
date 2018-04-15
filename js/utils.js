@@ -1,6 +1,11 @@
 	var tabDocs;
 	$(document).ready(function(){
 
+		/*$("#file").addEventListener("click", function(event){
+			event.preventDefault();
+		});*/
+	
+	
 		//When an option is selected in the status dropdown
 		$("#statusDoc").on('click','li a',function() {
 			$("#displayStatus").val($(this).html());
