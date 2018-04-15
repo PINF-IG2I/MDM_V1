@@ -66,12 +66,14 @@ $languages= array(
 		"manager_connected" => "A manager is connected, datas may change.",
 		"manager_in_charge" => "You are allowed to update datas.",
 		"manager_not_in_charge" => "Another manager already has the possibility to update datas.",
-		"no result" => "No results found.",
+		"no_result" => "No results found.",
 		"sure_edit_doc" => "Are you sure you want to edit the document ?",
 		"edit" => "Edit",
 		"import_zone" => "Choose a file to import",
 		"import" => "Import",
-		"reference" => "Reference"
+		"reference" => "Reference",
+		"reference_or_title" => "Reference or document title"
+
 
 		
 
@@ -147,7 +149,8 @@ $languages= array(
 		"edit" => "Éditer",
 		"import_zone" => "Choisissez un fichier à importer",
 		"import" => "Importer",
-		"reference" => "Référence"
+		"reference" => "Référence",
+		"reference_or_title" => "Référence ou titre du document"
 	)
 
 );

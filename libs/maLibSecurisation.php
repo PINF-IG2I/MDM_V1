@@ -1,8 +1,8 @@
 <?php
 
 include_once "maLibUtils.php";	// Car on utilise la fonction valider()
-include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
 
+include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
 /**
  * @file login.php
  * Fichier contenant des fonctions de vérification de logins

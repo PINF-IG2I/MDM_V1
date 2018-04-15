@@ -24,6 +24,7 @@ $failLock=secure("failLock");
 $failUnlock=secure("failUnlock");
 $successDB=secure("successDB");
 $successSave=secure("successSave");
+
 $successLock=secure("successLock");
 $successUnlock=secure("successUnlock");
 $failUser=secure("failUser");
@@ -35,6 +36,7 @@ $failUser=secure("failUser");
 		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successDB_message"]?></center>
 	</div>
 <?php endif; ?>
+
 
 <?php if($successSave): ?>
 	<div class="alert alert-success alert-dismissible fade in">
@@ -283,7 +285,6 @@ $failUser=secure("failUser");
 			<div class="modal-footer">
 				<form action="controleur.php">
 					<input id="numberDeleteUser" type="hidden" name="number" value="" />
-					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 					<button type="submit" name="action" value="deleteUser" class="btn btn-danger"><?php echo $translation["delete_user"]?></button>
 				</form>
 			</div>
@@ -404,7 +405,6 @@ $failUser=secure("failUser");
 				</div>
 				<div class="modal-footer">
 					<form action="controleur.php">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 						<button type="submit" name="action" value="resetDB" class="btn btn-danger"><?php echo $translation["delete_database"]?></button>
 					</form>
 				</div>
@@ -431,7 +431,6 @@ $failUser=secure("failUser");
 				</div>
 				<div class="modal-footer">
 					<form action="controleur.php">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 						<button type="submit" name="action" value="lockDB" class="btn btn-danger"><?php 
 						if($lockedDatabase=="1")
 							echo $translation["unlockDB"];

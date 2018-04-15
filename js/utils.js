@@ -40,7 +40,7 @@
 						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
 						+ val["language"] + "</td>");
 					if(val["isConnected"]==1)
-						 oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
+						oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
 					else
 						oRow.append("<td>"+val["isConnected"]);
 					oRow.append("</td>");
@@ -65,10 +65,7 @@
 				url:'controleur.php',
 				data:formData,
 				dataType:'json',
-				encode:true,
-				success:function(data){
-					console.log("oui");
-				}
+				encode:true
 			});
 		});
 
@@ -105,6 +102,84 @@
 			}
 		});
 
+
+		//When the manager or administrator wants to add a baseline
+		$("#baseline").click(function() {
+			var oQuery={};
+			$("#newBaseline input").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newBaseline select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			JSON.stringify(oQuery);
+			console.log(oQuery);
+			
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addBaseline",
+					"data":oQuery
+
+				},
+				function(){
+				});
+				$("#newBaseline").modal('toggle');
+			location.reload();
+			}
+		});
+
+		//When the manager or administrator wants to add a baseline
+		$("#document").click(function() {
+			var oQuery={};
+			$("#newDocument input").each(function(){
+				if($(this).is(':checkbox')){
+					if($(this).prop('checked')== true)
+						var value=1;
+					else
+						var value=0;
+				}
+				else 
+					var value=$(this).val();
+				var key= $(this).attr("name");
+				if(value!="")
+					oQuery[key]=value;
+			});
+			$("#newDocument select").each(function(){
+				var key= $(this).attr("name");
+				var value=$(this).val();
+				if(value!=null){
+					oQuery[key]=value;
+
+				}
+			});
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON("controleur.php",
+				{
+					"action":"addDocument",
+					"data":oQuery
+
+				},
+				function(){
+					
+				});
+				$("#newDocument input").each(function(){
+				$(this).val("");
+				});
+				$("#newDocument").modal('toggle');
+			}
+		});
+
 		//When the user wants to display results of the search
 		$("#send").click(function(){
 			var oQuery={};
@@ -117,39 +192,49 @@
 			$("#headerSearch select").each(function(){
 				var key= $(this).attr("name");
 				var value=$(this).val();
+				console.log(value);
 				if(value!=null){
 					oQuery[key]=value;
 
 				}
 			});
+			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON( "controleur.php",
 				{
 					"action":"Search",
 					"data":oQuery
 				},
-				function(oRep){	
+				function(oRep){
+					$("#hiddenTab table tbody").remove();	
 					if(oRep.length!=0) {
 						tabDocs=oRep;
-						var oTable = $("<table>").attr("class","table table-hover");
-						oTable.append("<thead><tr><th>Id</th><th>Version</th><th>Language</th><th>Reference</th><th>Subject</th><th>Site</th><th>Responsible</th><th>Status</th><th>Component</th><th>Subsystem</th></tr></thead>");
-						oTable.append("<tbody id='tableResults'>");
+						console.log(oRep);
+						//$("#hiddenTab table").append("<tbody id='tableResults'>");
+						var oResult=$("<tbody id='tableResults'>");
+
 						$.each(oRep,function(i,val) {
+							var language="";
+							if(val["language"]!="") language=val["language"];
+							else language= val ["initial_language"];
 							var oRow = $("<tr id='" + val["id_doc"] + "'>").attr({"data-toggle":"modal","data-target":"#editDoc"}).on("click",editDocu);
 							oRow.append("<th>" + val["id_doc"]+ "</th><th>" + val["version"] + "</th><th>"
-								+ val["language"] + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
+								+ language + "</th><th>" + val["reference"] + "</th><th>" + val["subject"] + "</th><th>"
 								+ val["site"] + "</th><th>" + val["pic"] + "</th><th>" + val["status"] + "</th><th>" 
 								+ val["component"] + "</th><th>" + val["product"] + "</th></tr>");
-							oTable.append(oRow);
+							oResult.append(oRow);
 						});
-						oTable.append("</tbody></table");
-
-						$("#results").html(oTable);
+						oResult.append("</tbody>");
+						$("#hiddenDiv").hide();
+						$("#hiddenTab").show();
+						$("#hiddenTab table").append(oResult);
 						$("#exportButton").show();
 						$("#searchValues").attr("value",JSON.stringify(oRep));
 					}
-					else 
-						$("#results").html($("#hiddenDiv").html());
+					else{ 
+						$("#hiddenDiv").show();
+						$("#hiddenTab").hide();
+					}
 				}
 				);
 			}

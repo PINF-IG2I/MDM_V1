@@ -13,56 +13,49 @@ $languageList=array_keys($languages);
 
 $searchDatas=getSearchDatas();
 
-if(secure("status","SESSION")=='Manager'){
-	$id_manager=connectedManager();
-	if($id_manager==secure("id_user","SESSION")){
-		$_SESSION["authorized"]=1;
-	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
-		writeInFile("manager",secure("id_user","SESSION"));
-		$_SESSION["authorized"]=1;
-	} else $_SESSION["authorized"]=0;
-}
 
 
-if(secure("status","SESSION")=='Manager'){
-	$id_manager=connectedManager();
-	if($id_manager==secure("id_user","SESSION")){
-		$_SESSION["authorized"]=1;
-	} else if (getIsConnected($id_manager)=="0" || ($id_manager=="")) {
-		writeInFile("manager",secure("id_user","SESSION"));
-		$_SESSION["authorized"]=1;
-	} else $_SESSION["authorized"]=0;
-}
+
 
 
 ?>
 
 
 <?php
-foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
-$name = "[";
-for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
-	$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
-
-foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc
-	[]= $value["previous_doc"];
-$previous_doc = "[";
-for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
-	$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
 
 
-foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
-$version = "[";
-for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
-	$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+if(!empty($searchDatas)){
+	if(!empty($searchDatas["reference"])){
+		foreach ($searchDatas["reference"] as $key => $value) $tab_name[]= $value["reference"];
+		$name = "[";
+		for($i=0;$i<sizeof($tab_name)-1;$i++) $name.= "\"". $tab_name[$i] . "\",";
+			$name .= "\"". $tab_name[sizeof($tab_name)-1] . "\"]";
+	}
 
-foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
-$pic = "[";
-for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
-	$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	if(!empty($searchDatas["previous_doc"])){
+		foreach ($searchDatas["previous_doc"] as $key => $value) $tab_previous_doc[]= $value["previous_doc"];
+		$previous_doc = "[";
+		for($i=0;$i<sizeof($tab_previous_doc)-1;$i++) $previous_doc.= "\"". $tab_previous_doc[$i] . "\",";
+			$previous_doc .= "\"". $tab_previous_doc[sizeof($tab_previous_doc)-1] . "\"]";
+	}
+	if(!empty($searchDatas["version"])){
+		foreach ($searchDatas["version"] as $key => $value) $tab_version[]= $value["version"];
+		$version = "[";
+		for($i=0;$i<sizeof($tab_version)-1;$i++) $version.= "\"". $tab_version[$i] . "\",";
+			$version .= "\"". $tab_version[sizeof($tab_version)-1] . "\"]";
+	}
+	if(!empty($searchDatas["pic"])){
+		foreach ($searchDatas["pic"] as $key => $value) $tab_pic[]= $value["pic"];
+		$pic = "[";
+		for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
+			$pic .= "\"". $tab_pic[sizeof($tab_pic)-1] . "\"]";
+	}
+}
 ?>
 
- 
+
+
+
 <!-- Begin page content -->
 <main role="main" class="container">
 	<?php
@@ -99,7 +92,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 		<!-- doc_number and previous_doc input -->
 		<div id="content_search_1">
 			<div class="form_search">
-				<label for="name"><?php echo $translation["doc_number"] ?></label>
+				<label for="name"><?php echo $translation["reference_or_title"] ?></label>
 				<input id="doc_number" type="text" name="reference"/>
 			</div> 
 
@@ -124,8 +117,7 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 		<!-- baseline and language select-->
 		<div class="form_search" id="content_search_3">
-			<label for="baseline"><?php echo $translation["baseline"] ?></label>
-	
+			<label for="baseline"><?php echo $translation["baseline"] ?></label>	
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
 				<?php
 				foreach ($searchDatas["baseline"] as $key => $value) {
@@ -139,7 +131,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
 				<?php
 				foreach ($searchDatas["language"] as $key => $value) {
-					echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+          			if($value["initial_language"]!="")
+					  echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
 				}
 
 				?>
@@ -157,7 +150,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["product"] ?>' name="product">
 				<?php
 				foreach ($searchDatas["product"] as $key => $value) {
-					echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
+					 if($value["product"]!="")
+            echo "<option value='".$value["product"]."'>".$value["product"]."</option>";
 				}
 
 				?>
@@ -170,7 +164,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["component"] ?>' name="component">
 				<?php
 				foreach ($searchDatas["component"] as $key => $value) {
-					echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
+          if($value["component"]!="")
+					  echo "<option value='".$value["component"]."'>".$value["component"]."</option>";
 				}
 
 				?> 
@@ -180,7 +175,8 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["site"] ?>' name="site">
 				<?php
 				foreach ($searchDatas["site"] as $key => $value) {
-					echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
+					if($value["site"]!="")
+            echo "<option value='".$value["site"]."'>".$value["site"]."</option>";
 				}
 
 				?>
@@ -190,23 +186,40 @@ for($i=0;$i<sizeof($tab_pic)-1;$i++) $pic.= "\"". $tab_pic[$i] . "\",";
 
 		<br>
 		<div class="form_search" id="content_search_9">					
-			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button><!-- needs rework -->
+			<button type="button" class="btn btn-primary" id="send"><?php echo $translation["search"]?></button>
 		</div>
 	</form>
 
 
 	<div class="lead">
-		<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+		
 		<div id="resultsPage">
 			<div class="page-header">
 				<h1><?php echo $translation["result"]?></h1>
 			</div>
-			<form action="controleur.php" class="text-center">
+			<form action="controleur.php" class="text-center" method="post">
 				<input type="hidden" name="data"  id="searchValues">
 				<button type="submit" id="exportButton" class="btn btn-primary btn-block" name="action" value="exportResults" style="display: none;width:60%;margin:auto"><?php echo $translation["export"]?></button>
 			</form>
 			<br>
 			<div id="results">
+				<div style="display:none" id="hiddenDiv"><?php echo $translation["no_result"] ?></div>
+				<div style="display:none" id="hiddenTab">
+					<table class="table table-hover">
+						<thead><tr>
+							<th><?php echo $translation["key"]?></th>
+							<th><?php echo $translation["version"]?></th>
+							<th><?php echo $translation["language"]?></th>
+							<th><?php echo $translation["reference"]?></th>
+							<th><?php echo $translation["object"]?></th>
+							<th><?php echo $translation["site"]?></th>
+							<th><?php echo $translation["pic"]?></th>
+							<th><?php echo $translation["status"]?></th>
+							<th><?php echo $translation["component"]?></th>
+							<th><?php echo $translation["product"]?></th>
+						</tr></thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -330,7 +343,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 										<div class="form-group">
 											<label class="col-md-4 control-label"><?php echo $translation["translation"]?></label>
 											<div class="col-md-8 inputGroupContainer">
-												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translation" name="document_language.language" placeholder=<?php echo $translation["translation"]?> class="form-control" value="" type="text"></div>
+												<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span><input id="Translation" name="language" placeholder=<?php echo $translation["translation"]?> class="form-control" value="" type="text"></div>
 											</div>
 										</div>
 										<div class="form-group">
@@ -349,7 +362,7 @@ if(secure("status","SESSION")=="Administrator" OR secure("status","SESSION")=="M
 											<label class="col-md-4 control-label"><?php echo $translation["previous_ref"]?></label>
 											<div class="col-md-8 inputGroupContainer">
 												<div class="input-group">
-													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="Previous reference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
+													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input id="previousReference" name="previous_doc" placeholder=<?php echo $translation["previous_ref"]?> class="form-control" value="" type="text">
 												</div>
 											</div>
 										</div>
@@ -748,11 +761,11 @@ else {
 				<p><?php echo $translation["sure_edit_doc"] ?></p>
 			</div>
 			<div class="modal-footer">
-				<form action="controleur.php">
+				<form action="controleur.php"> 
 					<input id="numberDeleteDoc" type="hidden" name="id_doc" value="" />
 					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
 					<button type="submit" name="action" value="changeDoc" class="btn btn-success"><?php echo $translation["edit"]?></button>
-				</form>
+ 				</form>
 			</div>
 		</div>
 	</div>
@@ -787,9 +800,34 @@ else {
     			$("#Translation").val(tabDocs[index]["language"]);
     			$("#Translator").val(tabDocs[index]["translator"]);
     			if(tabDocs[index]["installation"]==1)
-    				$("#Installation").attr('checked',true);
+    				$("#Installation").prop('checked',true);
+    			else $("#Installation").prop('checked',false);
     			if(tabDocs[index]["maintenance"]==1)
-    				$("#Maintenance").attr('checked',true);
+    				$("#Maintenance").prop('checked',true);
+    			else $("#Maintenance").prop('checked',false);
+    			$("#AEC").val(tabDocs[index]["aec_link"]);
+    			if(tabDocs[index]["availability_aec"]==1)
+    				$("#availability_aec").prop('checked',true);
+    			else $("#availability_aec").prop('checked',false);
+    			if(tabDocs[index]["different_aec"]==1)
+    				$("#aec_different").prop('checked',true);
+    			else $("#aec_different").prop('checked',false);
+    			if(tabDocs[index]["availability_x"]==1)
+    				$("#availability_x").prop('checked',true);
+    			else $("#availability_x").prop('checked',false);
+    			$("#x_link").val(tabDocs[index]["x_link"]);
+    			$("#ftp_link").val(tabDocs[index]["ftp_link"]);
+    			if(tabDocs[index]["availability_ftp"]==1)
+    				$("#availability_ftp").prop('checked',true);
+    			else $("#availability_ftp").prop('checked',false);
+    			$("#VBN").val(tabDocs[index]["sharepoint_vbn_link"]);
+    			if(tabDocs[index]["availability_sharepoint_vbn"]==1)
+    				$("#availability_sharepoint_vbn").prop('checked',true);
+    			else $("#availability_sharepoint_vbn").prop('checked',false);
+    			$("#BLQ").val(tabDocs[index]["sharepoint_blq_link"]);
+    			if(tabDocs[index]["availability_sharepoint_blq"]==1)
+    				$("#availability_sharepoint_blq").prop('checked',true);
+    			else $("#availability_sharepoint_blq").prop('checked',false);
     			$("#Commentaries").val(tabDocs[index]["remarks"]);
     			$("#Work_1").val(tabDocs[index]["working_field_1"]);
     			$("#Work_2").val(tabDocs[index]["working_field_2"]);
@@ -797,6 +835,7 @@ else {
     			$("#Work_4").val(tabDocs[index]["working_field_4"]);
     			$("#numberDeleteDoc").val(tabDocs[index]["id_doc"]);
     			$("#displayStatus").val(tabDocs[index]["status"]);
+    			$("#previousReference").val(tabDocs[index]["previous_doc"]);
     		}
 
     		$(document).ready( function() {
@@ -810,6 +849,7 @@ else {
     			$( "#version" ).autocomplete({ source: autoversion });
     			$( "#pic" ).autocomplete({ source: autopic });
     		});
+
     	</script>
 
 

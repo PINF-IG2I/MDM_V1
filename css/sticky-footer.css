@@ -26,33 +26,33 @@
 /**********************************************************/
 
 /*fonts*/
-  @font-face {
-    font-family: "Alstom";
-    src: url('./fonts/Alstom_Regular.ttf');
-  }
+@font-face {
+  font-family: "Alstom";
+  src: url('./fonts/Alstom_Regular.ttf');
+}
 
-  @font-face {
-    font-family: "Alstom";
-    font-style: bold;
-    src: url('./fonts/Alstom_Black.ttf');
-  }
-  @font-face {
-    font-family: "Alstom";
-    font-weight: lighter;
-    src: url('./fonts/Alstom_Light.ttf');
-  }
+@font-face {
+  font-family: "Alstom";
+  font-style: bold;
+  src: url('./fonts/Alstom_Black.ttf');
+}
+@font-face {
+  font-family: "Alstom";
+  font-weight: lighter;
+  src: url('./fonts/Alstom_Light.ttf');
+}
 
-  html,
-  body 
-  {
-    font-family: "Alstom";
-     margin: 0; padding: 0;
-  }
+html,
+body 
+{
+  font-family: "Alstom";
+  margin: 0; padding: 0;
+}
 
 
-  select{
-   font-weight: lighter;
-  }
+select{
+ font-weight: lighter;
+}
 
 
 /* commons */
@@ -70,6 +70,10 @@ label
   margin : 0 !important;
 }
 
+button
+{
+  outline : none !important;
+}
 
 /**** templates css *****/
 
@@ -85,7 +89,7 @@ label
 
 
 
- 
+
 /*templates container*/
 .container
 {
@@ -95,6 +99,17 @@ label
   margin-right: 10vw;
 }
 
+.selcls { 
+  padding: 9px; 
+  border: solid 1px #517B97 !important; 
+  outline: 0; 
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #e2f3ff), to(#FFFFFF)); 
+  background: -moz-linear-gradient(top, #FFFFFF, #e2f3ff 1px, #FFFFFF 25px); 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+
+} 
 
 /**********************************************************/
 /********************** HEADER ****************************/
@@ -103,79 +118,82 @@ label
 
 /*navbar color*/
 .bg-dark 
-  {
-    background-color: rgb(12, 65, 173) !important; 
-  }
+{
+  background-color: rgb(12, 65, 173) !important; 
+}
 
 /*navbar size and positon*/
 .navbar
-  {
-    border: none;
-    border-radius :0;
-    height: 4vw !important;
-    min-height: 4vw !important;
-    margin-bottom: 3vw;
-  }
+{
+  border: none;
+  border-radius :0;
+  height: 4vw !important;
+  min-height: 4vw !important;
+}
 
 /* Header content (logout, administration , language...*/
-  #content_header{
-    display : inline-block;
-    position: absolute;
-    right : 2vw;
-    top : 0;
-    float : right;
-    height: 100%;
-    vertical-align: middle;
-  }
+#content_header{
+  display : inline-block;
+  position: absolute;
+  right : 2vw;
+  top : 0;
+  float : right;
+  height: 100%;
+  vertical-align: middle;
+}
 
-  /* logout button */
-  #logoutBtn, #administrationBtn
-  {
-    display :inline-block;    
-    vertical-align:middle;
-    float: left;
-    color:white;
-    text-decoration: none;
-    padding-right: 2vw; 
-    font-size: 1.1vw;
-    font-weight: lighter;
-      
-    margin-top: 1.2vw;
+/* logout button */
+#logoutBtn, #administrationBtn,#addDoc,#addBaseline,#help
+{
+  display :inline-block;    
+  vertical-align:middle;
+  float: left;
+  color:white;
+  text-decoration: none;
+  padding-right: 2vw; 
+  font-size: 1.1vw;
+  font-weight: lighter;
+  margin-top: 1.2vw;
+}
 
+#logoutBtn:hover, #administrationBtn:hover,#addDoc:hover,#addBaseline:hover,#help:hover
+{
+  font-weight: 900;
+  cursor:pointer;
+}
 
+#newBaseline .modal-dialog,#createUser .modal-dialog{
+ width: 30% !important;
+ margin-left:35% !important;
+ resize: both !important;
+ overflow: auto;
+}
 
-  }
+/* language option*/
+#form_language
+{
+  vertical-align:middle;
+  display :inline-block;
+  float: left;    
+  vertical-align:middle;
+  text-decoration: none;
+  padding-right: 2vw; 
+  font-size: 1.1vw;
+  font-weight: lighter;
+  width: 10vw;
+  margin-top: 1vw;
+  outline: none !important;
+}
 
-  #logoutBtn:hover, #administrationBtn:hover
-  {
-    font-weight: 900;
-  }
+#selectLanguage
+{
+ vertical-align:middle;
+ border-radius: 4vw;
+ text-decoration : none;
+ border: none;
+ width: 100%;
 
-  /* language option*/
-  #form_language
-  {
-    vertical-align:middle;
-    display :inline-block;
-    float: left;    
-    vertical-align:middle;
-    text-decoration: none;
-    padding-right: 2vw; 
-    font-size: 1.1vw;
-    font-weight: lighter;
-    width: 10vw;
-    margin-top: 1vw;
-    outline: none !important;
-  }
-
-  #selectLanguage
-  {
-   vertical-align:middle;
-    border-radius: 4vw;
-    text-decoration : none;
-    border: none;
-    width: 100%;
-
-  }
+}
 
 
 
@@ -193,11 +211,11 @@ label
 }
 
 /* Wrapper for page content to push down footer */
-  #wrap {
-    min-height: 100%;
-    height: auto !important;
-    padding: 0 0 5vw;
-  }
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  padding: 0 0 5vw;
+}
 
 
 
@@ -205,17 +223,18 @@ label
 /********************** FOOTER ****************************/
 /**********************************************************/
 
-  #footer 
-  {
-   background-color: #f5f5f5;
-   font-size: 1vw;
-   height: 5vw;
-   position: absolute;
-   bottom: 0;
-  }
+#footer 
+{
+ background-color: #f5f5f5;
+ margin-top: 1vw;
+ font-size: 1vw;
+ height: 5vw;
+ position: absolute;
+ bottom: 0;
+}
 
 #footer > .container
- {
+{
   padding-left: 15vw;
   padding-right: 15vw;
   position: relative;
@@ -229,7 +248,7 @@ label
   margin-top: 1vw;
   width: 100%;
   float : left;
-  height: 5vw;
+  height: 3vw;
   display: inline-block;
 }
 /**********************************************************/
@@ -256,22 +275,27 @@ label
 /* Select Arrow */
 .caret
 {
-    border-top: 0.5vw dashed;
-    border-top: 0.5vw solid\9;
-    border-right: 0.5vw solid transparent;
-    border-left: 0.5vw solid transparent;
-    right: 1vw !important;
-    top: 0% !important;
-    margin-top: 0.6vw !important;
-    vertical-align: middle;
+  border-top: 0.5vw dashed;
+  border-top: 0.5vw solid\9;
+  border-right: 0.5vw solid transparent;
+  border-left: 0.5vw solid transparent;
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
 
 }
 
+.filter-option .pull-left span
+{
+  outline: none !important;
+}
 
 .bootstrap-select.btn-group .dropdown-toggle .filter-option
 {
-padding-right: 1vw;
-float: left;
+  padding-right: 1vw;
+  float: left;
+  outline: none !important;
 }
 
 
@@ -324,6 +348,26 @@ float: left;
   overflow: auto !important;
   margin: 0 !important;
   border-radius : 0.4vw !important;
+  transition: none !important;
+}
+.form-control:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;
+}
+
+div > .bootstrap-select .dropdown-toggle:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;  
+}
+
+.dropdown-menu .inner
+{
+  overflow: visible !important;
+  box-shadow: 0 1vw 2vw rgba(0,0,0,.175);
 }
 
 div.dropdown-menu.open
@@ -336,14 +380,15 @@ div.dropdown-menu.open
 {
   padding: 0.1vw 0.8vw !important;
   height: 1.8vw !important;
+  outline: none !important;
 }
 
 .glyphicon-ok
 {
-    right: 1vw !important;
-    top: 0% !important;
-    margin-top: 0.6vw !important;
-    vertical-align: middle;
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
 
 }
 
@@ -353,12 +398,16 @@ div.dropdown-menu.open
 }
 
 
+
 /* search bar select*/
 .form-control
 {
   font-size: 1vw; 
   height: 2vw;
-  padding:0!important;
+  padding:0 0.2vw!important;
+  outline : none !important;
+  border: 0.05vw solid #ccc;
+  border-radius: 0.4vw;
 }
 
 
@@ -391,11 +440,11 @@ div.dropdown-menu.open
 }
 
 .label-file:hover {
-    color: #09A6C5;
+  color: #09A6C5;
 }
 
 .input-file {
-    display: none !important;
+  display: none !important;
 }
 
 #import_button
@@ -415,10 +464,10 @@ div.dropdown-menu.open
 }
 #change-file
 {
-   font-size: 1vw; 
-   margin: 0;
-   margin-top: -1vw; 
-   color: darkgrey;
+ font-size: 1vw; 
+ margin: 0;
+ margin-top: -1vw; 
+ color: darkgrey;
 }
 
 
@@ -547,10 +596,12 @@ div.dropdown-menu.open
 .btn
 {
   padding: 0 !important;
+  border : none !important;
+  outline: none !important;
 }
 .lead
 {
-   font-size : 1vw !important; 
+ font-size : 1vw !important; 
 }
 
 
@@ -594,6 +645,7 @@ div.dropdown-menu.open
 .modal-header
 {
   padding: 2vw !important;
+  height: 4vw !important;
 
 }
 .modal-title
@@ -628,12 +680,14 @@ div.dropdown-menu.open
 
 .well
 {
-  float: left !important;
+  display: inline-block !important;
   margin-bottom: 2vw !important;
   border-radius: 0.2vw !important;
   height: 100% !important;
   width: 100% !important;
   padding: 1vw !important;
+  box-shadow : inset 0 0.2vw 0.2vw rgba(0,0,0,.05);
+  border: 0.1vw solid #e3e3e3
 }
 
 .form-group
@@ -659,22 +713,37 @@ div.dropdown-menu.open
   background-color : rgb(3,70,148) ;
 }
 
-.btn-group>.btn:first-child
+#displayStatus + .input-group-btn>.btn-group button
 {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  margin-right: 0.2vw !important;
-}
-.input-group-addon
-{
-  width: 3vw !important;
-  padding: 0.2vw !important;
-  border: none  !important;
+ border-top-left-radius: 0 !important;
+ border-bottom-left-radius: 0 !important;
+ margin-right: 0.2vw !important;
 }
 
-.inputGroupContainer
+#displayStatus + .input-group-btn>.btn-group button .caret
 {
-  padding: 0 0.2vw;
+  margin: 0 !important;
+}
+
+.input-group-addon
+{
+  height: 2vw;
+  width: 2vw !important;
+  padding: 0.2vw !important;
+  border: 0.1vw solid #ccc  !important;
+  border-right: 0 !important;
+  border-radius: 0.4vw;
+  border-top-left-radius: 0.4vw;
+  border-top-right-radius: 0.4vw;
+  border-bottom-right-radius: 0.4vw;
+  border-bottom-left-radius: 0.4vw;
+}
+
+.input-group-addon i
+{
+  float: left;
+  width: 2vw !important;
+  font-size: 1.2vw;
 }
 
 #editBloc > .col-md-4 .control-label
@@ -687,6 +756,113 @@ div.dropdown-menu.open
 {
   display: inline-block;
 }
+
+
+.form-horizontal .control-label
+{
+  display: inline-block;
+  padding: 0.6vw 0.2vw !important;
+}
+
+.control-label+.inputGroupeContainer
+{
+  padding: 0.6vw 0.2vw !important;
+  display: inline-block;
+}
+
+/* checkboxes*/
+#Instalation, #Maintenance, 
+#availability_aec,#availability_x,
+#availability_ftp, #aec_differentn,
+#availability_sharepoint_vbn,#availability_sharepoint_blq  input[type=checkbox]
+{
+  margin: 0.5vw !important
+  padding : 0 !important;
+
+}
+
+
+input[type="checkbox" i]
+{
+  width: 1vw !important;
+  height: 1vw !important;  
+}
+
+.checkbox-inline
+{
+  padding: 0.4vw 1vw !important;
+}
+
+.control-label+.inputGroupeContainer
+{
+  border : red solid 2vw;
+}
+
+.control-label+.inputGroupeContainer>#number , 
+.control-label+.inputGroupeContainer>#password ,
+.control-label+.inputGroupeContainer>#lastname , 
+.control-label+.inputGroupeContainer> #first-name,
+.control-label+.inputGroupeContainer>#language,
+.control-label+.inputGroupeContainer>#status
+{
+  width: 35vw;
+  border-radius: 0.4vw;
+  display: inline-block;
+}
+
+#changeUser , .btn-danger,.btn-success
+{
+  width: 8vw;
+  height: 2.2vw;
+  font-size: 1.2vw;
+  border-radius: 0.4vw;
+  border: none;
+  padding: 0.2vw 0.6vw;
+  margin: 0.2vw 0.6vw;
+}
+
+
+#disconnect
+{
+  width: 2vw;
+  padding: 0;
+}
+
+#disconnect >.glyphicon-remove
+{
+  width: 100%;
+  padding-top: 0.2vw;
+}
+
+
+#db_management .btn
+{
+  border-radius: 0.4vw;
+  padding: 1vw;
+  width: 10vw;
+  font-size: 1.2vw;
+  height: 2vw;
+  vertical-align: middle;
+}
+
+.form-inline > #userName
+{
+  float: left;
+  width: 12vw;
+  margin-left: 1vw;
+  height: 2vw;
+  display :inline-block;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important; 
+}
+
+#userName+#searchUser
+{
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important; 
+  display: block;
+}
+
 /***************************************************************/
 /******************* Administration template *******************/
 /***************************************************************/
@@ -725,4 +901,8 @@ div.dropdown-menu.open
   box-shadow: none;
   border : none;
   background-color: rgb(230,230,230) !important;  
+}
+
+.inlineBox > label {
+  margin:-2% auto -8% auto !important;
 }
