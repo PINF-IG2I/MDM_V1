@@ -23,55 +23,71 @@ $failDB=secure("failDB");
 $failLock=secure("failLock");
 $failUnlock=secure("failUnlock");
 $successDB=secure("successDB");
+$successSave=secure("successSave");
 $successLock=secure("successLock");
 $successUnlock=secure("successUnlock");
-
+$failUser=secure("failUser");
 ?>
-	<!-- ALL SUCCESS AND FAIL MESSAGES -->
-	<?php if($successDB): ?>
+<!-- ALL SUCCESS AND FAIL MESSAGES -->
+<?php if($successDB): ?>
 	<div class="alert alert-success alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successDB_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<?php if($successLock): ?>
+<?php endif; ?>
+
+<?php if($successSave): ?>
+	<div class="alert alert-success alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successSave_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<?php if($successLock): ?>
 	<div class="alert alert-success alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successLock_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<?php if($successUnlock): ?>
+<?php endif; ?>
+
+<?php if($successUnlock): ?>
 	<div class="alert alert-success alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["success"]?></strong> <?php echo $translation["successUnlock_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<?php if($failDB): ?>
+<?php endif; ?>
+
+<?php if($failDB): ?>
 	<div class="alert alert-danger alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failDB_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<?php if($failLock): ?>
+<?php endif; ?>
+
+<?php if($failLock): ?>
 	<div class="alert alert-danger alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failLock_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<?php if($failUnlock): ?>
+<?php endif; ?>
+
+<?php if($failUnlock): ?>
 	<div class="alert alert-danger alert-dismissible fade in">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failUnlock_message"]?></center>
 	</div>
-	<?php endif; ?>
-	
-	<!-- END OF SUCCESS AND FAIL MESSAGES -->
-	
+<?php endif; ?>
+
+
+<?php if($failUser): ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<center><strong><?php echo $translation["fail"]?></strong> <?php echo $translation["failCreateUser_message"]?></center>
+	</div>
+<?php endif; ?>
+
+<!-- END OF SUCCESS AND FAIL MESSAGES -->
+
 <div class="container">
 	<!-- USER MANAGEMENT -->
 	<div class="page-header">
@@ -81,7 +97,7 @@ $successUnlock=secure("successUnlock");
 		<input class="form-control mb-2 mr-sm-2 mb-sm-0 col-lg-5 col-lg-offset-5" id="userName" type="text" placeholder="<?php echo $translation["user_name"]?>" />
 		<button type="button" id="searchUser" class="btn btn-primary"><?php echo $translation["search"]?></button>
 	</form><br/>
-	<button data-toggle="modal" data-target="#createUser" type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+	<button data-toggle="modal" data-target="#createUser" type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?php echo $translation["create_user"]?></button>
 	<div id="tabUsers" >
 		<center>
 			<table style="user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none;" class="table table-hover" id="usersResult">
@@ -168,7 +184,7 @@ $successUnlock=secure("successUnlock");
 										<option value="" disabled selected><?php echo $translation["status"]?></option>
 										<option value="Internal"><?php echo $translation["internal"]?></option>
 										<option value="External"><?php echo $translation["external"]?></option>
-										<option value="Forbidden"><?php echo $translation["inhibited"]?></option>
+										<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 										<option value="Manager"><?php echo $translation["manager"]?></option>
 										<option value="Administrator"><?php echo $translation["administrator"]?></option>
 									</select>
@@ -235,7 +251,7 @@ $successUnlock=secure("successUnlock");
 									<option value="" disabled selected><?php echo $translation["status"]?></option>
 									<option value="Internal"><?php echo $translation["internal"]?></option>
 									<option value="External"><?php echo $translation["external"]?></option>
-									<option value="Inhibated"><?php echo $translation["inhibited"]?></option>
+									<option value="Forbidden"><?php echo $translation["forbidden"]?></option>
 									<option value="Manager"><?php echo $translation["manager"]?></option>
 									<option value="Administrator"><?php echo $translation["administrator"]?></option>
 								</select>
@@ -288,21 +304,9 @@ $successUnlock=secure("successUnlock");
 	<div id="db_management" >
 		<center>
 			<button class="btn btn-info" onclick="saveDB();" ><?php echo $translation["saveDB"]?> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-			
-			
-			
-			<form id="db_management_form" enctype="multipart/form-data" style="display: inline-block;" action="controleur.php" method="POST" >
-				
-				<label class="btn btn-success" id="upload"><input type='file' accept=".sql" name='sqlFile' class='form-control' onchange="importSave()" style="display:none !important"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></label>
-				
-				<input type="submit" id="submitFile" name="action" value="importDB" style="display:none;" />
-			</form>
-			
-			
-			
-			
+			<button class="btn btn-success" id="importSave" data-toggle="modal" data-target="#importDatabase"><?php echo $translation["importDB"]?> <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDatabase"><?php echo $translation["resetDB"]?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockDatabase">
 				<?php
 
 				if($lockedDatabase=="1")
@@ -315,6 +319,78 @@ $successUnlock=secure("successUnlock");
 
 	<!-- END DATABASE MANAGEMENT -->
 
+	<!-- HIDDEN DIALOG TO IMPORT DATABASE -->
+	<div class="modal fade" id="importDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel"><?php echo $translation["importBackup"]?></h4>
+				</div>
+				<div class="modal-body">
+				<center>
+					<table style="user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none;" class="table table-hover" id="saveResult">
+						<tr style="cursor:not-allowed;">
+							<th><?php echo $translation["name"]?></th>
+							<th><?php echo $translation["date"]?></th>
+							<th><?php echo $translation["time"]?></th>
+						</tr>
+						<?php
+						//Stock all filenames in an array
+						//Sort the array in DESC order of the file date
+						//Display the files in a table
+						$dir = "./saves/";
+						chdir($dir);
+						array_multisort(array_map('filemtime', ($files = glob("*.*"))), SORT_DESC, $files);
+						foreach($files as $filename)
+						{
+							$formats = ".sql";
+							if (strstr($formats,strrchr($filename,"."))) 
+							{
+								$date=date ("F d Y", filemtime($filename));
+								$time=date("H:i:s", filemtime($filename));
+								echo "<tr style='cursor: pointer; height=20px' id='$filename' onclick='importBackup(this);' data-toggle='modal' data-target='#sureImport'>";
+								echo "<td>$filename</td>";
+								echo "<td>$date</td>";
+								echo "<td>$time</td>";
+								echo "</tr>";
+							}
+						}
+						?>
+					</table>
+				</center>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END HIDDEN DIALOG TO IMPORT DATABASE -->
+	
+	<!-- HIDDEN DIALOG TO CONFIRM IMPORT DATABASE -->
+	<div class="modal fade" id="sureImport" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalLabel"><?php echo $translation["important"]?></h4>
+				</div>
+				<div class="modal-body">
+				<p><strong><?php echo $translation["sureImport"]?></strong></p>
+				</div>
+				<div class="modal-footer">
+					<form action='controleur.php'>
+					<input type="hidden" name="filename" id="idBackup" />
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $translation["close"]?></button>
+					<button type="submit" name="action" value="importDB" class="btn btn-success" data-toggle="modal" data-target="#sureImport"><?php echo $translation["import"]?></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END HIDDEN DIALOG TO CONFIRM IMPORT DATABASE -->
+	
 	<!-- HIDDEN DIALOG TO DELETE DATABASE -->
 	<div class="modal fade" id="deleteDatabase" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
 		<div class="modal-dialog" role="document">
@@ -368,17 +444,10 @@ $successUnlock=secure("successUnlock");
 		</div>
 	</div>
 	<!-- END HIDDEN DIALOG TO UNLOCK/LOCK DATABASE -->
-
-	
-	
-	</div>
+</div>
 </div>
 
-
-
 <script>
-
-
 		//Display the block editUser
 		function editUser(ref) {
 			if(typeof $("#tabUsers").data("users")!=="undefined") {
@@ -395,15 +464,15 @@ $successUnlock=secure("successUnlock");
 			$("#numberDeleteUser").val(tabUsers[index]["id_user"]);
 			$("#messageDelete").html("<?php echo $translation["sure_delete_user"]?> <strong>"+tabUsers[index]['first_name']+" "+tabUsers[index]['last_name']+"</strong>?");
 		}
-	
+
 		function saveDB()
 		{
 			document.location.href="./libs/backup.php"; 
 		}
 		
-		function importSave()
+		function importBackup(elt)
 		{
-			$("#submitFile").click();
+			$("#idBackup").val(elt.id);
 		}
 		
 	</script>
