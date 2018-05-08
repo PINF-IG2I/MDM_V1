@@ -1,8 +1,8 @@
 <?php
 
 include_once "maLibUtils.php";	// Car on utilise la fonction valider()
-include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
 
+include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
 /**
  * @file login.php
  * Fichier contenant des fonctions de vérification de logins
@@ -27,16 +27,18 @@ function checkUser($username,$password)
 	// Cas succès : on enregistre pseudo, idUser dans les variables de session 
 	// il faut appeler session_start ! 
 	// Le controleur le fait déjà !!
-	$_SESSION["last_name"] = $res[0]["last_name"];
-	$_SESSION["first_name"] = $res[0]["first_name"];
-	$_SESSION["status"] = $res[0]["status"];
-	$_SESSION["language"] = $res[0]["language"];
-	$_SESSION["password"] = $res[0]["password"];
-	$_SESSION["id_user"] = $res[0]["id_user"];
-	$_SESSION["isConnected"] = true;
-	updateStatus($res[0]["id_user"],1);
-	return true;
-	
+	if($res[0]["status"]=="Forbidden") return "Forbidden";
+	else{
+		$_SESSION["last_name"] = $res[0]["last_name"];	
+		$_SESSION["first_name"] = $res[0]["first_name"];
+		$_SESSION["status"] = $res[0]["status"];
+		$_SESSION["language"] = $res[0]["language"];
+		$_SESSION["password"] = $res[0]["password"];
+		$_SESSION["id_user"] = $res[0]["id_user"];
+		$_SESSION["isConnected"] = true;
+		updateStatus($res[0]["id_user"],1);
+		return true;
+	}
 }
 
 
@@ -49,15 +51,15 @@ function checkUser($username,$password)
  * Elle ne fait rien si l'utilisateur est connecté, et si $urlGood est faux
  * Elle redirige vers urlGood sinon
  */
-function redirect($urlBad,$urlGood=false)
-{
-	if (!secure("isConnected","SESSION")) {
-		headTo($urlBad);
+	function redirect($urlBad,$urlGood=false)
+	{
+		if (!secure("isConnected","SESSION")) {
+			headTo($urlBad);
+		}
+		else {
+			if ($urlGood)
+				headTo($urlGood);
+		}
 	}
-	else {
-		if ($urlGood)
-			headTo($urlGood);
-	}
-}
 
-?>
+	?>
