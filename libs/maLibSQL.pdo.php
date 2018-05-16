@@ -4,20 +4,19 @@ include_once "config.php";
 
 /**
  * @file maLibSQL.php
- * Ce fichier définit les fonctions de requêtage
- * Il nécessite d'avoir défini les variables $BDD_login, $BDD_password $BDD_chaine dans config.php, qui est chargé au moment de l'appel de la librairie
- * @note Pour accélérer les traitements, les requêtes aux bases de données seront persistantes : on ne les fermera pas à chaque fin de requête. 
- * On utilise pour cela la fonction pconnect
- * @todo On pourrait tracer les requêtes dans une table de logs
+ * This file defines the request functions
+ * It requires $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host in config.php, which are loaded when the library is called
+ * @note To make the treatments faster, databse requests are persistant: we do not close them at every request end. 
+ * For that, we use pconnect function
  */
 
 
 /**
- * Exécuter une requête UPDATE. Renvoie le nb de modifs ou faux si pb
- * On testera donc avec === pour différencier faux de 0 
- * @return le nombre d'enregistrements affectés, ou false si pb...
+ * Execute an UPDATE request. Return the number of modifications or false if error.
+ * We test with === to On testera donc avec === to distinguish false and 0 
+ * @return the number of affected recordings, or false if problem.
  * @param string $sql
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
+ * @pre The variables $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host have to exist.
  */
 function SQLUpdate($sql)
 {
@@ -46,15 +45,15 @@ function SQLUpdate($sql)
 	
 }
 
-// Un delete c'est comme un Update
+// A DELETE is like an UPDATE
 function SQLDelete($sql) {return SQLUpdate($sql);}
 
 
 /**
- * Exécuter une requête INSERT 
+ * Execute an INSERT request
  * @param string $sql
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
- * @return Renvoie l'insert ID ... utile quand c'est un numéro auto
+ * @pre The variables $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host have to exist.
+ * @return Insert id
  */
 function SQLInsert($sql)
 {
@@ -84,9 +83,9 @@ function SQLInsert($sql)
 
 
 /**
-* Effectue une requete SELECT dans une base de données SQL SERVER, pour récupérer uniquement un champ (la requete ne doit donc porter que sur une valeur)
-* Renvoie FALSE si pas de resultats, ou la valeur du champ sinon
-* @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
+* Execute a SELECT request in a SQL SERVER database, to get only a field (the request must therefore relate only to one value)
+* Return false if no results, or the value of the field
+* @pre The variables $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host have to exist.
 * @param string $SQL
 * @return false|string
 */
@@ -124,11 +123,11 @@ function SQLGetChamp($sql)
 }
 
 /**
- * Effectue une requete SELECT dans une base de données SQL SERVER
- * Renvoie FALSE si pas de resultats, ou la ressource sinon
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
+ * Execute a SELECT request in a SQL SERVER database
+ * Return false if no results, or the values otherwise
+ * @pre The variables $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host have to exist.
  * @param string $SQL
- * @return boolean|resource
+ * @return false|resource
  */
 function SQLSelect($sql)
 {	
@@ -159,9 +158,9 @@ function SQLSelect($sql)
 
 /**
 *
-* Parcours les enregistrements d'un résultat mysql et les renvoie sous forme de tableau associatif
-* On peut ensuite l'afficher avec la fonction print_r, ou le parcourir avec foreach
-* @param resultat_Mysql $result
+* Browse the recordings of a mysql result and return them as an associative array
+* We can then show it with the print_r function or browse it with foreach
+* @param mysql result $result
 */
 function parcoursRs($result)
 {

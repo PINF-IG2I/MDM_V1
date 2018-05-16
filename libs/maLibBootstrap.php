@@ -2,16 +2,16 @@
 
 
 /*
-Ce fichier définit diverses fonctions permettant de faciliter la production de mises en formes complexes
-Il est utilisé en conjonction avec le style de bootstrap et insère des classes bootstrap
+This file defines some functions to facilitate the production of complex formatting
+It is used in conjuction with bootstrap style and it inserts bootstrap classes
 */
 
 function mkHeadLink($label,$view,$currentView="",$class="")
 {
-	// fabrique un lien pour l'entête en insèrant la classe 'active' si view = currentView
+	// make a link for the header by inserting the 'active' class if view = currentView
 
-	// EX: <?=mkHeadLink("Accueil","accueil",$view)
-	// produit <li class="active"><a href="index.php?view=accueil">Accueil</a></li> si $view= accueil
+	// E.I: <?=mkHeadLink("Home","home",$view)
+	// product <li class="active"><a href="index.php?view=home">Home</a></li> if $view= home
 
 	if ($view == $currentView) 
 		$class .= " active";

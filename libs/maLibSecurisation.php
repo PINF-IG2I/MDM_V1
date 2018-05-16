@@ -1,22 +1,22 @@
 <?php
 
-include_once "maLibUtils.php";	// Car on utilise la fonction valider()
+include_once "maLibUtils.php";
 
-include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
+include_once "modele.php";
 /**
  * @file login.php
- * Fichier contenant des fonctions de vérification de logins
+ * File containing login verification functions
  */
 
 /**
- * Cette fonction vérifie si le login/passe passés en paramètre sont légaux
- * Elle stocke les informations sur la personne dans des variables de session : session_start doit avoir été appelé...
- * Infos à enregistrer : pseudo, idUser, heureConnexion, isAdmin
+ * This function check if the login/password are legal
+ * It stocks session variables
+ * stocked info : last_name, first_name, status, language, password, id_user, isConnected
  * Elle enregistre l'état de la connexion dans une variable de session "connecte" = true
- * @pre login et passe ne doivent pas être vides
+ * @pre login and password must not be empty
  * @param string $login
  * @param string $password
- * @return false ou true ; un effet de bord est la création de variables de session
+ * @return false or true ;
  */
 function checkUser($username,$password)
 {
@@ -24,9 +24,7 @@ function checkUser($username,$password)
 
 	if ($res==array()) return false; 
 
-	// Cas succès : on enregistre pseudo, idUser dans les variables de session 
-	// il faut appeler session_start ! 
-	// Le controleur le fait déjà !!
+	// success : we stock the session variables
 	if($res[0]["status"]=="Forbidden") return "Forbidden";
 	else{
 		$_SESSION["last_name"] = $res[0]["last_name"];	
@@ -45,11 +43,10 @@ function checkUser($username,$password)
 
 
 /**
- * Fonction à placer au début de chaque page privée
- * Cette fonction redirige vers la page $urlBad en envoyant un message d'erreur 
-	et arrête l'interprétation si l'utilisateur n'est pas connecté
- * Elle ne fait rien si l'utilisateur est connecté, et si $urlGood est faux
- * Elle redirige vers urlGood sinon
+ * Function to place at every begining of a private page
+ * It redirects to the page $urldBad with an error message
+ * It dosn't do anything if the user is connected, and if $urlGood is false
+ * Else it redirects to $urlGood
  */
 	function redirect($urlBad,$urlGood=false)
 	{

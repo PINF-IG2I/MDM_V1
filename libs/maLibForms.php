@@ -2,18 +2,18 @@
 
 
 /*
-Ce fichier définit diverses fonctions permettant de faciliter la production de mises en formes complexes : 
-tableaux, formulaires, ...
+This file defines some functions to facilitate the production of complex formatting:
+tables, forms, ...
 */
-// Exemple d'appel :  mkLigneEntete($data,array('pseudo', 'couleur', 'connecte'));
+// Example :  mkLigneEntete($data,array('pseudo', 'color', 'connected'));
 function mkLigneEntete($tabAsso,$listeChamps=false)
 {
-	// Fonction appelée dans mkTable, produit une ligne d'entête
-	// contenant les noms des champs à afficher dans mkTable
-	// Les champs à afficher sont définis à partir de la liste listeChamps 
-	// si elle est fournie ou du tableau tabAsso
+	// Function called in mkTable, make a header line
+	// containing field values to show in mkTable
+	// Fields to show are defined from the list 'listeChamps'
+	// if not false or the tabAsso array
 
-	if (!$listeChamps)	// listeChamps est faux  : on utilise le not : '!'
+	if (!$listeChamps)	// listeChamps is false
 	{
 		// tabAsso est un tableau associatif dont on affiche TOUTES LES CLES
 		echo "\t<tr>\n";
@@ -23,7 +23,7 @@ function mkLigneEntete($tabAsso,$listeChamps=false)
 		}
 		echo "\t</tr>\n";
 	}
-	else		// Les noms des champs sont dans $listeChamps 	
+	else		// Field names are in $listeChamps 	
 	{
 		echo "\t<tr>\n";
 		foreach ($listeChamps as $nomChamp)	
@@ -36,14 +36,14 @@ function mkLigneEntete($tabAsso,$listeChamps=false)
 
 function mkLigne($tabAsso,$listeChamps=false)
 {
-	// Fonction appelée dans mkTable, produit une ligne 	
-	// contenant les valeurs des champs à afficher dans mkTable
-	// Les champs à afficher sont définis à partir de la liste listeChamps 
-	// si elle est fournie ou du tableau tabAsso
+	// Function called in mkTable, make a line
+	// containing field values to show in mkTable
+	// Fields to show are defined from the list 'listeChamps'
+	// if not false or the tabAsso array
 
-	if (!$listeChamps)	// listeChamps est faux  : on utilise le not : '!'
+	if (!$listeChamps)	// listeChamps is false
 	{
-		// tabAsso est un tableau associatif
+		// tabAsso is an associative array
 		echo "\t<tr>\n";
 		foreach ($tabAsso as $cle => $val)	
 		{
@@ -51,7 +51,7 @@ function mkLigne($tabAsso,$listeChamps=false)
 		}
 		echo "\t</tr>\n";
 	}
-	else	// les champs à afficher sont dans $listeChamps
+	else	// Field names are in $listeChamps 	
 	{
 		echo "\t<tr>\n";
 		foreach ($listeChamps as $nomChamp)	
@@ -62,46 +62,45 @@ function mkLigne($tabAsso,$listeChamps=false)
 	}
 }
 
-// Exemple d'appel :  mkTable($users,array('pseudo', 'couleur', 'connecte'));	
+// Example :  mkTable($users,array('pseudo', 'color', 'connected'));	
 function mkTable($tabData,$listeChamps=false)
 {
 
-	// Attention : le tableau peut etre vide 
-	// On produit un code ROBUSTE, donc on teste la taille du tableau
+	// Warning : the array might be empty
 	if (count($tabData) == 0) return;
 
 	echo "<table border=\"1\">\n";
-	// afficher une ligne d'entete avec le nom des champs
+	// show a header line with field names
 	mkLigneEntete($tabData[0],$listeChamps);
 
-	//tabData est un tableau indicé par des entier
+	//tabData is an array indexed with integers
 	foreach ($tabData as $data)	
 	{
-		// afficher une ligne de données avec les valeurs, à chaque itération
+		// show a data line with the values
 		mkLigne($data,$listeChamps);
 	}
 	echo "</table>\n";
 
-	// Produit un tableau affichant les données passées en paramètre
-	// Si listeChamps est vide, on affiche toutes les données de $tabData
-	// S'il est défini, on affiche uniquement les champs listés dans ce tableau, 
-	// dans l'ordre du tableau
+	// Make a table showing the data passed in parameters
+	// If listeChamps is empty, we show all the data of $tabData
+	// Else, we only show the fields listed in the array, 
+	// in the order of the array
 	
 }
 
-// Produit un menu déroulant portant l'attribut name = $nomChampSelect
+// Make a select with name = $nomChampSelect
 
-// Produit les options d'un menu déroulant à partir des données passées en premier paramètre
-// $champValue est le nom des cases contenant la valeur à envoyer au serveur
-// $champLabel est le nom des cases contenant les labels à afficher dans les options
-// $selected contient l'identifiant de l'option à sélectionner par défaut
-// si $champLabel2 est défini, il indique le nom d'une autre case du tableau 
-// servant à produire les labels des options
+// Make the options of a select from the data passed in first parameters
+// $champValue is the value of the options to send to the server
+// $champLabel is the name of the labels to show in the option
+// $selected contains the id of the selected option by default
+// if $champLabel2 is defines, it indicates the name of another field of the array 
+// used to make the labels of the options
 
-// exemple d'appel : 
-// $users = listerUtilisateurs("both");
+// Example: 
+// $users = listUsers("both");
 // mkSelect("idUser",$users,"id","pseudo");
-// TESTER AVEC mkSelect("idUser",$users,"id","pseudo",2,"couleur");
+// TESTER AVEC mkSelect("idUser",$users,"id","pseudo",2,"color");
 
 function mkSelect($nomChampSelect, $tabData,$champValue, $champLabel,$selected=false,$champLabel2=false)
 {
@@ -112,11 +111,7 @@ function mkSelect($nomChampSelect, $tabData,$champValue, $champLabel,$selected=f
 	echo "<select $multiple name=\"$nomChampSelect\">\n";
 	foreach ($tabData as $data)
 	{
-		$sel = "";	// par défaut, aucune option n'est préselectionnée 
-		// MAIS SI le champ selected est fourni
-		// on teste s'il est égal à l'identifiant de l'élément en cours d'affichage
-		// cet identifiant est celui qui est affiché dans le champ value des options
-		// i.e. $data[$champValue]
+		$sel = "";	// by default, no option is selected 
 		if ( ($selected) && ($selected == $data[$champValue]) )
 			$sel = "selected=\"selected\"";
 
@@ -131,25 +126,25 @@ function mkSelect($nomChampSelect, $tabData,$champValue, $champLabel,$selected=f
 
 function mkForm($action="",$method="get")
 {
-	// Produit une balise de formulaire NB : penser à la balise fermante !!
+	// Make a form tag
 	echo "<form action=\"$action\" method=\"$method\" >\n";
 }
 function endForm()
 {
-	// produit la balise fermante
+	// Make an end form tag
 	echo "</form>\n";
 }
 
 function mkInput($type,$name,$value="",$attrs="")
 {
-	// Produit un champ formulaire
+	// Make a form field
 	echo "<input $attrs type=\"$type\" name=\"$name\" value=\"$value\"/>\n";
 }
 
 function mkRadioCb($type,$name,$value,$checked=false)
 {
-	// Produit un champ formulaire de type radio ou checkbox
-	// Et sélectionne cet élément si le quatrième argument est vrai
+	// Make a radio or checkbox form field
+	// and select this element if the fourt argument is true
 	$selectionne = "";	
 	if ($checked) 
 		$selectionne = "checked=\"checked\"";
@@ -163,20 +158,20 @@ function mkLien($url,$label, $qs="",$attrs="")
 
 function mkLiens($tabData,$champLabel, $champCible, $urlBase=false, $nomCible="")
 {
-	// produit une liste de liens (plus facile à styliser)
-	// A partir de données fournies dans un tableau associatif	
-	// Chaque lien pointe vers une url définie par le champ $champCible
+	// Make a link list
+	// From the data of an associative array
+	// Every link points to a url defined by the $champCible field
 	
-	// SI urlBase n'est pas false, on utilise  l'url de base 
-	// (avec son point d'interrogation) à laquelle on ajoute le champ cible 
-	// dans la chaîne de requête, associé au paramètre $nomCible, après un '&' 
+	// If urlBase is not false, we use $urlBase
+	// (with its '?') and we add the $nomCible
+	// in the request channel, associated to $nomCible, after '&' 
 
-	// Exemples d'appels : 
+	// Examples: 
 	// mkLiens($conversations,"id","theme");
-	// produira <a href="1">Multimédia</a> ...
+	// will make <a href="1">Multimédia</a> ...
 
 	// mkLiens($conversations,"theme","id","index.php?view=chat","idConv");
-	// produira <a href="index.php?view=chat&idConv=1">Multimédia</a> ...
+	// will make <a href="index.php?view=chat&idConv=1">Multimédia</a> ...
 
 	// parcourir les données de tabData 
 	foreach($tabData as $data) {
