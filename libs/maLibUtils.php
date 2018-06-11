@@ -21,19 +21,19 @@ function secure($nom,$type="REQUEST")
 	{
 		case 'REQUEST': 
 		if(isset($_REQUEST[$nom]) && !($_REQUEST[$nom] == "")) 	
-			return proteger($_REQUEST[$nom]); 	
+			return protect($_REQUEST[$nom]); 	
 		break;
 		case 'GET': 	
 		if(isset($_GET[$nom]) && !($_GET[$nom] == "")) 			
-			return proteger($_GET[$nom]); 
+			return protect($_GET[$nom]); 
 		break;
 		case 'POST': 	
 		if(isset($_POST[$nom]) && !($_POST[$nom] == "")) 	
-			return proteger($_POST[$nom]); 		
+			return protect($_POST[$nom]); 		
 		break;
 		case 'COOKIE': 	
 		if(isset($_COOKIE[$nom]) && !($_COOKIE[$nom] == "")) 	
-			return proteger($_COOKIE[$nom]);	
+			return protect($_COOKIE[$nom]);	
 		break;
 		case 'SESSION': 
 		if(isset($_SESSION[$nom]) && !($_SESSION[$nom] == "")) 	
@@ -60,7 +60,7 @@ function secure($nom,$type="REQUEST")
 function getValue($nom,$defaut=false,$type="REQUEST")
 {
 	// NB : cette commande affecte la variable resultat une ou deux fois
-	if (($resultat = valider($nom,$type)) === false)
+	if (($resultat = secure($nom,$type)) === false)
 		$resultat = $defaut;
 
 	return $resultat;
@@ -74,7 +74,7 @@ function getValue($nom,$defaut=false,$type="REQUEST")
 * Y COMPRIS LES ARGUMENTS ENTIERS !!
 * @param string $str
 */
-function proteger($str)
+function protect($str)
 {
 	// attention au cas des select multiples !
 	// On pourrait passer le tableau par référence et éviter la création d'un tableau auxiliaire
@@ -83,12 +83,15 @@ function proteger($str)
 		$nextTab = array();
 		foreach($str as $cle => $val)
 		{
-			$nextTab[$cle] = addslashes($val);
+			$nextTab[$cle] = mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $val);
+			$nextTab[$cle] = mb_ereg_replace('[\x60]', '``', $val);
+				
 		}
 		return $nextTab;
 	}
-	else 	
-		return addslashes ($str);
+	else
+		$str= mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $str);	
+		return mb_ereg_replace('[\x60]', '``', $str); 
 	//return str_replace("'","''",$str); 	//utile pour les serveurs de bdd Crosoft
 }
 
