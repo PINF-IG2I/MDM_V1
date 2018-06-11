@@ -5,10 +5,16 @@
 * \author
 * \version
 */
+
 if (basename($_SERVER["PHP_SELF"]) != "index.php")
 {
   header("Location:../index.php?view=login");
   die("");
+}
+
+if(secure("isConnected","SESSION")){
+  header("Location: index.php?view=search");
+  die(""); 
 }
 
 ?>

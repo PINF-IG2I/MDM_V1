@@ -1,19 +1,20 @@
 <?php
 $languages= array(
 	"EN" => array(
-		'key' => 'Key',
-		'file' => 'File',
-		'status' => 'Status',
-		'search' => "Search",
-		'export' => "Export",
-		'import' => "Import",
-		'administrate' => "Management",
 		"language" => "Language",
-		"help" => "Help",
-		"choose" => "Choose",
-		"doc_number" => "Document number",
+		"logout" => "Log out",
+		"administration" => "Administration",
+		"important" => "Important",
+		"addDoc" => "Add a document",
+		"addBaseline" => "Add a baseline",
+		"cancel" => "Cancel",
+		"add" => "Add",
+		"gatc" => "GATC Baseline",
+		"unisig" => "UNISIG Baseline",
+		"reference" => "Reference",
 		"previous_ref" => "Previous reference",
 		"version" => "Version",
+		'important' => 'Important',
 		"pic" => "Responsible",
 		"baseline" => "Baseline",
 		"type" => "Type",
@@ -31,7 +32,7 @@ $languages= array(
 		"project" => "Project",
 		"translator" => "Translator",
 		"previous_ref" => "Previous reference",
-		"aec" => "AEC",
+		"aec" => "AEC Link",
 		"up_to_date_aec" => "Up to date AEC",
 		"network" => "Network",
 		"x_link" => "X Link",
@@ -48,13 +49,6 @@ $languages= array(
 		"work2" => "Work 2",
 		"work3" => "Work 3",
 		"work4" => "Work 4",
-		"save" => "Save",
-		"delete" => "Delete",
-		"leave" => "Leave",
-		"close" => "Close",
-		"choose" => "Choose",
-		"update_document" => "Modify the document",
-		"details_document" => "Document details",
 		"initialLanguage" => "Initial language",
 		'sure_delete_doc' => 'Are you sure you want to delete the document',
 		'public' => "Public",
@@ -62,30 +56,24 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Future",
 		'obsolete' => "Obsolete",
-		"export" => "Export the results of the search",
-		"manager_connected" => "A manager is connected, datas may change.",
-		"manager_in_charge" => "You are allowed to update datas.",
-		"manager_not_in_charge" => "Another manager already has the possibility to update datas.",
-		"no_result" => "No results found.",
-		"sure_edit_doc" => "Are you sure you want to edit the document ?",
-		"edit" => "Edit",
-		"import_zone" => "Choose a file to import",
-		"import" => "Import",
-		"reference" => "Reference",
-		"reference_or_title" => "Reference or document title"
+		'status' => "Status",
+		'help' => 'Help'
 
-
-		
 
 
 	),
 	"FR" => array(
-		'search' => "Rechercher",
-		'export' => "Exporter",
-		'import' => "Importer",
-		'administrate' => "Administration",
 		"language" => "Langue",
-		'key' => "Clé",
+		"logout" => "Déconnexion",
+		"administration" => "Administration",
+		"important" => "Important",
+		"addDoc" => "Ajouter un document",
+		"addBaseline" => "Ajouter une Baseline",
+		"cancel" => "Annuler",
+		"add" => "Ajouter",
+		"gatc" => "Baseline GATC",
+		"unisig" => "Baseline UNISIG",
+		"reference" => "Référence",
 		'file' => "Fichier",
 		'version' => "Version",
 		"pic" => "PIC",
@@ -94,6 +82,7 @@ $languages= array(
 		"doc_number" => "Numéro document",
 		"previous_ref" => "Ancienne référence",
 		"version" => "Version",
+		'important' => 'Important',
 		"pic" => "Responsable",
 		"baseline" => "Baseline",
 		"type" => "Type",
@@ -140,17 +129,8 @@ $languages= array(
 		'draft' => "Draft",
 		'future' => "Futur",
 		'obsolete' => "Obsolète",
-		'export' => "Exporter les résultats de la recherche",
-		"manager_connected" => "Un gestionnaire est connecté, les données sont susceptibles de changer.",
-		"manager_in_charge" => "Vous êtes autorisés à modifier des données de la base.",
-		"manager_not_in_charge" => "Un autre manager a déjà la possibilité de modifier les données de la base.",
-		"no_result" => "Aucun résultat.",
-		"sure_edit_doc" => "Êtes-vous sur de vouloir éditer le document ?",
-		"edit" => "Éditer",
-		"import_zone" => "Choisissez un fichier à importer",
-		"import" => "Importer",
-		"reference" => "Référence",
-		"reference_or_title" => "Référence ou titre du document"
+		'status' => "Statut",
+		'help' => 'Aide'
 	)
 
 );
@@ -160,7 +140,6 @@ $default="EN";
 $requested=$_SESSION["language"];
 $languageUsed = isset($languages[$requested]) ? $requested : $default;
 $translation = $languages[$languageUsed];
-
 
 
 ?>

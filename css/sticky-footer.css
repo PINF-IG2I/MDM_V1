@@ -1,48 +1,979 @@
-/* Sticky footer styles
-Style inspiré de http://www.bootstrapzero.com/bootstrap-template/sticky-footer 
--------------------------------------------------- */
+
+/******************** CSS ******************************/
+/****************** SUMMARY ****************************/
+/*
+1. General (templates,body,fonts style)
+2. Header  (navbar)
+3. Footer
+4. Bootstap select
+5. Search template
+6. Results template
+7. Administration template
+*/
+
+
+
+/**********************************************************/
+/********************** General****************************/
+/**********************************************************/
+
+/*fonts*/
+@font-face {
+  font-family: "Alstom";
+  src: url('./fonts/Alstom_Regular.ttf');
+}
+
+@font-face {
+  font-family: "Alstom";
+  font-style: bold;
+  src: url('./fonts/Alstom_Black.ttf');
+}
+@font-face {
+  font-family: "Alstom";
+  font-weight: lighter;
+  src: url('./fonts/Alstom_Light.ttf');
+}
 
 html,
-body {
-  height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
+body 
+{
+  font-family: "Alstom";
+  margin: 0; padding: 0;
+}
+
+
+select{
+ font-weight: lighter;
+}
+
+
+/* commons */
+
+h1 {
+  margin : 0;
+  text-align: left;
+  font-size: 2.4vw;
+}
+
+
+label
+{
+  font-size: 1vw;
+  margin : 0 !important;
+}
+
+button
+{
+  outline : none !important;
+}
+
+/**** templates css *****/
+
+.page-header
+{
+  display : inline-block;
+  margin: 1vw 0;
+  float: left;
+  width: 100%;
+  padding-bottom: 0 !important;
+  border-bottom: 0.1vw solid lightgrey !important;
+}
+
+
+
+
+/*templates container*/
+.container
+{
+  padding : 0 !important;
+  width : 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.selcls { 
+  margin-bottom: 1vw;
+  padding: 1vw; 
+  border: solid 0.2vw #517B97 !important; 
+  outline: 0; 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+
+} 
+
+.inlineBox
+{
+  margin: 0.3vw !important;
+  display: block;
+}
+.btn-block
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  text-align: center;
+  margin-left: 50%;
+  margin-right: 50%;
+  background-color : rgb(3,70,148) ;
+  width: auto !important;
+}
+/**********************************************************/
+/********************** HEADER ****************************/
+/**********************************************************/
+
+
+/*navbar color*/
+.bg-dark 
+{
+  background-color: rgb(12, 65, 173) !important; 
+}
+
+/*navbar size and positon*/
+.navbar
+{
+  border: none;
+  border-radius :0;
+  height: 4vw !important;
+  min-height: 4vw !important;
+}
+
+/* Header content (logout, administration , language...*/
+
+  #content_header{
+    display : inline-block;
+    position: absolute;
+    right : 2vw;
+    top : 0;
+    float : right;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  /* logout button */
+  #logoutBtn, #administrationBtn,#addDoc,#addBaseline,#help
+  {
+    display :inline-block;    
+    vertical-align:middle;
+    float: left;
+    color:white;
+    text-decoration: none;
+    padding-right: 2vw; 
+    font-size: 1.1vw;
+    font-weight: lighter;
+    margin-top: 1.2vw;
+  }
+
+  #logoutBtn:hover, #administrationBtn:hover,#addDoc:hover,#addBaseline:hover
+  {
+    font-weight: 900;
+    cursor:pointer;
+  }
+
+  /* language option*/
+  #form_language
+  {
+    vertical-align:middle;
+    display :inline-block;
+    float: left;    
+    vertical-align:middle;
+    text-decoration: none;
+    padding-right: 2vw; 
+    font-size: 1.1vw;
+    font-weight: lighter;
+    width: 10vw;
+    max-width: 15vw;
+    margin-top: 1vw;
+    outline: none !important;
+  }
+
+  #selectLanguage
+  {
+   vertical-align:middle;
+    border-radius: 4vw;
+    text-decoration : none;
+    border: none;
+    width: 100%;
+
+  }
+
+
+
+#form_language  .bootstrap-select
+{
+  height: 2vw;
+  width: 100%;
+  vertical-align: middle;
+  font-weight : lighter;
+  border-radius : 0.9vw;
+  box-shadow: none;
+  border : none;
+  padding-left: 0.3vw; 
+  background-color: white;
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
   height: auto !important;
+  padding: 0 0 5vw;
+}
+
+
+
+/**********************************************************/
+/********************** FOOTER ****************************/
+/**********************************************************/
+
+  #footer 
+  {
+   background-color: #f5f5f5;
+   margin-top: 1vw;
+   font-size: 1vw;
+   height: 5vw;
+   position: absolute;
+   bottom: 0;
+  }
+
+#footer > .container
+{
+  padding-left: 15vw;
+  padding-right: 15vw;
+  position: relative;
   height: 100%;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
+  float: left;
+  top: 0%;
+  line-height: 1vw;
 }
 
-/* Set the fixed height of the footer here */
-#footer {
-  height: 60px;
-  background-color: #f5f5f5;
+#footer > .container > span {
+  margin-top: 1vw;
+  width: 100%;
+  float : left;
+  height: 3vw;
+  display: inline-block;
+}
+/**********************************************************/
+
+#logo_header {
+  background-color: #fff;
+  border-radius : 1vw;
+  position : absolute;
+  left: 1vw;
+  height: 3.4vw;
+  margin : 0.3vw;
+  vertical-align: middle;
+
 }
 
 
 
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 
-#wrap > .container {
-  padding: 60px 15px 0;
-}
-.container .credit {
-  margin: 20px 0;
+
+/**********************************************************/
+/********************** BOOTSRAP SELECT********************/
+/**********************************************************/
+
+/* Select Arrow */
+.caret
+{
+  border-top: 0.5vw dashed;
+  border-top: 0.5vw solid\9;
+  border-right: 0.5vw solid transparent;
+  border-left: 0.5vw solid transparent;
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
+
 }
 
-#footer > .container {
-  padding-left: 15px;
-  padding-right: 15px;
+.filter-option .pull-left span
+{
+  outline: none !important;
 }
 
-code {
-  font-size: 80%;
+.bootstrap-select.btn-group .dropdown-toggle .filter-option
+{
+padding-right: 1vw;
+float: left;
+outline: none !important;
+}
+
+
+/* placeholder select*/
+.bootstrap-select>.dropdown-toggle.bs-placeholder
+{
+  color: black !important;
+}
+
+.bootstrap-select
+{
+  height: 2vw;
+  width: 100% !important;
+  font-weight : lighter;
+  border-radius : 0.3vw ;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(230,230,230) ;
+  padding-left: 0.3vw; 
+}
+
+.bootstrap-select button
+{
+  height: 100%;
+  vertical-align: middle;
+  float: left;
+  border: none;
+}
+.btn-default
+{
+  background-color: transparent !important;
+  border-color : transparent !important;
+  font-size : 1vw !important;
+}
+
+
+.bs-actionsbox, .bs-donebutton, .bs-searchbox
+{
+  padding: 0.4vw 0.8vw !important;
+  height: 3vw !important;
+}
+
+.dropdown-menu 
+{
+  padding: 0.4vw 0.8vw !important;
+  font-size : 1vw !important;
+  max-height: 10vw !important;
+  max-width: 14vw !important;
+  min-height: 2vw !important;
+  overflow: auto !important;
+  margin: 0 !important;
+  border-radius : 0.4vw !important;
+  transition: none !important;
+}
+.form-control:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;
+}
+
+div > .bootstrap-select .dropdown-toggle:focus
+{
+  outline: none !important;
+  border : none !important;
+  box-shadow : none !important;  
+}
+
+.dropdown-menu .inner
+{
+  overflow: visible !important;
+  box-shadow: 0 1vw 2vw rgba(0,0,0,.175);
+}
+
+div.dropdown-menu.open
+{
+  border: 0.05vw solid lightgrey !important;
+
+}
+
+.dropdown-menu>li>a
+{
+  padding: 0.1vw 0.8vw !important;
+  height: 1.8vw !important;
+  outline: none !important;
+}
+
+.glyphicon-ok
+{
+  right: 1vw !important;
+  top: 0% !important;
+  margin-top: 0.6vw !important;
+  vertical-align: middle;
+
+}
+
+.table
+{
+  margin-bottom: 1vw !important;
+}
+
+
+
+/* search bar select*/
+.form-control
+{
+  height: 2vw;
+  font-size: 1vw; 
+  padding: 0.2vw 0.2vw !important;
+  outline : none !important;
+  border: 0.05vw solid #ccc !important;
+  border-radius: 0.4vw !important;
+
+}
+
+
+/********************************************************/
+/********************************************************/
+
+/********************************************************/
+/******************* Search template*********************/
+/********************************************************/
+
+
+/* XLS importation option */
+#form_import
+{
+  width: 100%;
+  height: 2.4vw;
+  margin-bottom: 1vw;
+  margin-left: 1vw;
+  float: left;
+}
+
+
+/* Drag & Drop Zone*/
+.label-file {
+  cursor: pointer;
+  color:  #004493;
+  font-weight: bold;
+  font-size: 1.2vw;
+  float: left;
+}
+
+.label-file:hover {
+  color: #09A6C5;
+}
+
+.input-file {
+  display: none !important;
+}
+
+#import_button
+{
+  font-size: 1.3vw;
+  width: 5vw;
+  max-width: 10vw
+  height: 2vw;
+  margin-left: 1vw;
+  padding: 0 !important;
+  background-color : rgb(3,70,148) ;
+  float: left;
+}
+#import_button:hover
+{
+  background-color : #09A6C5; 
+  border :  #09A6C5;
+}
+#change-file
+{
+ font-size: 1vw; 
+ margin: 0;
+ margin-top: -1vw; 
+ color: darkgrey;
+}
+
+
+
+
+
+#headerSearch
+{
+  height: 15vw;
+  width: 100%;
+  float: left;
+}
+
+.form_search{
+  display :inline-block !important;
+  font-size : 1vw;
+  float: left;
+}
+
+.form_search label 
+{
+  font-weight: bold;
+  text-align : center;
+  width: 100%;
+  height: 2vw;
+  margin-bottom: 0.3vw;
+}
+
+.form_search input 
+{
+  display :inline-block !important;
+  width: 100%;
+  height: 2vw;
+  font-weight : lighter;
+  border-radius : 0.3vw !important;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(230,230,230) !important;
+}
+
+
+#content_search_1{
+  float: left;
+  width: 12vw;
+  max-width: 15vw
+  margin-left: 3vw;
+  height: 10vw;
+  display :inline-block;
+}
+
+#content_search_2{
+  float: left;
+  width: 10vw;
+  max-width: 15vw
+  display :inline-block;
+  margin-left: 3.5vw;
+  height: 10vw; 
+
+}
+
+#content_search_3, #content_search_4, #content_search_5{
+  float: left;
+  width : 12vw;
+  max-width: 15vw
+  display :inline-block;
+  margin-left: 3.5vw;
+  height: 10vw;
+}
+
+
+#content_search_9 {
+  float: left;
+  width : 100%;
+  padding: 0.5vw;
+  height: 3vw;
+  display :inline-block;
+}
+
+
+.ui-autocomplete
+{
+  font-size : 1vw;
+}
+
+
+/* search button*/
+#send {
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  text-align: center;
+  margin-left: 50%;
+  margin-right: 50%;
+  transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+  background-color : rgb(3,70,148) ;
+  padding: 0.5vw !important;
+}
+#send:hover
+{
+  background-color : #09A6C5; 
+}
+
+#baseline
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  background-color : rgb(3,70,148) ;
+}
+/*****************************************************************/
+/*****************Results template ***********************/
+/*****************************************************************/
+
+
+
+.table>thead>tr th
+{
+  border-bottom: none !important;
+  padding: 0.5vw !important;
+  min-width: 5vw !important;
+  max-width: 30vw !important;
+  font-size: 1vw !important;
+  background-color: rgb(235,235,235) ;
+}
+
+.table>tbody>tr th
+{
+  padding: 0.2vw !important;
+  font-size: 1vw !important;
+  border-top: 0.1vw solid lightgrey !important; 
+}
+.btn
+{
+
+  font-size: 1.2vw !important;
+  padding: 0.5vw 1vw !important;
+  border : none !important;
+  outline: none !important;
+}
+.lead
+{
+ font-size : 1vw !important; 
+}
+
+
+#exportButton
+{
+  border-radius : 0.4vw !important;
+  border-color: transparent !important;
+  font-size: 1vw !important;
+  margin-left: auto;
+  margin-right: auto;
+  background-color : rgb(3,70,148) ;  
+  width: auto !important;
+}
+
+#exportButton:hover
+{
+  background-color : #09A6C5; 
+}
+
+#results
+{
+  width: 100%;
+}
+
+/****************************************************************/
+/****************************************************************/
+
+/****************** Document modification ***********************/
+
+.modal-dialog
+{
+  padding : 0 !important;
+  width : 80vw !important;
+  margin-top: 5vw !important;
+  margin-left: 10vw !important;
+  margin-right: 10vw !important;
+  border: none !important;
+  border-radius: 0.2vw !important;
+}
+
+.modal-header
+{
+  padding: 1vw !important;
+
+}
+.modal-title
+{
+  font-size: 1.2vw !important; 
+}
+
+
+.glyphicon-file
+{
+  width: 1vw !important;
+}
+
+/* button close */
+.close
+{
+  width: 1vw !important;
+}
+
+
+.modal-body
+{
+  padding: 1vw !important;
+}
+.table>tbody>tr td
+{
+  /*height: 100% !important;*/
+  padding: 0.2vw 0.4vw !important;
+  font-size: 1vw !important;
+}
+
+
+
+.well
+{
+  display: inline-block !important;
+  margin-bottom: 2vw !important;
+  border-radius: 0.2vw !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding: 1vw !important;
+  box-shadow : inset 0 0.2vw 0.2vw rgba(0,0,0,.05);
+  border: 0.1vw solid #e3e3e3
+}
+
+.form-group
+{
+  width: 100%;
+  float: left;
+  display :inline-block !important;
+  margin:0 !important;
+  border:none;
+
+}
+
+.btn-group>.btn
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  margin-left: 0.2vw !important;
+  margin-right: 0.2vw;
+  background-color : rgb(3,70,148) ;
+  padding: 0.2vw 0.5vw !important;
+  float: none !important;
+}
+.input-group .form-control:first-child
+{
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+#displayStatus + .input-group-btn>.btn-group button
+ {
+   border-top-left-radius: 0 !important;
+   border-bottom-left-radius: 0 !important;
+   margin-right: 0.2vw !important;
+   margin-left: 0 !important
+ }
+
+#displayStatus + .input-group-btn>.btn-group button .caret
+{
+  margin: 0 !important;
+}
+
+.input-group-addon
+{
+  height: 2vw;
+  width: 2vw !important;
+  padding: 0.2vw !important;
+  border: 0.1vw solid #ccc  !important;
+  border-right: 0 !important;
+  border-radius: 0.4vw;
+  border-top-left-radius: 0.4vw;
+  border-top-right-radius: 0.4vw;
+  border-bottom-right-radius: 0.4vw;
+  border-bottom-left-radius: 0.4vw;
+}
+
+.input-group-addon i
+{
+  float: left;
+  width: 2vw !important;
+  font-size: 1.2vw;
+}
+
+#editBloc > .col-md-4 .control-label
+{
+  padding: 0.2vw 0.2vw !important;
+  max-width: 14vw;
+}
+
+#commentaries
+{
+  display: inline-block;
+}
+
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child>.btn-group:not(:first-child)>.btn, .input-group-btn:first-child>.btn:not(:first-child), .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group>.btn, .input-group-btn:last-child>.dropdown-toggle
+{
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+#newBaseline div .form-horizontal
+{
+  height: 10vw !important;
+  margin-bottom: 0 !important;
+}
+
+#editUser div .form-horizontal
+{
+  height: 25vw !important;
+  margin-bottom: 0 !important;
+}
+
+div .form-horizontal
+{
+  height: 35vw !important;
+  margin-bottom: 0 !important;
+}
+.form-horizontal .control-label
+{
+  display: inline-block;
+  padding: 0.6vw 0.2vw !important;
+}
+
+
+.inputGroupContainer
+{
+  display: inline-block;
+}
+
+
+.control-label+.inputGroupeContainer
+{
+  padding: 0.6vw 0.2vw !important;
+  display: inline-block;
+}
+
+/* checkboxes*/
+#Instalation, #Maintenance, 
+#availability_aec,#availability_x,
+#availability_ftp, #aec_differentn,
+#availability_sharepoint_vbn,#availability_sharepoint_blq  input[type=checkbox]
+{
+position: relative;
+display: inline-block;
+
+}
+
+.input-group b, .checkbox-inline b
+{
+  display: inline-block;
+  margin: 0;
+}
+
+input[type="checkbox" i]
+{
+  vertical-align: middle;
+  width: 1vw !important;
+  height: 1vw !important;  
+  display: inline-block !important;
+  margin-left: 0.2vw !important;
+  margin-right: 0.2vw !important;
+  margin-top: 0vw !important;
+  padding: 0.2vw;
+  position: relative !important;
+  border-radius: 0.2vw;
+}
+
+.checkbox-inline
+{
+  padding: 0.4vw 0vw !important;
+  display: inline-block;
+}
+
+.control-label+.inputGroupeContainer
+{
+  border : red solid 2vw;
+}
+
+.control-label+.inputGroupeContainer>#number , 
+.control-label+.inputGroupeContainer>#password ,
+.control-label+.inputGroupeContainer>#lastname , 
+.control-label+.inputGroupeContainer> #first-name,
+.control-label+.inputGroupeContainer>#language,
+.control-label+.inputGroupeContainer>#status
+{
+  width: 35vw;
+  border-radius: 0.4vw;
+  display: inline-block;
+}
+
+
+#changeUser , .btn-danger
+{
+  margin: 0 0.4vw !important;
+  font-size: 1.2vw;
+  border-radius: 0.4vw;
+  border: none;
+}
+
+#disconnect a
+{
+  border: red solid 0.2vw;
+}
+
+#disconnect
+{
+  position: relative;
+  display: inline-block;
+  margin: 0 0.4vw;
+  width: 1.7vw;
+  height: 1.5vw;
+  padding: 0;
+}
+
+#db_management .btn
+{
+  margin: 0.2vw 0.6vw !important;
+  border-radius: 0.4vw;
+  padding: 0.5vw 1vw !important;
+  font-size: 1.2vw;
+  vertical-align: middle;
+}
+
+#db_management .glyphicon-remove:before
+{
+  margin-top: 0.2vw !important;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+}
+
+.form-inline > #userName
+{
+  float: left;
+  margin-left: 1vw;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important; 
+}
+
+#userName+#searchUser
+{
+  height: 2.4vw;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important; 
+  display: block;
+}
+
+/***************************************************************/
+/******************* Administration template *******************/
+/***************************************************************/
+#usersResult
+{
+  font-size: 1vw;
+}
+
+#usersResult td
+{
+  padding: 0.2vw !important;
+  font-size: 1vw !important;
+  border-top: 0.1vw solid lightgrey !important; 
+}
+
+#searchUser
+{
+  border-radius : 0.4vw !important;
+  border: none;
+  font-size: 1vw;
+  background-color : rgb(3,70,148) ;  
+}
+
+#userName
+{
+  height: 2.4vw;
+  padding: 0.5vw !important;
+  display :inline-block !important;
+  font-weight : lighter;
+  border-radius : 0.3vw !important;
+  box-shadow: none;
+  border : none;
+  background-color: rgb(230,230,230) !important;  
+}
+
+
+
+/* bootstrap*/
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9
+{
+  padding: 0.5vw !important;
+}
+
+
+button.close span
+{
+  padding: 0.5vw;
+  width: 2vw;
+  height: 2vw;
 }
