@@ -54,45 +54,55 @@ if(secure('status',"SESSION")=='Administrator') {
 <body>
 	<!-- **** B O D Y **** -->
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<div id="header">
-				<span class="navbar-nav mr-auto">
-				</span>
-				<a href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
-				
-				<div id="content_header">
-
+		<nav class=" menu-navbar navbar nnavbar-dark fixed-top">
+			<a class="navbar-brand" href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
+			
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav justify-content-end">
 					<?php
 					if(secure("status","SESSION")=="Administrator" || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1))
 					{
-						echo "<a id=\"addBaseline\" data-target=\"#newBaseline\" data-toggle=\"modal\">" . $translation["addBaseline"] . "</a>";		
-						echo "<a id=\"addDoc\" data-target=\"#newDocument\" data-toggle=\"modal\">" . $translation["addDoc"] . "</a>";
+						echo "<li class=\"nav-item\">";
+							echo "<a class=\"nav-link\" id=\"addBaseline\" data-target=\"#newBaseline\" data-toggle=\"modal\">" . $translation["addBaseline"] . "</a>";		
+						echo "</li>";
+						echo "<li class=\"nav-item\">";
+							echo "<a class=\"nav-link\" id=\"addDoc\" data-target=\"#newDocument\" data-toggle=\"modal\">" . $translation["addDoc"] . "</a>";
+						echo "</li>";
 					}
 					if (secure("status","SESSION") == "Administrator")
 					{
-						echo "<a id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
+						echo "<li class=\"nav-item\">";
+							echo "<a class=\"nav-link\" id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
+						echo "</li>";
 					}
 
 						// If the user is connected, a logout link is displayed
 					if (secure("isConnected","SESSION"))
 					{
-						echo "<a id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
-						echo "<a id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+						echo "<li class=\"nav-item\">";
+						echo "<a class=\"nav-link\" id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
+						echo "</li>";
+						echo "<li class=\"nav-item\">";
+						echo "<a class=\"nav-link\" id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+						echo "</li>";
 					}?>
+					
+					<li class="nav-item dropdown">
+					<div class="form-group">
+						<form id="form_language" class="form-inline mt-2 mt-md-0" >
+							<select id="selectLanguage">
+								<option value="" disabled selected><?php echo $translation["language"]?></option>
+								<?php 
 
-					<form id="form_language" class="form-inline mt-2 mt-md-0" >
-						<select id="selectLanguage" class="selectpicker"/ >
-							<option value="" disabled selected><?php echo $translation["language"]?></option>
-							<?php 
+								foreach ($languageList as $key => $value) {
+									echo "<option value='".$value."'>".$value."</option>";
+								}
 
-							foreach ($languageList as $key => $value) {
-								echo "<option value='".$value."'>".$value."</option>";
-							}
-
-							?>
-						</select>
-					</form>
-				</div>
+								?>
+							</select>
+						</form>
+					</div>
+				</ul>
 			</div>
 		</nav>
 	</header>

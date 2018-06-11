@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `last_name` char(50) NOT NULL,
   `first_name` char(30) NOT NULL,
-  `password` char(20) NOT NULL DEFAULT 'Alstom$Gest',
+  `password` char(250) NOT NULL DEFAULT 'Alstom$Gest',
   `status` enum('Internal','External','Manager','Administrator','Forbidden') NOT NULL DEFAULT 'External',
   `language` char(2) NOT NULL DEFAULT 'EN',
   `isConnected` tinyint(1) NOT NULL DEFAULT '0',
