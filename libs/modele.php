@@ -113,6 +113,7 @@ function getSearchDatas(){
 	return $res;
 }
 
+
 /**
 *	\fn function getResultsFromQuery($data,$status)
 *	\brief This function fetches the different results corresponding to the datas.
@@ -929,8 +930,278 @@ function addBaseline($data) {
 		$SQL.=")";
 		return SQLInsert($SQL);
 	}
+
 }
 
+function referenceExists($reference){
+	$SQL="SELECT id_ref FROM document_reference WHERE reference='".protect(htmlspecialchars(trim($reference)))."'";
+	return SQLGetChamp($SQL);
+}
+
+function versionExists($idRef,$version){
+	$SQL="SELECT DISTINCT id_version FROM document_reference,document_version,document WHERE document.id_document_reference=id_ref AND document.id_document_version=id_version AND  id_ref='$idRef' AND version='".protect(htmlspecialchars(trim($version)))."'";
+	return SQLGetChamp($SQL);
+}
+
+function languageExists($language,$project,$translator){
+	$SQL="SELECT id_entry FROM document_language WHERE 	language='".protect(htmlspecialchars(trim($language)))."' AND project='".protect(htmlspecialchars(trim($project)))."'AND translator='".protect(htmlspecialchars(trim($translator)))."'";
+	return SQLGetChamp($SQL);
+}
+
+function docExists($idRef,$idVersion,$idLanguage){
+	$SQL="SELECT id_doc FROM document WHERE id_document_reference='$idRef' AND id_document_version='$idVersion' AND id_document_language='$idLanguage'";
+	return SQLGetChamp($SQL);
+}
+
+function associationTableEntry($id_baseline,$id_doc){
+	$SQL="SELECT id FROM association_table WHERE id_doc='$id_doc' AND id_baseline='$id_baseline'";
+	return SQLSelect($SQL);
+}
+
+//adds a baseline
+function addBaseline($data) {
+	$SQL="SELECT id_baseline FROM gatc_baseline WHERE ";
+	foreach ($data as $key => $value) {
+		$SQL.= " `".protect(trim($key))."`='".protect(htmlspecialchars(trim($value)))."' AND";
+	}
+	$SQL=substr($SQL, 0,-3);
+	$res=SQLGetChamp($SQL);
+	if(!$res){
+		$SQL="INSERT INTO gatc_baseline (GATC_baseline,UNISIG_baseline) VALUES ('";
+		foreach($data as $value) {
+			$SQL.=protect(htmlspecialchars(trim($value)))."','";
+		}
+		$SQL=substr($SQL,0,-2);
+		$SQL.=")";
+		return SQLInsert($SQL);
+	}
+}
+
+
+//adds a document
+function addDocument($data) {
+	global $BDD_base;
+	//checking if all columns name are in the database
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
+	echo "<br>";
+	$columns=parcoursRs(SQLSelect($SQL));
+	print_r($columns);
+	$finalColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($finalColumns, $value["COLUMN_NAME"]);
+
+	}
+	print_r($finalColumns);
+	//in this part, we build the different queries that will be used to insert datas
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_language');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	print_r($columns);
+	$languageColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($languageColumns, $value["COLUMN_NAME"]);
+
+	}
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_version');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	print_r($columns);
+	$versionColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($versionColumns, $value["COLUMN_NAME"]);
+
+	}
+	$SQL="SELECT `COLUMN_NAME` 	
+	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
+	AND `TABLE_NAME` IN('document_reference');";
+	$columns=parcoursRs(SQLSelect($SQL));
+	print_r($columns);
+	$referenceColumns=array();
+	foreach ($columns as $key => $value) {
+		array_push($referenceColumns, $value["COLUMN_NAME"]);
+
+	}
+	echo "<br><br>";
+	print_r($referenceColumns);
+	print_r($languageColumns);
+	print_r($versionColumns);
+	echo "<br><br>";
+	$fileColumns=array_keys($data);
+	foreach ($fileColumns as $key=>$value) { //avoid white spaces
+		$fileColumns[$key]=trim($fileColumns[$key]);
+	}
+	print_r($fileColumns[4]);
+	$size=sizeof($fileColumns);
+	$ignoredColumns=array();
+	echo "<br><br>";
+	for($i=0;$i<$size;$i++){
+    	if(!in_array($fileColumns[$i],$finalColumns)){ //if one of the column name is unknown in the database, we just ignore this.
+    		array_push($ignoredColumns, $i);
+    	} else {
+    	//also, some attributes are essential : for example, a baseline is essential, as well as a reference. we get the index of those columns in the csv
+    		switch ($fileColumns[$i]) {
+    			case 'reference':
+    			$referenceColumn=$i;
+    			break;
+    			case 'GATC_baseline':
+    			$baselineColumn=$i;
+    			case 'language':
+    			$languageColumn=$i;
+    			break;
+    			case 'project':
+    			$projectColumn=$i;
+    			break;
+    			case 'translator':
+    			$translatorColumn=$i;
+    			break;
+    			default:
+    			break;
+    		}
+    	}	
+    }
+    echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
+    //$ignoredColumns contains the indexes of the columns that need to be avoided.
+    echo "<br><br>";
+    print_r($fileColumns);
+    echo "<br><br>";
+    //after all the ignored rows have been found, we build the different queries that will be used to insert datas into the database
+    $atLeastOne=false;
+    $SQL_doc_ref="INSERT INTO document_reference("; //doc reference
+    for($i=0;$i<$size;$i++){
+    	if(in_array($fileColumns[$i],$referenceColumns)){
+    		$atLeastOne=true;
+    		$SQL_doc_ref.="`".$fileColumns[$i]."`,";
+    	}
+    }
+    if($atLeastOne){
+    	$SQL_doc_ref=substr($SQL_doc_ref,0,-1);
+    	$SQL_doc_ref.=") VALUES (";
+    }
+    else
+    	$SQL_doc_ref="";
+    $atLeastOne=false;
+    $SQL_doc_version="INSERT INTO document_version("; //doc version
+    for($i=0;$i<$size;$i++){
+    	if(in_array($fileColumns[$i],$versionColumns)){
+    		$atLeastOne=true;
+    		$SQL_doc_version.="`".$fileColumns[$i]."`,";
+    	}
+    }
+    if($atLeastOne){
+    	$SQL_doc_version=substr($SQL_doc_version,0,-1);
+    	$SQL_doc_version.=") VALUES (";
+    } else 
+    	$SQL_doc_version="";
+    $atLeastOne=false;
+    $SQL_doc_language="INSERT INTO document_language("; //doc language
+    for($i=0;$i<$size;$i++){
+    	if(in_array($fileColumns[$i],$languageColumns)){
+    		$atLeastOne=true;
+    		$SQL_doc_language.="`".$fileColumns[$i]."`,";
+    	}
+    }
+    if($atLeastOne){
+    	$SQL_doc_language=substr($SQL_doc_language,0,-1);
+    	$SQL_doc_language.=") VALUES (";
+    }
+    else
+    	$SQL_doc_language="";
+    echo $SQL_doc_language;
+    echo "<br>";
+    echo $SQL_doc_version;
+    echo "<br>";
+    echo $SQL_doc_ref;
+    echo "<br>";
+    //checking data validity and insertion
+    $ignored=false;
+    print_r(array_values($data));
+    $data=array_values($data);
+    if(empty($data[$referenceColumn]) || empty($data[$baselineColumn]) || !($idBaseline=unknownBaseline($data[$baselineColumn])))
+    {
+    	$ignored=true;
+    }
+    else 
+    {
+    	if(!isset($languageColumn)) {
+    	 	$data[$languageColumn]='';
+    	 	$data[$translatorColumn]='';
+    	 	$data[$projectColumn]='';
+    	}
+    	// echo $idBaseline;
+    	if($idRef=referenceExists($data[$referenceColumn]))
+    		$refQuery=false;
+    	else 
+    		$refQuery=$SQL_doc_ref;
+    	if($idRef!=false && $idVersion=versionExists($idRef,$data[$versionColumn]))
+    		$versionQuery=false;
+    	else{
+    		$versionQuery=$SQL_doc_version;
+    	}
+    	if($idLanguage=languageExists($data[$languageColumn],$data[$projectColumn],$data[$translatorColumn]))
+    		$languageQuery=false;
+    	else
+    		$languageQuery=$SQL_doc_language;
+    	echo "<h1>".$refQuery."</h1>";
+    	for($k=0;$k<$size;$k++){
+    		if(!in_array($k, $ignoredColumns) || $k!=$baselineColumn){
+    			if($refQuery != false && in_array($fileColumns[$k],$referenceColumns)){
+    				$refQuery.="'".protect(htmlspecialchars(trim($data[$k])))."',";
+    			} else if($languageQuery!=false && in_array($fileColumns[$k],$languageColumns)){
+    				$languageQuery.="'".protect(htmlspecialchars(trim($data[$k])))."',";
+    			} else if($versionQuery!=false && in_array($fileColumns[$k],$versionColumns)){
+    				$versionQuery.="'".protect(htmlspecialchars(trim($data[$k])))."',";
+    			}
+    		}
+    	}
+    	echo "<h1>".$refQuery."</h1>";
+    	if($refQuery){
+    		$refQuery=substr($refQuery, 0,-1);
+    		$refQuery.=");";
+    		$idRef=SQLInsert($refQuery);
+    	}
+    	if($versionQuery){
+    		$versionQuery=substr($versionQuery, 0,-1);
+    		$versionQuery.=");";
+    		$idVersion=SQLInsert($versionQuery);
+    	}
+    	if($languageQuery){
+    		$languageQuery=substr($languageQuery, 0,-1);
+    		$languageQuery.=");";
+    		$idLanguage=SQLInsert($languageQuery);
+    	}
+    	echo"<br>Newdoc<hr>";
+    	echo "<br>".$refQuery." ".$idRef;
+    	echo "<br>".$versionQuery." ".$idVersion;
+    	echo "<br>".$languageQuery." ".$idLanguage;
+    	echo "<br><br>";
+
+    	if(!($idDoc=docExists($idRef,$idVersion,$idLanguage))){
+    		$SQL="INSERT INTO document(`id_document_language`,`id_document_version`,`id_document_reference`) VALUES ('".$idLanguage."','".$idVersion."','".$idRef."');";
+    		echo "<h2>".$SQL."</h2>";
+    		$idDoc=SQLInsert($SQL);
+    	}
+    	echo "id_doc :".$idDoc;
+    	if(!($idAssociationTable = associationTableEntry($idBaseline,$idDoc))){
+    		$SQL="INSERT INTO association_table (`id_doc`,`id_baseline`) VALUES ('".$idDoc."','".$idBaseline."');";
+    		echo "<h2>".$SQL."</h2>";
+    		$res=SQLInsert($SQL);
+    	}
+    }
+}
+
+//lists all the baselines
+function listBaselines() {
+	$SQL="SELECT DISTINCT GATC_baseline FROM gatc_baseline";
+	return parcoursRs(SQLSelect($SQL));
+}
 
 //adds a document
 /**
