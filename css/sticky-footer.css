@@ -1,21 +1,4 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @Osgilia
-Sign out
-2
-1 0 PINF-IG2I/MDM_V1
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
-MDM_V1/css/sticky-footer.css
-a024def  10 days ago
-@Osgilia Osgilia Add files via upload
-@Osgilia @Extreion @RblRecon
-     
-927 lines (766 sloc)  15.7 KB
+
 /******************** CSS ******************************/
 /****************** SUMMARY ****************************/
 /*
@@ -269,6 +252,7 @@ button
   float : left;
   height: 3vw;
   display: inline-block;
+
 }
 /**********************************************************/
 
@@ -500,7 +484,19 @@ div.dropdown-menu.open
   height: 15vw;
   width: 100%;
   float: left;
+
 }
+/**********************************************************/
+
+#logo_header {
+  background-color: #fff;
+  border-radius : 1vw;
+  position : absolute;
+  left: 1vw;
+  height: 3.4vw;
+  margin : 0.3vw;
+  vertical-align: middle;
+
 
 .form_search{
   display :inline-block !important;
@@ -565,6 +561,7 @@ div.dropdown-menu.open
   padding: 0.5vw;
   height: 3vw;
   display :inline-block;
+
 }
 
 
@@ -777,6 +774,7 @@ div.dropdown-menu.open
   width: 2vw !important;
   font-size: 1.2vw;
 }
+
 
 #editBloc > .col-md-4 .control-label
 {

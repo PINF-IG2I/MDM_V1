@@ -51,7 +51,7 @@ $view = secure("view");
 		} else $_SESSION["authorized"]=0;
 	} 
 	//If the view parameters isn't set, the user is redirected either to the login page if he is not connected, or to the search page if he is connected.
-	if (!$view) {
+	if (!$view || !file_exists("templates/$view.php")) {
 		if(secure("isConnected","SESSION"))
 			$view = "search";
 		else
@@ -62,7 +62,6 @@ $view = secure("view");
 	{		
 
 		default : // if the template corresponding to the view exists, it is displayed
-		if (file_exists("templates/$view.php")){
 			if($view!="login"){
 				include_once("./translations/header_translations.php");
 				include("templates/header.php");
@@ -70,10 +69,6 @@ $view = secure("view");
 			if(file_exists("./translations/".$view."_translations.php"))
 				include("./translations/".$view."_translations.php");
 			include("./templates/$view.php");
-			
-
-		}
-
 	}
 
 
