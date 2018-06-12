@@ -121,7 +121,7 @@ $failUser=secure("failUser");
 				foreach ($users as $tabUsers)
 				{
 					echo "<tr style='cursor: pointer;' onclick='editUser(this)' id='$tabUsers[id_user]' data-toggle='modal' data-target='#editUser'>";
-					echo "<td>$tabUsers[number]</td>";
+					echo "<td>$tabUsers[id_user]</td>";
 					echo "<td>$tabUsers[last_name]</td>";
 					echo "<td>$tabUsers[first_name]</td>";
 					echo "<td>$tabUsers[status]</td>";

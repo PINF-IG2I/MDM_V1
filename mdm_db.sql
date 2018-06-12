@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id_user`, `last_name`, `first_name`, `password`, `status`, `language`, `isConnected`) VALUES
-(1, 'test', 'test', 'test', 'Administrator', 'EN', 0);
+(1, 'test', 'test', '$2y$10$UC/UQy/kt6RwD70BUaa4Ue/T3fGBHZXDeEe3VwjCP342uNu/V0L6y', 'Administrator', 'EN', 0);
 
 --
 -- Contraintes pour les tables déchargées
