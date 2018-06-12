@@ -32,10 +32,10 @@ function listUsers()
 *	\param $login -> the login of the user \param $password --> the password of the user
 *	\return the id of the user if this user exists, false if the user doesn't exist.
 */
-function checkUserDB($login,$password)
+function checkUserDB($login)
 {
 
-	$SQL="SELECT * FROM users WHERE last_name='$login'  AND password='$password'";
+	$SQL="SELECT * FROM users WHERE last_name='$login'";
 	return parcoursRs(SQLSelect($SQL));
 }
 
@@ -288,7 +288,11 @@ function getUsersFromQuery($data){
 */
 function editUser($id,$lastname,$firstname,$status,$language,$password=""){
 	$SQL="UPDATE users SET last_name='$lastname', first_name='$firstname', status='$status', language='$language' ";
-	if($password!="") $SQL.= ", password='$password' "; //if the password is empty, we ignore it
+	if($password!="")
+	{
+		$crypted_password = crypt($password, password_hash($password,PASSWORD_DEFAULT) );
+		$SQL.= ", password='$crypted_password' ";
+	} 
 	$SQL.= " WHERE id_user='$id'";
 	return SQLUpdate($SQL);
 }
@@ -336,8 +340,9 @@ function managerConnected(){
 */
 function createUser($lastName, $firstName, $password, $status, $language) {
 	$SQL="SELECT id_user FROM users WHERE last_name='$lastName'"; //first, we check if one user doesn't already have the same last name (the last name is used to login)
+	$crypted_password = crypt($password, password_hash($password,PASSWORD_DEFAULT) );
 	if(!($res=SQLGetChamp($SQL))){
-		$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$password', '$status', '$language', 0)";
+		$SQL="INSERT INTO users (last_name, first_name, password, status, language, isConnected) VALUES ('$lastName', '$firstName', '$crypted_password', '$status', '$language', 0)";
 		return SQLInsert($SQL);
 	} else {
 		return "failure";
@@ -930,7 +935,6 @@ function addBaseline($data) {
 		return SQLInsert($SQL);
 	}
 }
-
 
 //adds a document
 /**

@@ -19,11 +19,11 @@ include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
  * @param string $password
  * @return false if the user does not exists, "Forbidden" if the user has the forbidden status, else true.
  */
-function checkUser($username,$password)
+function checkUser($username,$passwordToCheck)
 {
 	$res = checkUserDB($username,$password);
-
-	if ($res==array()) return false; 
+	$cryptedPassword = $res[0]["password"];
+	if( ($res==array()) && (!hash_equals(crypt($password, $cryptedPassword), $cryptedPassword)) ) return false;
 
 	// Cas succès : on enregistre pseudo, idUser dans les variables de session 
 	// il faut appeler session_start ! 
