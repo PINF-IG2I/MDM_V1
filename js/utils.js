@@ -1,17 +1,17 @@
-/**
-* \file utils.js
-* \brief This page is the one that handles the HTML document manipulation and traversal
-* It also includes some event handling and Ajax, to send data to the controller
-* \author TOPINF team
-* \version 1.0
-*/
+	var tabDocs;
+	$(document).ready(function(){
 
-var tabDocs;
-$(document).ready(function(){
+		/*$("#file").addEventListener("click", function(event){
+			event.preventDefault();
+		});*/
+	
+	
+		//When an option is selected in the status dropdown
+		$("#statusDoc").on('click','li a',function() {
+			$("#displayStatus").val($(this).html());
+		})
 
-		// NAVIGATION BAR ///////////////////////////////////////////////////////
-
-		// When the language is changed in the navigation bar
+		//When the language is changed
 		$("#selectLanguage").change(function(){
 			$.ajax({
 				url : "controleur.php",
@@ -23,10 +23,89 @@ $(document).ready(function(){
 			});
 		});
 
-		// When the manager or administrator wants to add a baseline
+		//When the users wants to display results of the user search
+		$("#searchUser").click(function() {
+			$.getJSON("controleur.php",
+			{
+				"action":"SearchUser",
+				"userName":$("#userName").val()
+			},
+			function(oRep) {
+
+				$("#tabUsers").data("users",oRep);
+				$("tr[data-toggle=modal]").remove();
+				$.each(oRep,function(i,val) {
+					var oRow = $("<tr id='" + val["id_user"] + "'>").attr({"data-toggle":"modal","data-target":"#editUser","onClick":"editUser(this)"}).css("cursor","pointer");
+					oRow.append("<td>" + val["id_user"] + "</td><td>" + val["last_name"] + "</td><td>" 
+						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
+						+ val["language"] + "</td>");
+					if(val["isConnected"]==1)
+						oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
+					else
+						oRow.append("<td>"+val["isConnected"]);
+					oRow.append("</td>");
+					$("#usersResult").append(oRow);
+				})
+				
+			});
+		});
+
+		//When a user imports some data
+		$('#upload').on("change",function(){
+			var file = $("#file")[0].files[0];
+			console.log($("#file")[0].files[0]);
+			var formData = new FormData();
+			formData  = {
+				'action':'importDB',
+				'file_name' : ($("#file")[0].files[0]).name,
+				'file_type' : ($("#file")[0].files[0]).type
+			};
+			$.ajax({
+				type:'POST',
+				url:'controleur.php',
+				data:formData,
+				dataType:'json',
+				encode:true
+			});
+		});
+
+		//When the manager or administrator wants to edit the document
+		$("#changeDoc").click(function() {
+			var oQuery={};
+			$("#editDoc input").each(function(){
+				if($(this).is(':checkbox')){
+					if($(this).prop('checked')== true)
+						var value=1;
+					else
+						var value=0;
+				}
+				else
+					var value=$(this).val();
+				var key= $(this).attr("name");
+				oQuery[key]=value;
+			});
+			oQuery["remarks"]=$("#editDoc textarea").val();
+			console.log(oQuery);
+			if(!$.isEmptyObject(oQuery)){
+				$.getJSON( "controleur.php",
+				{
+					"action":"updateDoc",
+					"data":oQuery
+				},
+				function(oRep){	
+					if(oRep.length!=0) {
+						console.log("oui monsieur");
+					}
+				}
+				);
+				$("#send").trigger('click');
+			}
+		});
+
+
+		//When the manager or administrator wants to add a baseline
 		$("#baseline").click(function() {
 			var oQuery={};
-			// Every input from the user is stored into oQuery
 			$("#newBaseline input").each(function(){
 				var key= $(this).attr("name");
 				var value=$(this).val();
@@ -41,23 +120,25 @@ $(document).ready(function(){
 
 				}
 			});
+			console.log(oQuery);
 			JSON.stringify(oQuery);
-			// Then, the data is sent to the controller
+			console.log(oQuery);
+			
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON("controleur.php",
 				{
 					"action":"addBaseline",
 					"data":oQuery
+
 				},
 				function(){
 				});
 				$("#newBaseline").modal('toggle');
-				location.reload();
+			location.reload();
 			}
 		});
 
-		// When the manager or administrator wants to add a document
-		// The process is the same as the Add Baseline event
+		//When the manager or administrator wants to add a baseline
 		$("#document").click(function() {
 			var oQuery={};
 			$("#newDocument input").each(function(){
@@ -81,6 +162,7 @@ $(document).ready(function(){
 
 				}
 			});
+			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON("controleur.php",
 				{
@@ -88,113 +170,19 @@ $(document).ready(function(){
 					"data":oQuery
 
 				},
-				function(){	
+				function(){
+					
 				});
 				$("#newDocument input").each(function(){
-					$(this).val("");
+				$(this).val("");
 				});
 				$("#newDocument").modal('toggle');
 			}
 		});
 
-
-		// ADMINISTRATION PAGE ///////////////////////////////////////////////////////
-
-		// When the users wants to display results of the user search
-		$("#searchUser").click(function() {
-			$.getJSON("controleur.php",
-			{
-				"action":"SearchUser",
-				"userName":$("#userName").val()
-			},
-			// The controller sends back the possible user(s)
-			// And the array is updated
-			function(oRep) {
-				$("#tabUsers").data("users",oRep);
-				$("tr[data-toggle=modal]").remove();
-				$.each(oRep,function(i,val) {
-					var oRow = $("<tr id='" + val["id_user"] + "'>").attr({"data-toggle":"modal","data-target":"#editUser","onClick":"editUser(this)"}).css("cursor","pointer");
-					oRow.append("<td>" + val["id_user"] + "</td><td>" + val["last_name"] + "</td><td>" 
-						+ val["first_name"] + "</td><td>" + val["status"] + "</td><td>" 
-						+ val["language"] + "</td>");
-					if(val["isConnected"]==1)
-						oRow.append("<td>" + val["isConnected"]+"<a href='controleur.php?action=forceLogout&id="+val["id_user"]+"' ><button type='button' class='btn-danger' id='disconnect'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></a></td>");
-					else
-						oRow.append("<td>"+val["isConnected"]);
-					oRow.append("</td>");
-					$("#usersResult").append(oRow);
-				})
-			});
-		});
-
-		// When a user imports some data
-		$('#upload').on("change",function(){
-			// File informations
-			var file = $("#file")[0].files[0];
-			var formData = new FormData();
-			formData  = {
-				'action':'importDB',
-				'file_name' : ($("#file")[0].files[0]).name,
-				'file_type' : ($("#file")[0].files[0]).type
-			};
-			$.ajax({
-				type:'POST',
-				url:'controleur.php',
-				data:formData,
-				dataType:'json',
-				encode:true
-			});
-		});
-
-		// DOCUMENT DETAILS ///////////////////////////////////////////////////////
-
-		// When the manager or administrator wants to edit the document
-		$("#changeDoc").click(function() {
-			var oQuery={};
-			// Every input, checkbox or textarea is stored in oQuery
-			$("#editDoc input").each(function(){
-				if($(this).is(':checkbox')){
-					if($(this).prop('checked')== true)
-						var value=1;
-					else
-						var value=0;
-				}
-				else
-					var value=$(this).val();
-				var key= $(this).attr("name");
-				oQuery[key]=value;
-			});
-			oQuery["remarks"]=$("#editDoc textarea").val();
-
-			// Then the data is sent to the controller
-			if(!$.isEmptyObject(oQuery)){
-				$.getJSON( "controleur.php",
-				{
-					"action":"updateDoc",
-					"data":oQuery
-				},
-				function(oRep){	
-					if(oRep.length!=0) {
-					}
-				}
-				);
-				$("#send").trigger('click');
-			}
-		});
-
-		// When an option is selected in the status dropdown
-		$("#statusDoc").on('click','li a',function() {
-			// The value is displayed
-			$("#displayStatus").val($(this).html());
-		})
-		
-
-		// SEARCH PAGE ///////////////////////////////////////////////////////
-
-		// When the user wants to display results of the search
+		//When the user wants to display results of the search
 		$("#send").click(function(){
 			var oQuery={};
-			// Once again, every input is stored into oQuery
 			$("#headerSearch input").each(function(){
 				var key= $(this).attr("name");
 				var value=$(this).val();
@@ -204,10 +192,13 @@ $(document).ready(function(){
 			$("#headerSearch select").each(function(){
 				var key= $(this).attr("name");
 				var value=$(this).val();
+				console.log(value);
 				if(value!=null){
 					oQuery[key]=value;
+
 				}
 			});
+			console.log(oQuery);
 			if(!$.isEmptyObject(oQuery)){
 				$.getJSON( "controleur.php",
 				{
@@ -218,9 +209,10 @@ $(document).ready(function(){
 					$("#hiddenTab table tbody").remove();	
 					if(oRep.length!=0) {
 						tabDocs=oRep;
+						console.log(oRep);
 						//$("#hiddenTab table").append("<tbody id='tableResults'>");
 						var oResult=$("<tbody id='tableResults'>");
-						// Every matching document is displayed in an array below the form
+
 						$.each(oRep,function(i,val) {
 							var language="";
 							if(val["language"]!="") language=val["language"];

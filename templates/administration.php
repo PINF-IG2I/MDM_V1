@@ -1,11 +1,16 @@
 <?php
 /**
-* \file administration.php
-* \brief This page manage the users and the database
-* \author Julien Lammens
-* \version 1.0
+*	\file administration.php
+*	\author Julien LAMMENS
+*	\version 1.0
+*	\brief This template is used for the administration panel.	
 */
 
+/**
+*
+* \cond
+*
+*/
 
 
 if (secure("status","SESSION")!="Administrator")
@@ -27,6 +32,8 @@ $successSave=secure("successSave");
 $successLock=secure("successLock");
 $successUnlock=secure("successUnlock");
 $failUser=secure("failUser");
+
+
 ?>
 <!-- ALL SUCCESS AND FAIL MESSAGES -->
 <?php if($successDB): ?>
@@ -435,6 +442,9 @@ $failUser=secure("failUser");
 							echo $translation["unlockDB"];
 						else 
 							echo $translation["lockDB"];
+/**
+*	\endcond
+*/
 						?></button>
 					</form>
 				</div>

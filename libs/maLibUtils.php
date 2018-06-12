@@ -2,19 +2,20 @@
 
 
 /**
- * @file maLibUtils.php
- * Ce fichier définit des fonctions d'accès ou d'affichage pour les tableaux superglobaux
- */
+*	\file maLibUtils.php
+*	\author TOPINF team
+*	\version 1.0
+*	\brief This library defines some utilities functions to protect user input.
+*/
+
 
 /**
- * Vérifie l'existence (isset) et la taille (non vide) d'un paramètre dans un des tableaux GET, POST, COOKIES, SESSION
- * Renvoie false si le paramètre est vide ou absent
- * @note l'utilisation de empty est critique : 0 est empty !!
- * Lorsque l'on teste, il faut tester avec un ===
- * @param string $nom
- * @param string $type
- * @return string|boolean
- */
+*	\fn function secure($nom,$type="REQUEST")
+*	\brief This function fetches a value from the $_REQUEST array, or the $_SESSION array, and so forth.
+*	\param $nom -> the name of the property to fetch \param $type --> the type of the data to fetch
+*	\return The data if it exists, else false.
+*
+*/
 function secure($nom,$type="REQUEST")
 {	
 	switch($type)
@@ -44,40 +45,20 @@ function secure($nom,$type="REQUEST")
 			return $_SERVER[$nom]; 		
 		break;
 	}
-	return false; // Si pb pour récupérer la valeur 
+	return false; // if problem
 }
 
 
-/**
- * Vérifie l'existence (isset) et la taille (non vide) d'un paramètre dans un des tableaux GET, POST, COOKIE, SESSION
- * Prend un argument définissant la valeur renvoyée en cas d'absence de l'argument dans le tableau considéré
-
- * @param string $nom
- * @param string $defaut
- * @param string $type
- * @return string
-*/
-function getValue($nom,$defaut=false,$type="REQUEST")
-{
-	// NB : cette commande affecte la variable resultat une ou deux fois
-	if (($resultat = secure($nom,$type)) === false)
-		$resultat = $defaut;
-
-	return $resultat;
-}
 
 /**
+*	\fn function protect($str)
+*	\brief This function adds slashes before reserved characters. Characters escaped are : 00 = \0 (NUL), 0A = \\n, 0D = \\r, 1A = ctl-Z, 22 = ", 27 = ', 5C = \\.
+*	\param $str --> string to add slashes to.
+*	\return the string with '\' prepended to reserved characters.
 *
-* Evite les injections SQL en protegeant les apostrophes par des '\'
-* Attention : SQL server utilise des doubles apostrophes au lieu de \'
-* ATTENTION : LA PROTECTION N'EST EFFECTIVE QUE SI ON ENCADRE TOUS LES ARGUMENTS PAR DES APOSTROPHES
-* Y COMPRIS LES ARGUMENTS ENTIERS !!
-* @param string $str
 */
 function protect($str)
 {
-	// attention au cas des select multiples !
-	// On pourrait passer le tableau par référence et éviter la création d'un tableau auxiliaire
 	if (is_array($str))
 	{
 		$nextTab = array();
@@ -92,11 +73,17 @@ function protect($str)
 	else
 		$str= mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $str);	
 		return mb_ereg_replace('[\x60]', '``', $str); 
-	//return str_replace("'","''",$str); 	//utile pour les serveurs de bdd Crosoft
+	//return str_replace("'","''",$str); 	//useful for Crosoft db
 }
 
 
-
+/**
+*	\fn function tprint($tab)
+*	\brief This function formats an array. This function is mostly used for debugging purposes.
+*	\param $tab --> the tab that will be displayed
+*	\return None.
+*
+*/
 function tprint($tab)
 {
 	echo "<pre>\n";
@@ -105,29 +92,19 @@ function tprint($tab)
 }
 
 
+/**
+* Currently not used.
+*
+*/
 function headTo($url,$qs="")
 {
 	// if ($qs != "")	 $qs = urlencode($qs);	
-	// Il faut respecter l'encodage des caractères dans les chaînes de requêtes
-	// NB : Pose des problèmes en cas de valeurs multiples
-	// TODO: Passer un tabAsso en paramètres
 
 	if ($qs != "") $qs = "&$qs";
  
-	header("Location:$url$qs"); // envoi par la méthode GET
-	die(""); // interrompt l'interprétation du code 
-
-	// TODO: on pourrait passer en parametre le message servant au die...
-}
-
-// TODO: intégrer les redirections vers la page index dans une fonction :
-
-/*
-// Si la page est appelée directement par son adresse, on redirige en passant pas la page index
-if (basename($_SERVER["PHP_SELF"]) != "index.php")
-{
-	header("Location:../index.php");
+	header("Location:$url$qs"); 
 	die("");
+
 }
-*/
+
 ?>

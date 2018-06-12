@@ -1,11 +1,10 @@
 <?php
 /**
-* \file footer.php
-* \brief This page is used to displayed a footer bar at the bottom of every page, except on the login page
-* \author
-* \version
+*	\file footer.php
+*	\author TOPINF team
+*	\version 1.0
+*	\brief This template is included at the end of each page on the website except the login page.
 */
-
 if (basename($_SERVER["PHP_SELF"]) != "index.php")
 {
 	header("Location:../index.php");

@@ -1,10 +1,4 @@
 <?php
-/**
-* \file help.php
-* \brief This page provides instruction and guidelines for the user in case he needs help
-* \author 
-* \version 1.0
-*/
 
 
 redirect("./index.php?view=login&msg=".urlencode("You need to be logged in."));
