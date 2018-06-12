@@ -12,7 +12,6 @@ session_start();
 
 
 include_once "libs/maLibUtils.php";
-include_once "libs/maLibBootstrap.php";
 include_once "libs/maLibSecurisation.php";
 
 

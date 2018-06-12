@@ -44,7 +44,9 @@ if(secure('status',"SESSION")=='Administrator') {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 	<link href="./bootstrap/css/sticky-footer-navbar.css" rel="stylesheet"/>	
 	
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 
@@ -54,54 +56,61 @@ if(secure('status',"SESSION")=='Administrator') {
 <body>
 	<!-- **** B O D Y **** -->
 	<header>
-		<nav class=" menu-navbar navbar nnavbar-dark fixed-top">
-			<a class="navbar-brand" href="index.php?view=search"><img id="logo_header"  src="./ressources/logotype_alstom.jpg"></a>
-			
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav justify-content-end">
+
+		
+
+
+		<nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: rgb(12, 65, 173); border-radius: 0;">
+			<div class="navbar-header">
+				<a  class="nav-brand" href="index.php?view=search">
+					<img style="width:150px; border-radius:50px; padding:5px"  src="./ressources/logotype_alstom.jpg">
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
 					<?php
 					if(secure("status","SESSION")=="Administrator" || (secure("status","SESSION")=="Manager" && secure("authorized","SESSION")==1))
 					{
-						echo "<li class=\"nav-item\">";
-							echo "<a class=\"nav-link\" id=\"addBaseline\" data-target=\"#newBaseline\" data-toggle=\"modal\">" . $translation["addBaseline"] . "</a>";		
-						echo "</li>";
-						echo "<li class=\"nav-item\">";
-							echo "<a class=\"nav-link\" id=\"addDoc\" data-target=\"#newDocument\" data-toggle=\"modal\">" . $translation["addDoc"] . "</a>";
-						echo "</li>";
+						echo "<li class=\"nav-item active\">
+							<a class=\"nav-link  navbar-items\" id=\"addBaseline\" data-target=\"#newBaseline\" data-toggle=\"modal\">" . $translation["addBaseline"] . "</a>		
+						</li>";
+						echo "<li class=\"nav-item active\"> 
+							<a class=\"nav-link  navbar-items\" id=\"addDoc\" data-target=\"#newDocument\" data-toggle=\"modal\">"
+							. $translation["addDoc"] . "</a>
+						</li>";
 					}
 					if (secure("status","SESSION") == "Administrator")
 					{
-						echo "<li class=\"nav-item\">";
-							echo "<a class=\"nav-link\" id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>";
-						echo "</li>";
+						echo "<li class=\"nav-item active\">
+							<a class=\"nav-link  navbar-items\" id=\"administrationBtn\" href=\"index.php?view=administration\">". $translation["administration"] . "</a>
+						</li>";
 					}
 
 						// If the user is connected, a logout link is displayed
 					if (secure("isConnected","SESSION"))
 					{
 						echo "<li class=\"nav-item\">";
-						echo "<a class=\"nav-link\" id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
+						echo "<a class=\"nav-link  navbar-items\" id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
 						echo "</li>";
 						echo "<li class=\"nav-item\">";
-						echo "<a class=\"nav-link\" id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
+						echo "<a class=\"nav-link  navbar-items\" id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
 						echo "</li>";
 					}?>
 					
 					<li class="nav-item dropdown">
-					<div class="form-group">
-						<form id="form_language" class="form-inline mt-2 mt-md-0" >
-							<select id="selectLanguage">
-								<option value="" disabled selected><?php echo $translation["language"]?></option>
-								<?php 
+						<div style="padding:6px;" class="form-group">
+								<select style="padding:5px; border-radius:10px;"id="selectLanguage">
+									<option value="" disabled selected><?php echo $translation["language"]?></option>
+									<?php 
 
-								foreach ($languageList as $key => $value) {
-									echo "<option value='".$value."'>".$value."</option>";
-								}
+									foreach ($languageList as $key => $value) {
+										echo "<option value='".$value."'>".$value."</option>";
+									}
 
-								?>
-							</select>
-						</form>
-					</div>
+									?>
+								</select>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</nav>
