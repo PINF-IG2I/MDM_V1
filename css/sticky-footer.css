@@ -252,7 +252,6 @@ button
   float : left;
   height: 3vw;
   display: inline-block;
-
 }
 /**********************************************************/
 
@@ -484,19 +483,7 @@ div.dropdown-menu.open
   height: 15vw;
   width: 100%;
   float: left;
-
 }
-/**********************************************************/
-
-#logo_header {
-  background-color: #fff;
-  border-radius : 1vw;
-  position : absolute;
-  left: 1vw;
-  height: 3.4vw;
-  margin : 0.3vw;
-  vertical-align: middle;
-
 
 .form_search{
   display :inline-block !important;
@@ -561,7 +548,6 @@ div.dropdown-menu.open
   padding: 0.5vw;
   height: 3vw;
   display :inline-block;
-
 }
 
 
@@ -774,7 +760,6 @@ div.dropdown-menu.open
   width: 2vw !important;
   font-size: 1.2vw;
 }
-
 
 #editBloc > .col-md-4 .control-label
 {

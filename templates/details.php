@@ -1,14 +1,17 @@
 <?php
 /**
 * \file details.php
-* \brief This page is displayed when a user wants to look into a document
-* \author
-* \version
+* \author Lucas VAN DEN DRIESSCHE
+* \version 1.0
+* \brief This template was used to create the modal that appears when the user wants to see/modify details of a document.
 */
 
 redirect("index.php?view=login&msg=".urlencode("You need to be logged in."));
 
-
+/**
+*
+*\cond
+*/
 $languageList=array_keys($languages);
 
 

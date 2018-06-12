@@ -1,9 +1,14 @@
 <?php
 /**
 * \file login.php
-* \brief This page is the first one that the user sees when he tries to use the application. This is where he can log in.
-* \author
-* \version
+* \author TOPINF team
+* \version 1.0
+* \brief This template is the first page displayed when the user is not connected. The user will always be redirected to this page as long as the user is not connected.
+*/
+
+/**
+*\cond
+*
 */
 
 if (basename($_SERVER["PHP_SELF"]) != "index.php")
