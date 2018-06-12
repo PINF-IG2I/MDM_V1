@@ -14,7 +14,7 @@ include_once("config.php");
 /**
 * \fn function listUsers()
 * \brief This fonction is used to list all users (used in the administration panel)
-* \param None
+* \param None.
 * \return An array with all the datas of the users.
 * \details This function returns all users, ordered by their id.
 */
@@ -29,7 +29,7 @@ function listUsers()
 /**
 *	\fn function checkUserDB($login,$password)
 *	\brief This function checks if a user login exists, and if the password matches.
-*	\param $login -> the login of the user <br/> $password --> the password of the user
+*	\param $login -> the login of the user \param $password --> the password of the user
 *	\return the id of the user if this user exists, false if the user doesn't exist.
 */
 function checkUserDB($login)
@@ -41,9 +41,9 @@ function checkUserDB($login)
 
 
 /**
-*	\fn function updateStatuts($id,$value)
+*	\fn function updateStatus($id,$value)
 *	\brief This function updates the value of the isConnected attribute for the user whose ID is $id.
-*	\param $id --> the id of the user <br/> $value --> the new value of the isConnected attribute.
+*	\param $id --> the id of the user \param $value --> the new value of the isConnected attribute.
 *	\return the number of rows which were updated, false if there was a problem.
 */
 function updateStatus($id,$value){
@@ -69,7 +69,7 @@ function getIsConnected($id){
 /**
 *	\fn function updateLanguage($language,$id)
 *	\brief This function updates the language of the specified user.
-*	\param $language --> the new language <br/> $id --> the id of the user whose language must be updated.
+*	\param $language --> the new language \param $id --> the id of the user whose language must be updated.
 *	\return the number of rows which were updated, false if there was a problem.
 */
 function updateLanguage($language,$id){
@@ -113,11 +113,10 @@ function getSearchDatas(){
 	return $res;
 }
 
-
 /**
 *	\fn function getResultsFromQuery($data,$status)
 *	\brief This function fetches the different results corresponding to the datas.
-*	\param $data --> associative array containing properties ans values <br/> $status --> status of the user
+*	\param $data --> associative array containing properties ans values \param $status --> status of the user
 *	\return the result of the search query in an associative array
 *	\details This is used in the search page. This function will return the results corresponding to the search filters the user chose.
 *	To make it easier to implement new search filters, the associative array is composed of : the name of the input as the property, and the value of the input as the value.
@@ -284,7 +283,7 @@ function getUsersFromQuery($data){
 /**
 *	\fn function editUser($id,$lastname,$firstname,$status,$language,$password="")
 *	\brief This function edits the informations of a given user in the database. (related to administration panel)
-*	\param $id --> the id of the user whose information will be modified <br/> $lastname --> the new last name of the user <br/> $firstname --> the new first name of the user <br/> $status --> the new status of the user <br/> $language --> the new language of the user <br/> $password --> empty by default, this is the new password of the user. if this parameter is empty, the password will not be updated.
+*	\param $id --> the id of the user whose information will be modified \param $lastname --> the new last name of the user \param $firstname --> the new first name of the user \param $status --> the new status of the user \param $language --> the new language of the user \param $password --> empty by default, this is the new password of the user. if this parameter is empty, the password will not be updated.
 *	\return 1 if the user's information have been correctly modified, else false.
 */
 function editUser($id,$lastname,$firstname,$status,$language,$password=""){
@@ -336,7 +335,7 @@ function managerConnected(){
 /**
 *	\fn function createUser($lastName, $firstName, $password, $status, $language)
 *	\brief This function creates a new user. (related to administration panel)
-*	\param $lastname --> the last name of the new user <br/> $firstname --> the first name of the new user <br/>$status --> the status of the new user <br/> $password --> the password of the new user 
+*	\param $lastName --> the last name of the new user \param $firstName --> the first name of the new user \param $password --> the password of the new user \param $status --> the status of the new user  \param $language --> the language of the new user
 	\return the id of the new user if there was no problem, else a string.
 */
 function createUser($lastName, $firstName, $password, $status, $language) {
@@ -372,7 +371,7 @@ function deleteDatabase() {
 /**
 *	\fn function exportResults($data)
 *	\brief This function exports the search results.
-*	\param The search results.
+*	\param $data --> The search results.
 	\return Nothing.
 	\details The file is a .csv file. At the beginning of the file, we insert an UTF-8 BOM to encode the characters.
 */
@@ -403,9 +402,9 @@ function exportResults($data){
 /**
 *	\fn function checkInFile($propertyName)
 *	\brief This function fetches the value corresponding to the property.
-*	\param The property to look for.
+*	\param $propertyName --> The property to look for.
 	\return The value associated to the property.
-	\details To properly get the value associated to the property, the file needs to have the following pattern : <property>=<value>. It is highly recommended not to use white spaces and tabs. Also, make sure to create a new line after each property associated to its value.
+	\details To properly get the value associated to the property, the file needs to have the following pattern : property=value. It is highly recommended not to use white spaces and tabs. Also, make sure to create a new line after each property associated to its value.
 */
 function checkInFile($propertyName){
 
@@ -458,7 +457,7 @@ function connectedManager(){
 /**
 *	\fn function changeDatabaseStatus($status)
 *	\brief This function changes the value of the property "locked_database" in the properties.txt file.
-*	\param The status in which we want the database to be. (To lock the database, $status needs to be equal to "lock").
+*	\param $status --> The status in which we want the database to be. (To lock the database, $status needs to be equal to "lock").
 *	\return Nothing.
 *	\details When using this function, all the users are disconnected expect the administrator.
 */	
@@ -486,9 +485,9 @@ function disconnectAll(){
 /**
 *	\fn function writeInFile($propertyName,$value)
 *	\brief This function writes a value associated to the given property in parameters.
-*	\param $propertyName --> the property whose value needs to be updated. <br/> $value --> the new value associated to the given property.
+*	\param $propertyName --> the property whose value needs to be updated. \param $value --> the new value associated to the given property.
 *	\return Nothing if there was no problem, else returns "problem".
-*	\details This function uses the following pattern : <property>=<value>
+*	\details This function uses the following pattern : property=value
 */
 function writeInFile($propertyName,$value){
 	if(!file_exists("./properties.txt")){ //In case the file does not exist, it is recreated with DEFAULT values
@@ -578,7 +577,7 @@ function importSQL($filesql) {
 *	\brief This function imports datas from a CSV file.
 *	\param $tempname --> A file fetched thanks to the POST method.
 *	\return Nothing.
-*	\details This function is difficult to explain. We strongly suggest to look at the code which has a lot of commentaries.
+*	\details This function is difficult to explain. We strongly suggest to look at the code which has a lot of commentaries. Here is an attempt at explaining the algorithm : <br/><code>Find delimiter in the csv file<br/>Put each data of the csv file in an array<br/>Fetch all the attribute from the database<br/>Format datas from the csv file, by removing spaces at the beginning and at the end<br/>Remove utf-8 bom to avoid problems (if the utf-8 bom is not removed, the database column will not be recognized)<br/>Store indexes of essential columns (reference, version, baseline ... for instance)<br/>Build the insertion queries<br/>Check if the entry already exists or not<br>If the document does not exists<br>      It is inserted<br/></code>
 */
 function importDatas($tempname){
 
@@ -805,7 +804,7 @@ function importDatas($tempname){
 
 /**
 *	\fn function findDelimiter($tempname)
-*	\brief This function finds the most used character in a csv file (between ;, \t and ;).
+*	\brief This function finds the most used character in a csv file (between ;, \\t and ;).
 *	\param $tempname --> A file fetched thanks to the POST method.
 *	\return The delimiter.
 */
@@ -870,7 +869,7 @@ function referenceExists($reference){
 /**
 *	\fn function versionExists($idRef,$version)
 *	\brief This function checks if the version associated to the reference already exists or not.
-*	\param $idRef --> the id of the reference <br/> $version --> the version to look for (search in the version column in the document_version table)
+*	\param $idRef --> the id of the reference \param $version --> the version to look for (search in the version column in the document_version table)
 *	\return The id of the version if it already exists, else false.
 */
 
@@ -880,9 +879,9 @@ function versionExists($idRef,$version){
 }
 
 /**
-*	\fn function languageExists($language, $projet, $translator)
+*	\fn function languageExists($language, $project, $translator)
 *	\brief This function checks if the language associated to its project and translator already exists in the database or not.
-*	\param $language --> the language <br/> $project --> the project associated to the language <br/> $translator --> the translator associated to the language and the project
+*	\param $language --> the language \param $project --> the project associated to the language \param $translator --> the translator associated to the language and the project
 *	\return The id of the language entry if it already exists, else false.
 */
 
@@ -894,7 +893,7 @@ function languageExists($language,$project,$translator){
 /**
 *	\fn function docExists($idRef, $idVersion, $idLanguage)
 *	\brief This function checks if a document already exists or not ( document = reference + version + language)
-*	\param $idRef --> the reference of the document <br/> $idVersion --> the version of the document <br/> $idLanguage --> the language/translation of the document
+*	\param $idRef --> the reference of the document \param $idVersion --> the version of the document \param $idLanguage --> the language/translation of the document
 *	\return The id of the document if it already exists in the database, else false.
 */
 function docExists($idRef,$idVersion,$idLanguage){
@@ -903,9 +902,9 @@ function docExists($idRef,$idVersion,$idLanguage){
 }
 
 /**
-*	\fn function associationTableEntry($id_baseline, $id_doc
+*	\fn function associationTableEntry($id_baseline, $id_doc)
 *	\brief This function checks if a document and a baseline are already associated or not.
-*	\param $id_baseline --> the id of the baseline <br/> $id_doc --> the id of the document
+*	\param $id_baseline --> the id of the baseline \param $id_doc --> the id of the document
 *	\return The id of the language entry if it already exists, else false.
 */
 function associationTableEntry($id_baseline,$id_doc){
@@ -914,7 +913,7 @@ function associationTableEntry($id_baseline,$id_doc){
 }
 
 /**
-*	\fn function addBasline($data)
+*	\fn function addBaseline($data)
 *	\brief This function adds a baseline to the database.
 *	\param $data --> $data contains an array where the key is the name of the column and the value associated is the value that needs to but put in the database. 
 *	\return The id of the newly added baseline. (If the baseline already exists, it won't be inserted again).
@@ -935,7 +934,6 @@ function addBaseline($data) {
 		$SQL.=")";
 		return SQLInsert($SQL);
 	}
-
 }
 
 //adds a document

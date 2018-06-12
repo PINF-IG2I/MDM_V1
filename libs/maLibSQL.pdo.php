@@ -2,23 +2,26 @@
 
 include_once "config.php";
 
+
 /**
- * @file maLibSQL.php
- * Ce fichier définit les fonctions de requêtage
- * Il nécessite d'avoir défini les variables $BDD_login, $BDD_password $BDD_chaine dans config.php, qui est chargé au moment de l'appel de la librairie
- * @note Pour accélérer les traitements, les requêtes aux bases de données seront persistantes : on ne les fermera pas à chaque fin de requête. 
- * On utilise pour cela la fonction pconnect
- * @todo On pourrait tracer les requêtes dans une table de logs
- */
+* \file maLibSQL.pdo.php
+* \author TOPINF team
+* \version 1.0 
+* \brief This file defines the request functions. It requires $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host in config.php, which are loaded when the library is called.
+*  <br/> To make the treatments faster, database connection is persistant : we do not close it at the end of a request. We use the pconnect function to do so. 
+*/
+
+
 
 
 /**
- * Exécuter une requête UPDATE. Renvoie le nb de modifs ou faux si pb
- * On testera donc avec === pour différencier faux de 0 
- * @return le nombre d'enregistrements affectés, ou false si pb...
- * @param string $sql
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
- */
+*	\fn function SQLUpdate($sql)
+*	\brief Execute a SQL UPDATE request.
+*	\param $sql --> the request to be executed.
+*	\return The number of modifications if there was no problem, else false.
+*	@pre The variables $BDD_login $BDD_login, $BDD_password $BDD_base and $BDD_host have to exist.
+*
+*/
 function SQLUpdate($sql)
 {
 	global $BDD_host;
@@ -46,16 +49,25 @@ function SQLUpdate($sql)
 	
 }
 
-// Un delete c'est comme un Update
+// A DELETE is like an UPDATE
+/**
+*	\fn function SQLDelete($sql)
+*	\brief Execute a SQL DELETE request. Same function as SQLUpdate.
+*	\param $sql --> the request to be executed.
+*	\return The number of modifications if there was no problem, else false.
+*
+*/
 function SQLDelete($sql) {return SQLUpdate($sql);}
 
 
+	
 /**
- * Exécuter une requête INSERT 
- * @param string $sql
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
- * @return Renvoie l'insert ID ... utile quand c'est un numéro auto
- */
+*	\fn function SQLInsert($sql)
+*	\brief Execute a SQL INSERT request.
+*	\param $sql --> the request to be executed.
+*	\return The last inserted ID.
+*
+*/
 function SQLInsert($sql)
 {
 	global $BDD_host;
@@ -84,11 +96,11 @@ function SQLInsert($sql)
 
 
 /**
-* Effectue une requete SELECT dans une base de données SQL SERVER, pour récupérer uniquement un champ (la requete ne doit donc porter que sur une valeur)
-* Renvoie FALSE si pas de resultats, ou la valeur du champ sinon
-* @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
-* @param string $SQL
-* @return false|string
+*	\fn function SQLGetChamp($sql)
+*	\brief Execute a SELECT SQL request to get only ONE field.
+*	\param $sql --> the request to be executed.
+*	\return The value of the field if there is a result, else false.
+*
 */
 function SQLGetChamp($sql)
 {
@@ -124,12 +136,12 @@ function SQLGetChamp($sql)
 }
 
 /**
- * Effectue une requete SELECT dans une base de données SQL SERVER
- * Renvoie FALSE si pas de resultats, ou la ressource sinon
- * @pre Les variables  $BDD_login, $BDD_password $BDD_chaine doivent exister
- * @param string $SQL
- * @return boolean|resource
- */
+*	\fn function SQLSelect($sql)
+*	\brief Execute a SQL SELECT request.
+*	\param $sql --> the request to be executed.
+*	\return An array with the results, else false if there was no results.
+*
+*/
 function SQLSelect($sql)
 {	
  	global $BDD_host;
@@ -157,11 +169,13 @@ function SQLSelect($sql)
 	else return $res;
 }
 
+
 /**
+*	\fn function parcoursRs($result)
+*	\brief Loop through a SQLSelect array and return it as an associative array.
+*	\param $result --> the result of a SQLSelect() call.
+*	\return The associative array created.
 *
-* Parcours les enregistrements d'un résultat mysql et les renvoie sous forme de tableau associatif
-* On peut ensuite l'afficher avec la fonction print_r, ou le parcourir avec foreach
-* @param resultat_Mysql $result
 */
 function parcoursRs($result)
 {

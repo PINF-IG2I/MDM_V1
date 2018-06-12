@@ -1,11 +1,15 @@
 <?php
 /**
 * \file search.php
-* \brief This page is the main page of the website. It's the one that permits the users to search for documents.
-* \author
-* \version
+* \author TOPINF team
+* \version 1.0
+* \brief This template is used to search documents. It is the main page of the website.
 */
 
+
+/**
+* \cond
+*/
 redirect("./index.php?view=login&msg=".urlencode("You need to be logged in."));
 
 
@@ -139,7 +143,6 @@ if(!empty($searchDatas)){
 			</select>
 		</div>
 
-		<!--  type select, only 2 options available : Installation and Maintenance . Product select-->
 		<div class="form_search" id="content_search_4">
 			<label for="type"><?php echo $translation["type"]?></label>
 			<select  multiple="multiple" class="selectpicker"  multiple title='<?php echo $translation["type"] ?>' name="type">

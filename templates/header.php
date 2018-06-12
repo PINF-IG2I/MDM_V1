@@ -1,6 +1,14 @@
 <?php 
+/**
+* \file header.php
+* \author TOPINF team
+* \version 1.0
+* \brief This template is included at the beginning of each page on the website except the login page.
+*/
 
-
+/**
+* \cond
+*/
 $languageList=array_keys($languages);
 if(secure('status',"SESSION")=='Administrator') {
 	$baselineList=listBaselines();
