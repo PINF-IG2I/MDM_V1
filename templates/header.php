@@ -98,7 +98,7 @@ if(secure('status',"SESSION")=='Administrator') {
 					if (secure("isConnected","SESSION"))
 					{
 						echo "<li class=\"nav-item\">";
-						echo "<a class=\"nav-link  navbar-items\" id=\"help\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
+						echo "<a class=\"nav-link  navbar-items\" id=\"help\" target=\"_blank\" href=\"index.php?view=help\">".$translation["help"] . "</a>";
 						echo "</li>";
 						echo "<li class=\"nav-item\">";
 						echo "<a class=\"nav-link  navbar-items\" id=\"logoutBtn\" href=\"controleur.php?action=Logout\">". $translation["logout"] . "</a>";
