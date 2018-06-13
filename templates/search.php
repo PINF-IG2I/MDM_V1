@@ -76,6 +76,18 @@ if(!empty($searchDatas)){
 		echo $translation["manager_not_in_charge"];
 		echo '</strong></div>';
 	}
+
+	if(secure("msg")=="ImportReturn"){
+		echo '<div class="alert alert-success text-center" role="alert"><strong>';
+		echo $translation["finished_import"]." ".secure("nbdoc").". ";
+		if(isset($_REQUEST["ignoredRows"][0])){
+			echo $translation["ignoredRows"].' ';
+			foreach ($_REQUEST["ignoredRows"][0] as $key => $value) {
+				echo $value.", ";
+			}
+		}
+		echo '</strong></div>';
+	}
 	?>
 	<div class="page-header">
 		<h1><?php echo $translation["titlePage"]?></h1>

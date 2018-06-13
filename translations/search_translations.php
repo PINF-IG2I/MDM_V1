@@ -72,10 +72,9 @@ $languages= array(
 		"import_zone" => "Choose a file to import",
 		"import" => "Import",
 		"reference" => "Reference",
-		"reference_or_title" => "Reference or document title"
-
-
-		
+		"reference_or_title" => "Reference or document title",
+		"finished_import" => "Import successful ! Number of inserted documents :",
+		"ignoredRows" => " Ignored rows indexes :"		
 
 
 	),
@@ -150,7 +149,9 @@ $languages= array(
 		"import_zone" => "Choisissez un fichier à importer",
 		"import" => "Importer",
 		"reference" => "Référence",
-		"reference_or_title" => "Référence ou titre du document"
+		"reference_or_title" => "Référence ou titre du document",
+		"finished_import" => "Import terminé ! Nombre de documents insérés :",
+		"ignoredRows" => " Indice des lignes ignorées :"
 	)
 
 );

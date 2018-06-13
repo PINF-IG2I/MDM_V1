@@ -224,10 +224,10 @@ include_once "libs/modele.php";
 				case 'import': 
 					$addArgs="?view=search";
 					if(secure("status","SESSION")=='Administrator' || (secure("status","SESSION")=='Manager' && secure("authorized","SESSION")==1)){
-						print_r($_POST);
-						print_r($_FILES); // TODO : check file validity
-						importDatas($_FILES["file"]['tmp_name']);
-						die("");	
+						//print_r($_POST);
+						//print_r($_FILES); // TODO : check file validity
+						$results=importDatas($_FILES["file"]['tmp_name']);
+						$addArgs="?view=search&msg=ImportReturn&nbdoc=".$results["docInserted"]."&".http_build_query(array('ignoredRows'=>$results["ignoredRows"]));
 					}
 				break;
 

@@ -363,8 +363,8 @@ function deleteDatabase() {
 	DELETE FROM association_table; 
 	DELETE FROM document_reference; 
 	DELETE FROM document_version; 
-	DELETE FROM gatc_baseline;";
-	//DELETE FROM users WHERE status NOT LIKE 'Administrator'; 
+	DELETE FROM gatc_baseline;
+	DELETE FROM users WHERE status NOT LIKE 'Administrator';";
 	$SQL.="SET FOREIGN_KEY_CHECKS = 1;";
 	return SQLUpdate($SQL);
 }
@@ -576,7 +576,7 @@ function importSQL($filesql) {
 *	\fn function importDatas($tempname)
 *	\brief This function imports datas from a CSV file.
 *	\param $tempname --> A file fetched thanks to the POST method.
-*	\return Nothing.
+*	\return An array with the number of inserted documents, and all the ignored rows.
 *	\details This function is difficult to explain. We strongly suggest to look at the code which has a lot of commentaries. Here is an attempt at explaining the algorithm : <br/><code>Find delimiter in the csv file<br/>Put each data of the csv file in an array<br/>Fetch all the attribute from the database<br/>Format datas from the csv file, by removing spaces at the beginning and at the end<br/>Remove utf-8 bom to avoid problems (if the utf-8 bom is not removed, the database column will not be recognized)<br/>Store indexes of essential columns (reference, version, baseline ... for instance)<br/>Build the insertion queries<br/>Check if the entry already exists or not<br>If the document does not exists<br>      It is inserted<br/></code>
 */
 function importDatas($tempname){
@@ -594,7 +594,7 @@ function importDatas($tempname){
 	FROM `INFORMATION_SCHEMA`.`COLUMNS` 
 	WHERE `TABLE_SCHEMA`='".$BDD_base."' 
 	AND `TABLE_NAME` IN('document_language','document_reference','document_version','gatc_baseline');";
-	echo "<br>";
+	//echo "<br>";
 	$columns=parcoursRs(SQLSelect($SQL));
 	//print_r($columns);
 	$finalColumns=array();
@@ -637,7 +637,7 @@ function importDatas($tempname){
 		array_push($referenceColumns, $value["COLUMN_NAME"]);
 
 	}
-	echo "<br><br>";
+	//echo "<br><br>";
 	//print_r($referenceColumns);
 	//print_r($languageColumns);
 	//print_r($versionColumns);
@@ -683,10 +683,10 @@ function importDatas($tempname){
     }
 
     //echo 'Baseline column :'.$baselineColumn.'<br>Reference column :'. $referenceColumn;
-   	echo "<br> Colonnes ignorées :";
-    print_r($ignoredColumns);
+   	//echo "<br> Colonnes ignorées :";
+    //print_r($ignoredColumns);
     //$ignoredColumns contains the indexes of the columns that need to be avoided.
-    echo "<br><br>";
+    //echo "<br><br>";
     //after all the ignored rows have been found, we build the different queries that will be used to insert datas into the database
     $SQL_doc_ref="INSERT INTO document_reference("; //doc reference
     for($i=0;$i<$size;$i++){
@@ -726,7 +726,8 @@ function importDatas($tempname){
     			$csvAsArray[$j][$translatorColumn]='';
     			$csvAsArray[$j][$projectColumn]='';
     		}
-    		echo $idBaseline;
+    		if($csvAsArray[$j][$versionColumn]=='') $csvAsArray[$j][$versionColumn]='TBD';
+    		//echo $idBaseline;
     		if($idRef=referenceExists($csvAsArray[$j][$referenceColumn])) //if the reference of the document already exists, it will not be inserted in the database again
     			$refQuery=false;
     		else 
@@ -776,18 +777,18 @@ function importDatas($tempname){
     			$idLanguage=SQLInsert($languageQuery);
     			$rowsInserted++;
     		}
-    		echo"<br>Newdoc<hr>";
+    		/*echo"<br>Newdoc<hr>";
     		echo "<br>".$refQuery." ".$idRef;
     		echo "<br>".$versionQuery." ".$idVersion;
     		echo "<br>".$languageQuery." ".$idLanguage;
-    		echo "<br><br>";
+    		echo "<br><br>";*/
 
     		if(!($idDoc=docExists($idRef,$idVersion,$idLanguage))){ //we insert the new document in the document table.
     			$SQL="INSERT INTO document(`id_document_language`,`id_document_version`,`id_document_reference`) VALUES ('".$idLanguage."','".$idVersion."','".$idRef."');";
     			$idDoc=SQLInsert($SQL);
     			$docsInserted++;
     		}
-    		echo "id_doc :".$idDoc;
+    		//echo "id_doc :".$idDoc;
     		if(!($idAssociationTable = associationTableEntry($idBaseline,$idDoc))){ //we also insert it in the association table.
     			$SQL="INSERT INTO association_table (`id_doc`,`id_baseline`) VALUES ('".$idDoc."','".$idBaseline."');";
     			$res=SQLInsert($SQL);
@@ -796,10 +797,13 @@ function importDatas($tempname){
     		
     	}
     }
-    echo "<br> Documents ignorés :";
-    print_r($ignoredRows);
-    echo "<br>".$rowsInserted ." enregistrements<br>";
-    echo $docsInserted." documents ajoutés<br>";
+    //echo "<br> Documents ignorés :";
+    $result["ignoredRows"][]=$ignoredRows;
+    $result["docInserted"]=$docsInserted;
+    //print_r($ignoredRows);
+    //echo "<br>".$rowsInserted ." enregistrements<br>";
+    //echo $docsInserted." documents ajoutés<br>";
+    return $result;
 }
 
 /**
