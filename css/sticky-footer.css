@@ -121,104 +121,10 @@ button
 /**********************************************************/
 /********************** HEADER ****************************/
 /**********************************************************/
-
-
-/*navbar color*/
-.bg-dark 
+.navbar-items
 {
-  background-color: rgb(12, 65, 173) !important; 
+  color: white;
 }
-
-/*navbar size and positon*/
-.navbar
-{
-  border: none;
-  border-radius :0;
-  height: 4vw !important;
-  min-height: 4vw !important;
-}
-
-/* Header content (logout, administration , language...*/
-
-  #content_header{
-    display : inline-block;
-    position: absolute;
-    right : 2vw;
-    top : 0;
-    float : right;
-    height: 100%;
-    vertical-align: middle;
-  }
-
-  /* logout button */
-  #logoutBtn, #administrationBtn,#addDoc,#addBaseline,#help
-  {
-    display :inline-block;    
-    vertical-align:middle;
-    float: left;
-    color:white;
-    text-decoration: none;
-    padding-right: 2vw; 
-    font-size: 1.1vw;
-    font-weight: lighter;
-    margin-top: 1.2vw;
-  }
-
-  #logoutBtn:hover, #administrationBtn:hover,#addDoc:hover,#addBaseline:hover
-  {
-    font-weight: 900;
-    cursor:pointer;
-  }
-
-  /* language option*/
-  #form_language
-  {
-    vertical-align:middle;
-    display :inline-block;
-    float: left;    
-    vertical-align:middle;
-    text-decoration: none;
-    padding-right: 2vw; 
-    font-size: 1.1vw;
-    font-weight: lighter;
-    width: 10vw;
-    max-width: 15vw;
-    margin-top: 1vw;
-    outline: none !important;
-  }
-
-  #selectLanguage
-  {
-   vertical-align:middle;
-    border-radius: 4vw;
-    text-decoration : none;
-    border: none;
-    width: 100%;
-
-  }
-
-
-
-#form_language  .bootstrap-select
-{
-  height: 2vw;
-  width: 100%;
-  vertical-align: middle;
-  font-weight : lighter;
-  border-radius : 0.9vw;
-  box-shadow: none;
-  border : none;
-  padding-left: 0.3vw; 
-  background-color: white;
-}
-
-/* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  padding: 0 0 5vw;
-}
-
 
 
 /**********************************************************/
