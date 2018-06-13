@@ -1,4 +1,5 @@
-/* ******************* CSS *****************************
+
+/******************** CSS ******************************/
 /****************** SUMMARY ****************************/
 /*
 1. General (templates,body,fonts style)
@@ -120,13 +121,102 @@ button
 /**********************************************************/
 /********************** HEADER ****************************/
 /**********************************************************/
+
+
+/*navbar color*/
+.bg-dark 
+{
+  background-color: rgb(12, 65, 173) !important; 
+}
+
+/*navbar size and positon*/
+.navbar
+{
+  border: none;
+  border-radius :0;
+  height: 4vw !important;
+  min-height: 4vw !important;
+}
+
 /* Header content (logout, administration , language...*/
 
-.navbar-items {
-  color:white; 
+  #content_header{
+    display : inline-block;
+    position: absolute;
+    right : 2vw;
+    top : 0;
+    float : right;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  /* logout button */
+  #logoutBtn, #administrationBtn,#addDoc,#addBaseline,#help
+  {
+    display :inline-block;    
+    vertical-align:middle;
+    float: left;
+    color:white;
+    text-decoration: none;
+    padding-right: 2vw; 
+    font-size: 1.1vw;
+    font-weight: lighter;
+    margin-top: 1.2vw;
+  }
+
+  #logoutBtn:hover, #administrationBtn:hover,#addDoc:hover,#addBaseline:hover
+  {
+    font-weight: 900;
+    cursor:pointer;
+  }
+
+  /* language option*/
+  #form_language
+  {
+    vertical-align:middle;
+    display :inline-block;
+    float: left;    
+    vertical-align:middle;
+    text-decoration: none;
+    padding-right: 2vw; 
+    font-size: 1.1vw;
+    font-weight: lighter;
+    width: 10vw;
+    max-width: 15vw;
+    margin-top: 1vw;
+    outline: none !important;
+  }
+
+  #selectLanguage
+  {
+   vertical-align:middle;
+    border-radius: 4vw;
+    text-decoration : none;
+    border: none;
+    width: 100%;
+
+  }
+
+
+
+#form_language  .bootstrap-select
+{
+  height: 2vw;
+  width: 100%;
+  vertical-align: middle;
+  font-weight : lighter;
+  border-radius : 0.9vw;
+  box-shadow: none;
+  border : none;
+  padding-left: 0.3vw; 
+  background-color: white;
 }
-.navbar-items:hover {
-  background-color:white;
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  padding: 0 0 5vw;
 }
 
 
@@ -164,6 +254,17 @@ button
   display: inline-block;
 }
 /**********************************************************/
+
+#logo_header {
+  background-color: #fff;
+  border-radius : 1vw;
+  position : absolute;
+  left: 1vw;
+  height: 3.4vw;
+  margin : 0.3vw;
+  vertical-align: middle;
+
+}
 
 
 
@@ -353,11 +454,11 @@ div.dropdown-menu.open
 {
   font-size: 1.3vw;
   width: 5vw;
-  max-width: 10vw;
+  max-width: 10vw
   height: 2vw;
   margin-left: 1vw;
   padding: 0 !important;
-  background-color: rgb(3,70,148) ;
+  background-color : rgb(3,70,148) ;
   float: left;
 }
 #import_button:hover
@@ -372,6 +473,10 @@ div.dropdown-menu.open
  margin-top: -1vw; 
  color: darkgrey;
 }
+
+
+
+
 
 #headerSearch
 {
@@ -411,7 +516,7 @@ div.dropdown-menu.open
 #content_search_1{
   float: left;
   width: 12vw;
-  max-width: 15vw;
+  max-width: 15vw
   margin-left: 3vw;
   height: 10vw;
   display :inline-block;
@@ -420,7 +525,7 @@ div.dropdown-menu.open
 #content_search_2{
   float: left;
   width: 10vw;
-  max-width: 15vw;
+  max-width: 15vw
   display :inline-block;
   margin-left: 3.5vw;
   height: 10vw; 
@@ -430,8 +535,8 @@ div.dropdown-menu.open
 #content_search_3, #content_search_4, #content_search_5{
   float: left;
   width : 12vw;
-  max-width: 15vw;
-  display:inline-block;
+  max-width: 15vw
+  display :inline-block;
   margin-left: 3.5vw;
   height: 10vw;
 }
@@ -871,4 +976,4 @@ button.close span
   padding: 0.5vw;
   width: 2vw;
   height: 2vw;
-} */
+}

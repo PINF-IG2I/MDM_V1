@@ -1,3 +1,6 @@
+create database if not exists mdm_db;
+use mdm_db; 
+
 -- phpMyAdmin SQL Dump
 -- version 4.7.4
 -- https://www.phpmyadmin.net/

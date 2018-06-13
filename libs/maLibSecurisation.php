@@ -21,9 +21,9 @@ include_once "modele.php";	// Car on utilise la fonction connecterUtilisateur()
  */
 function checkUser($username,$passwordToCheck)
 {
-	$res = checkUserDB($username,$password);
+	$res = checkUserDB($username,$passwordToCheck);
 	$cryptedPassword = $res[0]["password"];
-	if( ($res==array()) && (!hash_equals(crypt($password, $cryptedPassword), $cryptedPassword)) ) return false;
+	if( ($res==array()) || (!hash_equals(crypt($passwordToCheck, $cryptedPassword), $cryptedPassword)) ) return false;
 
 	// Cas succès : on enregistre pseudo, idUser dans les variables de session 
 	// il faut appeler session_start ! 
