@@ -92,55 +92,67 @@ if(!empty($searchDatas)){
 		}
 	?>
 	<form role="form" class="form-horizontal" id="headerSearch">
-				
-		<!-- doc_number and previous_doc input -->
-		<div id="content_search_1">
-			<div class="form_search">
-				<label for="name"><?php echo $translation["reference_or_title"] ?></label>
-				<input id="doc_number" type="text" name="reference"/>
-			</div> 
+		
+		<div class="container">
+			<div class="row">
 
-			<div class="form_search">
-				<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
-				<input id="previous_ref" type="text" name="previous_doc"/>
-			</div>	
-		</div>
+				<div class="col">
+					<div class="form_group">
+						<label for="name"><?php echo $translation["reference_or_title"] ?></label>
+						<input class="form-control" id="doc_number" type="text" name="reference"/>
+					</div> 
 
-		<!-- version and pic input -->
-		<div id="content_search_2">
-			<div class="form_search">
-				<label for="version"><?php echo $translation["version"] ?></label>
-				<input id="version" type="text" name="version"/>
+					<div class="form_group">
+						<label for="previous_doc"><?php echo $translation["previous_ref"] ?></label>
+						<input class="form-control" id="previous_ref" type="text" name="previous_doc"/>
+					</div>	
+				</div>
+
+				<div class="col">
+					<div class="form_group">
+						<label for="version"><?php echo $translation["version"] ?></label>
+						<input class="form-control" id="version" type="text" name="version"/>
+					</div>
+
+					<div class="form_group" >
+						<label for="pic"><?php echo $translation["pic"] ?></label>
+						<input class="form-control" id="pic" type="text" name="pic"/>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label for="baseline"><?php echo $translation["baseline"] ?></label>	
+						<select class="selectpicker form-control custom-select" data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
+							<?php
+							foreach ($searchDatas["baseline"] as $key => $value) {
+								echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
+							}
+
+							?>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="language"><?php echo $translation["language"]?></label>
+						<select class="selectpicker form-control" data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
+							<?php
+							foreach ($searchDatas["language"] as $key => $value) {
+								if($value["initial_language"]!="")
+									echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
+							}
+
+							?>
+						</select>
+					</div>
+
+					<div class="col">
+						<div class="form-group">
+							
+						</div>
+					</div>
+				</div>
 			</div>
-
-			<div class="form_search" >
-				<label for="pic"><?php echo $translation["pic"] ?></label>
-				<input id="pic" type="text" name="pic"/>
-			</div>
-		</div>
-
-		<!-- baseline and language select-->
-		<div class="form_search" id="content_search_3">
-			<label for="baseline"><?php echo $translation["baseline"] ?></label>	
-			<select multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["baseline"] ?>' name="gatc_baseline">
-				<?php
-				foreach ($searchDatas["baseline"] as $key => $value) {
-					echo "<option value='".$value["GATC_baseline"]."'>".$value["GATC_baseline"]."</option>";
-				}
-
-				?>
-			</select>
-
-			<label for="language"><?php echo $translation["language"]?></label>
-			<select  multiple="multiple" class="selectpicker"  data-live-search="true"  multiple title='<?php echo $translation["language"] ?>' name="initial_language">
-				<?php
-				foreach ($searchDatas["language"] as $key => $value) {
-          			if($value["initial_language"]!="")
-					  echo "<option value='".$value["initial_language"]."'>".$value["initial_language"]."</option>";
-				}
-
-				?>
-			</select>
 		</div>
 
 		<div class="form_search" id="content_search_4">

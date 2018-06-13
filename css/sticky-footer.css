@@ -101,22 +101,6 @@ button
 
 } 
 
-.inlineBox
-{
-  margin: 0.3vw !important;
-  display: block;
-}
-.btn-block
-{
-  border-radius : 0.4vw !important;
-  border: none;
-  font-size: 1vw;
-  text-align: center;
-  margin-left: 50%;
-  margin-right: 50%;
-  background-color : rgb(3,70,148) ;
-  width: auto !important;
-}
 /**********************************************************/
 /********************** HEADER ****************************/
 /**********************************************************/
@@ -128,8 +112,6 @@ button
 .navbar-items:hover {
   background-color:white;
 }
-
-
 
 /**********************************************************/
 /********************** FOOTER ****************************/
@@ -164,155 +146,6 @@ button
   display: inline-block;
 }
 /**********************************************************/
-
-
-
-
-
-/**********************************************************/
-/********************** BOOTSRAP SELECT********************/
-/**********************************************************/
-
-/* Select Arrow */
-.caret
-{
-  border-top: 0.5vw dashed;
-  border-top: 0.5vw solid\9;
-  border-right: 0.5vw solid transparent;
-  border-left: 0.5vw solid transparent;
-  right: 1vw !important;
-  top: 0% !important;
-  margin-top: 0.6vw !important;
-  vertical-align: middle;
-
-}
-
-.filter-option .pull-left span
-{
-  outline: none !important;
-}
-
-.bootstrap-select.btn-group .dropdown-toggle .filter-option
-{
-padding-right: 1vw;
-float: left;
-outline: none !important;
-}
-
-
-/* placeholder select*/
-.bootstrap-select>.dropdown-toggle.bs-placeholder
-{
-  color: black !important;
-}
-
-.bootstrap-select
-{
-  height: 2vw;
-  width: 100% !important;
-  font-weight : lighter;
-  border-radius : 0.3vw ;
-  box-shadow: none;
-  border : none;
-  background-color: rgb(230,230,230) ;
-  padding-left: 0.3vw; 
-}
-
-.bootstrap-select button
-{
-  height: 100%;
-  vertical-align: middle;
-  float: left;
-  border: none;
-}
-.btn-default
-{
-  background-color: transparent !important;
-  border-color : transparent !important;
-  font-size : 1vw !important;
-}
-
-
-.bs-actionsbox, .bs-donebutton, .bs-searchbox
-{
-  padding: 0.4vw 0.8vw !important;
-  height: 3vw !important;
-}
-
-.dropdown-menu 
-{
-  padding: 0.4vw 0.8vw !important;
-  font-size : 1vw !important;
-  max-height: 10vw !important;
-  max-width: 14vw !important;
-  min-height: 2vw !important;
-  overflow: auto !important;
-  margin: 0 !important;
-  border-radius : 0.4vw !important;
-  transition: none !important;
-}
-.form-control:focus
-{
-  outline: none !important;
-  border : none !important;
-  box-shadow : none !important;
-}
-
-div > .bootstrap-select .dropdown-toggle:focus
-{
-  outline: none !important;
-  border : none !important;
-  box-shadow : none !important;  
-}
-
-.dropdown-menu .inner
-{
-  overflow: visible !important;
-  box-shadow: 0 1vw 2vw rgba(0,0,0,.175);
-}
-
-div.dropdown-menu.open
-{
-  border: 0.05vw solid lightgrey !important;
-
-}
-
-.dropdown-menu>li>a
-{
-  padding: 0.1vw 0.8vw !important;
-  height: 1.8vw !important;
-  outline: none !important;
-}
-
-.glyphicon-ok
-{
-  right: 1vw !important;
-  top: 0% !important;
-  margin-top: 0.6vw !important;
-  vertical-align: middle;
-
-}
-
-.table
-{
-  margin-bottom: 1vw !important;
-}
-
-
-
-/* search bar select*/
-.form-control
-{
-  height: 2vw;
-  font-size: 1vw; 
-  padding: 0.2vw 0.2vw !important;
-  outline : none !important;
-  border: 0.05vw solid #ccc !important;
-  border-radius: 0.4vw !important;
-
-}
-
-
 /********************************************************/
 /********************************************************/
 
@@ -380,77 +213,6 @@ div.dropdown-menu.open
   float: left;
 }
 
-.form_search{
-  display :inline-block !important;
-  font-size : 1vw;
-  float: left;
-}
-
-.form_search label 
-{
-  font-weight: bold;
-  text-align : center;
-  width: 100%;
-  height: 2vw;
-  margin-bottom: 0.3vw;
-}
-
-.form_search input 
-{
-  display :inline-block !important;
-  width: 100%;
-  height: 2vw;
-  font-weight : lighter;
-  border-radius : 0.3vw !important;
-  box-shadow: none;
-  border : none;
-  background-color: rgb(230,230,230) !important;
-}
-
-
-#content_search_1{
-  float: left;
-  width: 12vw;
-  max-width: 15vw;
-  margin-left: 3vw;
-  height: 10vw;
-  display :inline-block;
-}
-
-#content_search_2{
-  float: left;
-  width: 10vw;
-  max-width: 15vw;
-  display :inline-block;
-  margin-left: 3.5vw;
-  height: 10vw; 
-
-}
-
-#content_search_3, #content_search_4, #content_search_5{
-  float: left;
-  width : 12vw;
-  max-width: 15vw;
-  display:inline-block;
-  margin-left: 3.5vw;
-  height: 10vw;
-}
-
-
-#content_search_9 {
-  float: left;
-  width : 100%;
-  padding: 0.5vw;
-  height: 3vw;
-  display :inline-block;
-}
-
-
-.ui-autocomplete
-{
-  font-size : 1vw;
-}
-
 
 /* search button*/
 #send {
@@ -496,14 +258,6 @@ div.dropdown-menu.open
   padding: 0.2vw !important;
   font-size: 1vw !important;
   border-top: 0.1vw solid lightgrey !important; 
-}
-.btn
-{
-
-  font-size: 1.2vw !important;
-  padding: 0.5vw 1vw !important;
-  border : none !important;
-  outline: none !important;
 }
 .lead
 {
@@ -594,66 +348,6 @@ div.dropdown-menu.open
   padding: 1vw !important;
   box-shadow : inset 0 0.2vw 0.2vw rgba(0,0,0,.05);
   border: 0.1vw solid #e3e3e3
-}
-
-.form-group
-{
-  width: 100%;
-  float: left;
-  display :inline-block !important;
-  margin:0 !important;
-  border:none;
-
-}
-
-.btn-group>.btn
-{
-  border-radius : 0.4vw !important;
-  border: none;
-  font-size: 1vw;
-  margin-left: 0.2vw !important;
-  margin-right: 0.2vw;
-  background-color : rgb(3,70,148) ;
-  padding: 0.2vw 0.5vw !important;
-  float: none !important;
-}
-.input-group .form-control:first-child
-{
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-#displayStatus + .input-group-btn>.btn-group button
- {
-   border-top-left-radius: 0 !important;
-   border-bottom-left-radius: 0 !important;
-   margin-right: 0.2vw !important;
-   margin-left: 0 !important
- }
-
-#displayStatus + .input-group-btn>.btn-group button .caret
-{
-  margin: 0 !important;
-}
-
-.input-group-addon
-{
-  height: 2vw;
-  width: 2vw !important;
-  padding: 0.2vw !important;
-  border: 0.1vw solid #ccc  !important;
-  border-right: 0 !important;
-  border-radius: 0.4vw;
-  border-top-left-radius: 0.4vw;
-  border-top-right-radius: 0.4vw;
-  border-bottom-right-radius: 0.4vw;
-  border-bottom-left-radius: 0.4vw;
-}
-
-.input-group-addon i
-{
-  float: left;
-  width: 2vw !important;
-  font-size: 1.2vw;
 }
 
 #editBloc > .col-md-4 .control-label
@@ -871,4 +565,4 @@ button.close span
   padding: 0.5vw;
   width: 2vw;
   height: 2vw;
-} */
+} 
